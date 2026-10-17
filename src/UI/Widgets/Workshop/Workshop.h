@@ -64,6 +64,14 @@ namespace UI
 		lv_obj_t* m_partClip = nullptr;
 		lv_obj_t* m_part = nullptr;
 		std::array<lv_obj_t*, PART_COUNT> m_spareParts{};
+		static constexpr size_t HOTSPOT_COUNT = std::size(WorkshopLayout::HOTSPOTS);
+
+		/* Raw LVGL objects must not use lv_obj user data: DuetScreen stores the
+		 * LvObj wrapper pointer there. Tap targets are looked up in these arrays. */
+		std::array<lv_obj_t*, DRAWER_COUNT> m_drawerTaps{};
+		std::array<lv_obj_t*, HOTSPOT_COUNT> m_spotTaps{};
+		static void tapEvent(lv_event_t* e);
+
 		std::array<lv_obj_t*, DRAWER_COUNT> m_drawers{};
 		std::array<std::array<lv_draw_buf_t*, WorkshopLayout::DRAWER_FRAMES>, DRAWER_COUNT> m_drawerFrames{};
 		int m_openDrawer = -1;

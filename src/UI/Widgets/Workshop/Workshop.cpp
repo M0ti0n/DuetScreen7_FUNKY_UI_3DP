@@ -126,33 +126,15 @@ namespace UI
 			lv_obj_set_pos(m_drawers[i], DRAWERS[i].sprite.x, DRAWERS[i].sprite.y);
 			lv_obj_remove_flag(m_drawers[i], LV_OBJ_FLAG_CLICKABLE);
 
-			lv_obj_t* tap = addHotspot(DRAWERS[i].tap);
-			lv_obj_add_event_cb(
-				tap,
-				[](lv_event_t* e)
-				{
-					auto* self = static_cast<Workshop*>(lv_event_get_user_data(e));
-					auto* obj = static_cast<lv_obj_t*>(lv_event_get_target(e));
-					self->openDrawer(reinterpret_cast<uintptr_t>(lv_obj_get_user_data(obj)));
-				},
-				LV_EVENT_CLICKED, this);
-			lv_obj_set_user_data(tap, reinterpret_cast<void*>(static_cast<uintptr_t>(i)));
+			m_drawerTaps[i] = addHotspot(DRAWERS[i].tap);
+			lv_obj_add_event_cb(m_drawerTaps[i], tapEvent, LV_EVENT_CLICKED, this);
 		}
 
 		/* Scene objects */
-		for (const auto& spot : HOTSPOTS)
+		for (size_t i = 0; i < HOTSPOT_COUNT; i++)
 		{
-			lv_obj_t* tap = addHotspot(spot.tap);
-			lv_obj_set_user_data(tap, reinterpret_cast<void*>(static_cast<uintptr_t>(spot.target)));
-			lv_obj_add_event_cb(
-				tap,
-				[](lv_event_t* e)
-				{
-					auto* self = static_cast<Workshop*>(lv_event_get_user_data(e));
-					auto* obj = static_cast<lv_obj_t*>(lv_event_get_target(e));
-					self->open(static_cast<Target>(reinterpret_cast<uintptr_t>(lv_obj_get_user_data(obj))));
-				},
-				LV_EVENT_CLICKED, this);
+			m_spotTaps[i] = addHotspot(HOTSPOTS[i].tap);
+			lv_obj_add_event_cb(m_spotTaps[i], tapEvent, LV_EVENT_CLICKED, this);
 		}
 
 		/* Fire alarm: emergency stop, same as the side bar's E-stop button */
@@ -167,6 +149,28 @@ namespace UI
 			LV_EVENT_CLICKED, nullptr);
 
 		update(m_state);
+	}
+
+	void Workshop::tapEvent(lv_event_t* e)
+	{
+		auto* self = static_cast<Workshop*>(lv_event_get_user_data(e));
+		auto* target = static_cast<lv_obj_t*>(lv_event_get_current_target(e));
+		for (size_t i = 0; i < DRAWER_COUNT; i++)
+		{
+			if (self->m_drawerTaps[i] == target)
+			{
+				self->openDrawer(i);
+				return;
+			}
+		}
+		for (size_t i = 0; i < HOTSPOT_COUNT; i++)
+		{
+			if (self->m_spotTaps[i] == target)
+			{
+				self->open(HOTSPOTS[i].target);
+				return;
+			}
+		}
 	}
 
 	void Workshop::buildPrinterDisplay()
