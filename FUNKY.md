@@ -8,6 +8,8 @@ console, settings) is DuetScreen's.
 
 ![Workshop home, idle](docs/workshop/home_idle.png)
 
+![Workshop home, printing at 42 %](docs/workshop/home_printing_42.png)
+
 ## What is ours
 
 | Path | What |
@@ -16,7 +18,9 @@ console, settings) is DuetScreen's.
 | `assets/workshop/` | Runtime images, 1024 × 600 |
 | `art/` | Source art and masters, see `art/README.md` |
 | `docs/workshop/` | Screenshots and the clickable browser mock-up |
-| `tests/src/test_cases/UI/test_workshop.cpp` | Screenshot tests of the scene |
+| `tests/src/test_cases/UI/test_workshop.cpp` | Screenshot tests of the scene (references in `tests/ref_imgs/workshop/`) |
+| `.github/workflows/funky-ci.yml` | Builds, runs the tests, publishes logs and screenshots to the `ci-results` branch |
+| `.github/workflows/upstream-sync.yml` | Weekly check for upstream changes, opens a PR |
 | small hooks | `HomeView` (registers the scene), `Storage` (`ui:workshop_home` setting) |
 
 Keep changes to upstream files small, so upstream updates merge cleanly.
