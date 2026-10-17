@@ -50,6 +50,7 @@ UiTestSuiteInner::UiTestSuiteInner()
 	i18n::setLanguage(DEFAULT_LANGUAGE_CODE);
 
 	StorageHelper::setData(ID_UI_ANIMATIONS_ENABLED, false);
+	StorageHelper::setData(ID_UI_WORKSHOP_HOME, false); /* upstream reference images use the classic dashboard */
 
 	UI::Themes::init(display);
 #if DEBUG_BORDERS

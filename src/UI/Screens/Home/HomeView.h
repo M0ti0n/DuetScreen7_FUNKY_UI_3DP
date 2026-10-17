@@ -21,6 +21,7 @@
 #include "UI/Widgets/Dashboard/Dashboard.h"
 #include "UI/Widgets/SideBar/SideBar.h"
 #include "UI/Widgets/StatusBar/StatusBar.h"
+#include "UI/Widgets/Workshop/Workshop.h"
 #include "lvgl/lvgl.h"
 #include <list>
 #include <memory>
@@ -50,6 +51,8 @@ namespace UI
 
 		// Sub-views
 		Dashboard& getDashboard() { return m_dashboard; }
+		Workshop& getWorkshop() { return m_workshop; }
+		bool isWorkshopHome() const { return m_workshopHome; }
 		StatusBar& getStatusBar() { return m_statusBar; }
 		SideBar& getSideBar() { return m_sideBar; }
 		LvContainer& getMainWindow() { return m_mainWindow; }
@@ -130,5 +133,9 @@ namespace UI
 		// Input
 		ModalNumberPad m_numberpad{"numberpad", m_mainWindow};
 		LvKeyboard m_kb{"keyboard", getRoot()};
+
+		/* Workshop home scene (full screen, on top). Declared last so it is created last. */
+		Workshop m_workshop{"workshop", getRoot()};
+		bool m_workshopHome = true;
 	};
 } // namespace UI

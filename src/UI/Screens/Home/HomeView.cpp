@@ -7,6 +7,7 @@
 #include "UI/Styles/Styles.h"
 #include "i18n/i18n.h"
 #include "utils/utils.h"
+#include "utils/StorageHelper.h"
 
 namespace UI
 {
@@ -36,7 +37,18 @@ namespace UI
 		m_macroView.addStyle(Themes::getLvglStyles().card);
 		m_jobView.addStyle(Themes::getLvglStyles().card);
 
-		addHomeScreen(&m_dashboard);
+		/* Home screen: the workshop scene, or the classic dashboard (setting ui:workshop_home) */
+		m_workshopHome = StorageHelper::getData(ID_UI_WORKSHOP_HOME);
+		if (m_workshopHome)
+		{
+			addHomeScreen(&m_workshop);
+			m_dashboard.hide(); /* opened as a normal screen from the scene (printer / TUNE) */
+		}
+		else
+		{
+			addHomeScreen(&m_dashboard);
+			m_workshop.hide();
+		}
 
 		setLayoutStyle(LV_LAYOUT_GRID);
 		setGridDsc(s_layoutColDsc, s_layoutRowDsc);
@@ -57,6 +69,7 @@ namespace UI
 		// Main Window Layout
 		m_sideBar.setWidth(LV_SIZE_CONTENT);
 		m_sideBar.moveToFront();
+		m_workshop.moveToFront(); /* the scene covers the status bar and side bar */
 #if !CONSOLE_SIDE_PANEL
 		m_consoleView.hide();
 #endif
@@ -162,6 +175,10 @@ namespace UI
 	void HomeView::onShow()
 	{
 		ZoneScoped;
+		if (m_workshopHome)
+		{
+			m_workshop.show(true); /* builds the scene on first show and keeps it on top */
+		}
 	}
 
 	void HomeView::onHide()

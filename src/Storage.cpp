@@ -55,6 +55,7 @@ constexpr StorageKey<std::string_view> ID_FONT = {"ui:font", "OpenSans"};
 constexpr StorageKey<std::string_view> ID_ICON_FOLDER = {"ui:icon_folder", DEFAULT_ICON_SET};
 constexpr StorageKey<std::string_view> ID_KEYBOARD_LAYOUT = {"ui:keyboard_layout", "us"};
 constexpr StorageKey<bool> ID_UI_ANIMATIONS_ENABLED = {"ui:animations_enabled", true};
+constexpr StorageKey<bool> ID_UI_WORKSHOP_HOME = {"ui:workshop_home", true};
 constexpr StorageKey<DisplayRotation> ID_DISPLAY_ROTATION = {"ui:display_rotation", DisplayRotation::ROTATION_0};
 
 constexpr StorageKey<bool> ID_SCREENSAVER_ENABLE = {"ui:screensaver_enable", true};

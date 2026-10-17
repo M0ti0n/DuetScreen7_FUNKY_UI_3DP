@@ -1,0 +1,41 @@
+name: Upstream sync
+
+# Checks Duet3D/DuetScreen (dev) every Monday and opens a pull request when it
+# has new commits. Merge the PR to bring upstream fixes into this repo.
+# Note: if upstream changed files under .github/workflows the push is refused
+# (GITHUB_TOKEN may not modify workflows); then merge locally instead:
+#   git fetch upstream && git merge upstream/dev
+
+on:
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch upstream
+        run: |
+          git remote add upstream https://github.com/Duet3D/DuetScreen.git
+          git fetch upstream dev
+          echo "BEHIND=$(git rev-list --count HEAD..upstream/dev)" >> "$GITHUB_ENV"
+      - name: Open pull request
+        if: env.BEHIND != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH=upstream-sync
+          git push -f origin upstream/dev:refs/heads/$BRANCH
+          if ! gh pr list --head "$BRANCH" --state open --json number -q '.[0].number' | grep -q .; then
+            gh pr create --head "$BRANCH" --base "${GITHUB_REF_NAME}" \
+              --title "chore: merge upstream DuetScreen (${BEHIND} new commits)" \
+              --body "New commits from Duet3D/DuetScreen \`dev\`. Merge with a merge commit (not squash) to keep the shared history."
+          fi

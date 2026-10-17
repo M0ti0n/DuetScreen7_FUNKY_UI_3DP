@@ -154,6 +154,7 @@ extern const StorageKey<std::string_view> ID_FONT;
 extern const StorageKey<std::string_view> ID_ICON_FOLDER;
 extern const StorageKey<std::string_view> ID_KEYBOARD_LAYOUT;
 extern const StorageKey<bool> ID_UI_ANIMATIONS_ENABLED;
+extern const StorageKey<bool> ID_UI_WORKSHOP_HOME;
 extern const StorageKey<DisplayRotation> ID_DISPLAY_ROTATION;
 
 extern const StorageKey<bool> ID_SCREENSAVER_ENABLE;

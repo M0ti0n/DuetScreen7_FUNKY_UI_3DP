@@ -1,0 +1,181 @@
+{
+ "screen": [
+  1024,
+  600
+ ],
+ "base": "../scene_idle_1024x600.png",
+ "drawers": [
+  {
+   "id": "tools",
+   "tap": [
+    105,
+    520,
+    156,
+    53
+   ],
+   "sprite_xy": [
+    93,
+    512
+   ],
+   "sprite_wh": [
+    180,
+    88
+   ],
+   "frames": 7,
+   "strip": "drawer_tools_open_strip.png",
+   "open": "drawer_tools_open.png"
+  },
+  {
+   "id": "motion",
+   "tap": [
+    270,
+    520,
+    156,
+    53
+   ],
+   "sprite_xy": [
+    258,
+    512
+   ],
+   "sprite_wh": [
+    180,
+    88
+   ],
+   "frames": 7,
+   "strip": "drawer_motion_open_strip.png",
+   "open": "drawer_motion_open.png"
+  },
+  {
+   "id": "extruder",
+   "tap": [
+    435,
+    520,
+    156,
+    53
+   ],
+   "sprite_xy": [
+    423,
+    512
+   ],
+   "sprite_wh": [
+    180,
+    88
+   ],
+   "frames": 7,
+   "strip": "drawer_extruder_open_strip.png",
+   "open": "drawer_extruder_open.png"
+  },
+  {
+   "id": "tune",
+   "tap": [
+    599,
+    520,
+    157,
+    53
+   ],
+   "sprite_xy": [
+    587,
+    512
+   ],
+   "sprite_wh": [
+    181,
+    88
+   ],
+   "frames": 7,
+   "strip": "drawer_tune_open_strip.png",
+   "open": "drawer_tune_open.png"
+  },
+  {
+   "id": "macros",
+   "tap": [
+    764,
+    520,
+    157,
+    53
+   ],
+   "sprite_xy": [
+    752,
+    512
+   ],
+   "sprite_wh": [
+    181,
+    88
+   ],
+   "frames": 7,
+   "strip": "drawer_macros_open_strip.png",
+   "open": "drawer_macros_open.png"
+  }
+ ],
+ "hotspots": [
+  {
+   "id": "emergency_stop",
+   "gcode": "M112",
+   "tap": [
+    11,
+    0,
+    242,
+    126
+   ]
+  }
+ ],
+ "state_layers": {
+  "print_part": {
+   "file": "objects/print_part_1024.png",
+   "x": 576,
+   "y": 223,
+   "w": 197,
+   "h": 127,
+   "show": "printing (revealed bottom-up by progress)"
+  },
+  "bed_boat": {
+   "file": "objects/bed_boat_1024.png",
+   "x": 869,
+   "y": 418,
+   "w": 58,
+   "h": 53,
+   "show": "printing (random subset per job)"
+  },
+  "bed_spinner": {
+   "file": "objects/bed_spinner_1024.png",
+   "x": 921,
+   "y": 427,
+   "w": 53,
+   "h": 42,
+   "show": "printing (random subset per job)"
+  },
+  "bed_bar": {
+   "file": "objects/bed_bar_1024.png",
+   "x": 941,
+   "y": 437,
+   "w": 50,
+   "h": 36,
+   "show": "printing (random subset per job)"
+  },
+  "bed_cube": {
+   "file": "objects/bed_cube_1024.png",
+   "x": 965,
+   "y": 419,
+   "w": 44,
+   "h": 34,
+   "show": "printing (random subset per job)"
+  }
+ },
+ "printer_display_quad": [
+  [
+   593.2,
+   380.2
+  ],
+  [
+   711.3,
+   383.2
+  ],
+  [
+   702.1,
+   439.2
+  ],
+  [
+   584.8,
+   434.6
+  ]
+ ]
+}

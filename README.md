@@ -1,3 +1,7 @@
+> **DuetScreen7 Funky UI** — this repository is DuetScreen with an illustrated
+> workshop home screen on top. See **[FUNKY.md](FUNKY.md)** for what is different.
+> Everything below is the upstream DuetScreen README.
+
 # DuetScreen
 
 [![C/C++ CI](https://github.com/Duet3D/DuetScreen/actions/workflows/test.yml/badge.svg)](https://github.com/Duet3D/DuetScreen/actions/workflows/test.yml)

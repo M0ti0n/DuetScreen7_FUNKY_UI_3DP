@@ -99,6 +99,14 @@ jobs:
                 recreate: true
                 path: code-coverage-results.md
 
+            - name: Upload workshop screenshots
+              if: always() && runner.os == 'Linux'
+              uses: actions/upload-artifact@v4
+              with:
+                name: workshop-screenshots
+                path: tests/ref_imgs/workshop/
+                if-no-files-found: warn
+
             - name: Detect error images
               id: detect_err_images
               if: always()
