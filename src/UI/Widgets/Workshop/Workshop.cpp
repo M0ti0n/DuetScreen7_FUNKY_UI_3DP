@@ -72,7 +72,7 @@ namespace UI
 		lv_obj_set_size(obj, r.w, r.h);
 		lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
 		lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-#if DUETSCREEN_DEBUG_BORDERS
+#if defined(DEBUG_BORDERS) && DEBUG_BORDERS
 		lv_obj_set_style_border_width(obj, 2, 0);
 		lv_obj_set_style_border_color(obj, lv_color_hex(0xFFE14D), 0);
 		lv_obj_set_style_border_opa(obj, LV_OPA_70, 0);
@@ -118,7 +118,7 @@ namespace UI
 		{
 			for (int f = 0; f < DRAWER_FRAMES; f++)
 			{
-				m_drawerFrames[i][f] = load(fmt::format("drawers/{:s}_{:d}.png", DRAWERS[i].id, f));
+				m_drawerFrames[i][static_cast<size_t>(f)] = load(fmt::format("drawers/{:s}_{:d}.png", DRAWERS[i].id, f));
 			}
 			m_drawers[i] = lv_image_create(root);
 			lv_image_set_src(m_drawers[i], m_drawerFrames[i][0]);
@@ -246,7 +246,7 @@ namespace UI
 
 	void Workshop::setPartProgress(float progress)
 	{
-		const int h = static_cast<int>(PRINT_PART_H * progress + 0.5f);
+		const int h = static_cast<int>(static_cast<float>(PRINT_PART_H) * progress + 0.5f);
 		if (h <= 0)
 		{
 			lv_obj_add_flag(m_partClip, LV_OBJ_FLAG_HIDDEN);
@@ -276,12 +276,13 @@ namespace UI
 			m_partMask = 0;
 			while (__builtin_popcount(m_partMask) < n)
 			{
-				m_partMask |= static_cast<uint8_t>(1u << (std::rand() % PART_COUNT));
+				const unsigned bit = static_cast<unsigned>(std::rand()) % static_cast<unsigned>(PART_COUNT);
+				m_partMask = static_cast<uint8_t>(m_partMask | (1u << bit));
 			}
 		}
 		for (size_t i = 0; i < PART_COUNT; i++)
 		{
-			const bool show = s.printing && (m_partMask & (1u << i));
+			const bool show = s.printing && (m_partMask & (1u << i)) != 0;
 			if (show)
 				lv_obj_remove_flag(m_spareParts[i], LV_OBJ_FLAG_HIDDEN);
 			else
@@ -323,13 +324,14 @@ namespace UI
 		lv_anim_set_var(&a, this);
 		lv_anim_set_values(&a, opening ? 0 : DRAWER_FRAMES - 1, opening ? DRAWER_FRAMES - 1 : 0);
 		lv_anim_set_duration(&a, DRAWER_ANIM_MS);
-		lv_anim_set_user_data(&a, reinterpret_cast<void*>(static_cast<uintptr_t>(index | (opening ? 0x100 : 0))));
+		const uintptr_t data = static_cast<uintptr_t>(index) | (opening ? uintptr_t{0x100} : uintptr_t{0});
+		lv_anim_set_user_data(&a, reinterpret_cast<void*>(data));
 		lv_anim_set_custom_exec_cb(&a,
 								   [](lv_anim_t* anim, int32_t frame)
 								   {
 									   auto* self = static_cast<Workshop*>(anim->var);
 									   const size_t i = reinterpret_cast<uintptr_t>(lv_anim_get_user_data(anim)) & 0xFF;
-									   lv_image_set_src(self->m_drawers[i], self->m_drawerFrames[i][frame]);
+									   lv_image_set_src(self->m_drawers[i], self->m_drawerFrames[i][static_cast<size_t>(frame)]);
 								   });
 		lv_anim_set_completed_cb(&a,
 								 [](lv_anim_t* anim)
@@ -362,7 +364,7 @@ namespace UI
 	{
 		ZoneScoped;
 		/* Back on the home scene: slide the drawer that was used shut again */
-		if (m_openDrawer >= 0 && m_drawers[m_openDrawer] != nullptr)
+		if (m_openDrawer >= 0 && m_drawers[static_cast<size_t>(m_openDrawer)] != nullptr)
 		{
 			const size_t i = static_cast<size_t>(m_openDrawer);
 			m_openDrawer = -1;

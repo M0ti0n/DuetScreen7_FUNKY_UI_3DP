@@ -11,5 +11,6 @@
   New things are added as layers on top. Keep the ink-outlined cartoon style.
 - Use correct English spelling for on-screen labels.
 - The local sandbox cannot build this project (needs gcc-15, SDL2, libusb, ffmpeg...).
-  Push to a branch and let the "C/C++ CI" workflow build and run the tests; it uploads
-  the `workshop-screenshots` artifact for visual checks.
+  Push to a branch and let the "Funky CI" workflow build and run the tests. It publishes
+  the build log tail, test log and workshop screenshots to the `ci-results` branch
+  (`git fetch origin ci-results`), because artifact/log downloads are blocked here.
