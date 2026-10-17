@@ -90,13 +90,13 @@ lib/lvgl/                LVGL v9.2.2 (git submodule)
 
 | Zone | Opens |
 |---|---|
-| Fire alarm | emergency stop (`M112`) after confirmation |
+| Fire alarm | emergency stop (`M112`) |
 | TOOLS · MOTION · EXTRUDER · TUNE · MACROS | drawer pages |
-| Spool pile | filament |
+| Spool pile | filament management |
 | Wall bed with the "LEVEL !!!" note | bed levelling |
-| Laptop | console |
+| Laptop | console / alarm / settings |
 | Printer | print status |
 | Job folder rack | jobs |
-| Spare bed on the table | finished prints |
+| Spare bed on the table | cancel object |
 
 Page names for the scene objects are provisional.
