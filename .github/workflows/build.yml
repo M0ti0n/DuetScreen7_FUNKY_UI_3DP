@@ -1,0 +1,37 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  headless:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y ninja-build libsdl2-dev python3-pil
+      - name: Build headless
+        run: |
+          cmake -S . -B build-headless -G Ninja -DFUNKY_PLATFORM=headless
+          cmake --build build-headless
+      - name: Build SDL simulator
+        run: |
+          cmake -S . -B build-sdl -G Ninja -DFUNKY_PLATFORM=sdl
+          cmake --build build-sdl
+      - name: Render screenshots
+        run: |
+          mkdir -p shots
+          ./build-headless/funky_ui --shot shots/home_idle.ppm
+          ./build-headless/funky_ui --shot shots/home_printing.ppm --printing 42
+          ./build-headless/funky_ui --shot shots/home_tap_zones.ppm --zones
+          ./build-headless/funky_ui --shot shots/drawer_tune.ppm --drawer 3 --ms 900
+          ./build-headless/funky_ui --shot shots/estop.ppm --estop
+          python3 -c "import glob; from PIL import Image; [Image.open(f).save(f[:-4]+'.png') for f in glob.glob('shots/*.ppm')]"
+          rm shots/*.ppm
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: shots/
