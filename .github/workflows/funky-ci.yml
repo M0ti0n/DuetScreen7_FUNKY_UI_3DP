@@ -31,7 +31,7 @@ jobs:
         id: build
         run: |
           set -o pipefail
-          cmake --build --preset Test 2>&1 | tee build.log
+          cmake --build --preset Test -- -k 0 2>&1 | tee build.log
 
       - name: Run tests
         id: tests

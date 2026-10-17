@@ -8,6 +8,7 @@
 #include "UI/Core/Navigation.h"
 #include "UI/Screens/Home/HomeView.h"
 #include "UI/Styles/Styles.h"
+#include "lvgl/src/draw/lv_image_decoder_private.h"
 #include <cstdlib>
 #include <fmt/format.h>
 
@@ -49,7 +50,7 @@ namespace UI
 	{
 		ZoneScoped;
 		const std::string path = std::string(WORKSHOP_FOLDER) + relPath;
-		lv_image_decoder_dsc_t dsc;
+		lv_image_decoder_dsc_t dsc{};
 		if (lv_image_decoder_open(&dsc, path.c_str(), nullptr) != LV_RESULT_OK || dsc.decoded == nullptr)
 		{
 			LOG_ERROR("Workshop: failed to load {:s}", path);
