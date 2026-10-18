@@ -69,7 +69,6 @@ namespace UI::LaptopLayout
 	{
 		Char,
 		Backspace,
-		Delete, /* the character at the cursor */
 		Up,		/* history: older */
 		Down,	/* history: newer */
 		Left,	/* cursor */
@@ -137,9 +136,7 @@ namespace UI::LaptopLayout
 		{KeyKind::Char, ',', '<', {600, 464, 65, 60}},
 		{KeyKind::Char, '.', '>', {671, 464, 65, 60}},
 		{KeyKind::Char, '/', '?', {743, 464, 65, 60}},
-		{KeyKind::Shift, 0, 0, {815, 464, 46, 60}},
 		{KeyKind::Up, 0, 0, {868, 464, 58, 60}},
-		{KeyKind::Delete, 0, 0, {932, 464, 58, 60}},
 		{KeyKind::Shift, 0, 0, {34, 532, 152, 60}},
 		{KeyKind::Space, 0, 0, {193, 532, 485, 60}},
 		{KeyKind::Hide, 0, 0, {685, 532, 111, 60}},

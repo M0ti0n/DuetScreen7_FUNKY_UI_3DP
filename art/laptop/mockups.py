@@ -244,12 +244,9 @@ def keyboard(d,x0,y0,x1,y1,shift=False):
             keys.append(('Enter',None,None,(a[0],a[1],a[2],a[3]-kh-g)))
             keys.append(('Enter',None,None,b))
         else:
-            # right SHIFT, UP (above DOWN), DEL
+            # UP, above DOWN (bare deck beside it)
             ux=ax0+aw+g
-            key(d,x,y,ux-g-x,kh,icon='shift'); keys.append(('Shift',None,None,(x,y,ux-g-x,kh)))
             key(d,ux,y,aw,kh,icon='up'); keys.append(('Up',None,None,(ux,y,aw,kh)))
-            dx=ux+aw+g
-            key(d,dx,y,x1-dx,kh,'DEL',f=F(15,700)); keys.append(('Delete',None,None,(dx,y,x1-dx,kh)))
     y=y0+4*(kh+g); x=x0
     key(d,x,y,widths[0],kh,icon='shift'); keys.append(('Shift',None,None,(x,y,widths[0],kh))); x+=widths[0]+g
     key(d,x,y,widths[1],kh,''); keys.append(('Space',None,None,(x,y,widths[1],kh))); x+=widths[1]+g

@@ -816,13 +816,6 @@ namespace UI
 				m_caret = pos - 1;
 			}
 			break;
-		case KeyKind::Delete:
-			if (pos < text.size())
-			{
-				text.erase(pos, 1);
-			}
-			m_caret = pos;
-			break;
 		case KeyKind::Left:
 			m_caret = pos > 0 ? pos - 1 : 0;
 			break;

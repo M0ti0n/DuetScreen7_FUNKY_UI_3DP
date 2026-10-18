@@ -199,12 +199,10 @@ TEST_F(TestLaptop, CursorEditsInsideTheLine)
 	EXPECT_EQ(laptop().inputText(), "G1 X10 Y5 F600");
 	EXPECT_EQ(laptop().cursor(), 9u);
 
-	/* Backspace erases before the cursor, DEL the character at it */
+	/* Backspace erases before the cursor */
 	laptop().pressKey(KeyKind::Backspace);
 	EXPECT_EQ(laptop().inputText(), "G1 X10 Y F600");
-	laptop().pressKey(KeyKind::Delete);
-	EXPECT_EQ(laptop().inputText(), "G1 X10 YF600");
-	laptop().type("2 ");
+	laptop().type("2");
 	EXPECT_EQ(laptop().inputText(), "G1 X10 Y2 F600");
 	EXPECT_EQUAL_SCREENSHOT("laptop/keyboard_cursor.png");
 
