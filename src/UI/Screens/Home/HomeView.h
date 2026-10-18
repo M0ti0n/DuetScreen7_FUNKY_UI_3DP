@@ -21,6 +21,7 @@
 #include "UI/Widgets/Dashboard/Dashboard.h"
 #include "UI/Widgets/SideBar/SideBar.h"
 #include "UI/Widgets/StatusBar/StatusBar.h"
+#include "UI/Widgets/Laptop/Laptop.h"
 #include "UI/Widgets/Workshop/Workshop.h"
 #include "lvgl/lvgl.h"
 #include <list>
@@ -52,6 +53,7 @@ namespace UI
 		// Sub-views
 		Dashboard& getDashboard() { return m_dashboard; }
 		Workshop& getWorkshop() { return m_workshop; }
+		Laptop& getLaptop() { return m_laptop; }
 		bool isWorkshopHome() const { return m_workshopHome; }
 		StatusBar& getStatusBar() { return m_statusBar; }
 		SideBar& getSideBar() { return m_sideBar; }
@@ -136,6 +138,8 @@ namespace UI
 
 		/* Workshop home scene (full screen, on top). Declared last so it is created last. */
 		Workshop m_workshop{"workshop", getRoot()};
+		/* Laptop page (console / alerts / settings), full screen, opened from the scene */
+		Laptop m_laptop{"laptop", getRoot()};
 		bool m_workshopHome = true;
 	};
 } // namespace UI

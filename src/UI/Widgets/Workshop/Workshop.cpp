@@ -423,7 +423,7 @@ namespace UI
 			openFiles(1);
 			break;
 		case Target::Console:
-			openScreen(&home.getConsoleView(), true);
+			openScreen(&home.getLaptop(), true);
 			break;
 		case Target::Tune:
 		case Target::PrintStatus:

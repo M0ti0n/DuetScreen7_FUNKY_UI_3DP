@@ -16,6 +16,7 @@
 #include "UI/Styles/Font.h"
 #include "UI/Styles/Styles.h"
 #include "UI/Widgets/HardwareTest/HardwareTest.h"
+#include "UI/Widgets/Laptop/LaptopSettings.h"
 #include "glob.h"
 #include "hv/requests.h"
 #include "i18n/i18n.h"
@@ -132,6 +133,7 @@ int main(int argc, char** argv)
 
 	UI::HomeView& home = UI::HomeView::instance();
 	home.show();
+	UI::LaptopSettings::Init(); /* touch click and the printer's beeps */
 
 #if HARDWARE_TEST
 	UI::HardwareTest hw_test;
