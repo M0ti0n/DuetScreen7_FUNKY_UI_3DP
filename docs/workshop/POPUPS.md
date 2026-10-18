@@ -39,11 +39,12 @@ blends in. Text below it is centred.
 
 | Button | Icon | Colour | Position | Does |
 |---|---|---|---|---|
-| Cancel | X | red | left | closes without doing anything |
-| Delete | trash bin | orange/amber | middle | removes the item, asks once more |
+| Delete | trash bin | orange/amber | left | removes the item, asks once more |
+| Cancel | X | red | middle (centre when alone) | closes without doing anything |
 | Confirm | check mark | green | right | does the action |
 
-- Order is always X · trash · check; with two buttons they keep that order.
+- Order follows Modern UI: trash (or an extra like UNLOAD) · X · check. Two buttons: X left, check right,
+  centred as a pair. A lone X is centred.
 - States: normal, pressed (darker, nudged down), disabled (greyed out, not hidden).
 - Disabled when the action is impossible: check on an invalid/empty value or no
   selection or printer offline; trash on the file being printed or protected/read-only
@@ -70,3 +71,13 @@ blends in. Text below it is centred.
   (temperatures, speed %); enabled for offsets, baby-stepping etc.
 - Out of range: value field and range text turn red (`max 300 °C`), check is disabled
   until the value is valid.
+
+## Modern UI popups in the new style
+
+Taken from `PanelDueFirmware-MODERN_UI` (`CreateModernStandardPopup`, 660 × 460): same
+name tile (short/long), info card, choice buttons, positions and preset values,
+mapped onto our frame.
+
+![Regular](popups/modern_regular.png)
+
+![Presets](popups/modern_presets.png)
