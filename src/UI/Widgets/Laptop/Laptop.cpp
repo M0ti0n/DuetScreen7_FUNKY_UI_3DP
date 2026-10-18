@@ -116,20 +116,6 @@ namespace UI
 			return Colour::ACCENT;
 		}
 
-		/* Remove the last UTF-8 character */
-		void popChar(std::string& s)
-		{
-			while (!s.empty())
-			{
-				const auto c = static_cast<unsigned char>(s.back());
-				s.pop_back();
-				if ((c & 0xC0) != 0x80)
-				{
-					break;
-				}
-			}
-		}
-
 		constexpr size_t MAX_INPUT_CHARS = 100;
 	} // namespace
 
@@ -260,16 +246,19 @@ namespace UI
 		m_inputPrompt = label(m_input, m_fonts.get(19, true, true), Colour::ACCENT, ">");
 		lv_obj_align(m_inputPrompt, LV_ALIGN_LEFT_MID, 12, 0);
 		const lv_font_t* inputFont = m_fonts.get(19, false, true);
+		const uint16_t inputGlyph = lv_font_get_glyph_width(inputFont, 'M', 'M');
+		if (inputGlyph > 0)
+		{
+			m_inputGlyph = inputGlyph;
+			m_inputChars = static_cast<size_t>((INPUT_W - 34 - 30) / inputGlyph);
+		}
 		m_inputText = label(m_input, inputFont, Colour::TEXT, "");
+		lv_obj_set_width(m_inputText, static_cast<int32_t>(m_inputChars) * m_inputGlyph + 4);
+		lv_label_set_long_mode(m_inputText, LV_LABEL_LONG_MODE_CLIP);
 		lv_obj_align(m_inputText, LV_ALIGN_LEFT_MID, 34, 0);
 		m_cursor = box(m_input, 0, 0, 11, 24);
 		lv_obj_set_style_bg_color(m_cursor, col(Colour::ACCENT), 0);
 		lv_obj_set_style_bg_opa(m_cursor, LV_OPA_COVER, 0);
-		const uint16_t inputGlyph = lv_font_get_glyph_width(inputFont, 'M', 'M');
-		if (inputGlyph > 0)
-		{
-			m_inputChars = static_cast<size_t>((INPUT_W - 34 - 30) / inputGlyph);
-		}
 
 		m_kbButton = tile(m_page,
 						  CONTENT_R - CONSOLE_KB_BTN_W,
@@ -377,17 +366,18 @@ namespace UI
 			const Rect& r = KEYS[i].rect;
 			if (KEYS[i].kind == KeyKind::Shift)
 			{
-				m_shiftMark = box(getRootPtr(), r.x, r.y, r.w, r.h - 4);
-				lv_obj_set_style_radius(m_shiftMark, 6, 0);
-				lv_obj_set_style_border_color(m_shiftMark, col(Colour::ACCENT), 0);
-				lv_obj_set_style_border_width(m_shiftMark, 3, 0);
-				lv_obj_set_style_border_opa(m_shiftMark, LV_OPA_COVER, 0);
+				lv_obj_t* mark = box(getRootPtr(), r.x, r.y, r.w, r.h - 4);
+				lv_obj_set_style_radius(mark, 6, 0);
+				lv_obj_set_style_border_color(mark, col(Colour::ACCENT), 0);
+				lv_obj_set_style_border_width(mark, 3, 0);
+				lv_obj_set_style_border_opa(mark, LV_OPA_COVER, 0);
+				m_shiftMarks.push_back(mark);
 			}
 		}
 		for (size_t i = 0; i < KEY_COUNT; i++)
 		{
 			const Rect& r = KEYS[i].rect;
-			m_keys[i] = tapZone(getRootPtr(), r.x, r.y, r.w, r.h, 6, KEYS[i].kind != KeyKind::Blank);
+			m_keys[i] = tapZone(getRootPtr(), r.x, r.y, r.w, r.h, 6, true);
 			lv_obj_add_event_cb(m_keys[i], clicked, LV_EVENT_CLICKED, this);
 		}
 	}
@@ -497,6 +487,16 @@ namespace UI
 		}
 	}
 
+	size_t Laptop::caret() const
+	{
+		return std::min(m_caret, inputText().size());
+	}
+
+	void Laptop::caretToEnd()
+	{
+		m_caret = inputText().size();
+	}
+
 	std::string& Laptop::editText()
 	{
 		return m_target == Target::Entry ? m_entryText : m_console.draft();
@@ -519,16 +519,28 @@ namespace UI
 		setHidden(m_kbButton, !show || entry);
 		setHidden(m_entryTitle, !entry);
 
-		/* Show the end of a long line */
+		/* A long line scrolls so the cursor stays in view (monospaced font: one cell a character) */
 		const std::string& text = inputText();
-		std::string visible = text;
-		if (visible.size() > m_inputChars)
+		const size_t pos = caret();
+		size_t start = 0;
+		if (text.size() > m_inputChars && pos + 1 > m_inputChars)
 		{
-			visible = ".." + visible.substr(visible.size() - (m_inputChars - 2));
+			start = std::min(pos + 1 - m_inputChars, text.size() - m_inputChars + 1);
 		}
-		lv_label_set_text(m_inputText, visible.c_str());
-		lv_obj_update_layout(m_inputText);
-		lv_obj_align_to(m_cursor, m_inputText, LV_ALIGN_OUT_RIGHT_MID, text.empty() ? -2 : 3, 0);
+		lv_label_set_text(m_inputText, text.substr(start, m_inputChars).c_str());
+		const int32_t x = 34 + static_cast<int32_t>(pos - start) * m_inputGlyph;
+		if (pos >= text.size())
+		{
+			/* at the end: a block */
+			lv_obj_set_size(m_cursor, 11, 24);
+			lv_obj_align(m_cursor, LV_ALIGN_LEFT_MID, x + (text.empty() ? 0 : 2), 0);
+		}
+		else
+		{
+			/* inside the text: a bar before the character */
+			lv_obj_set_size(m_cursor, 3, 28);
+			lv_obj_align(m_cursor, LV_ALIGN_LEFT_MID, x - 2, 0);
+		}
 	}
 
 	void Laptop::refreshAges()
@@ -669,7 +681,10 @@ namespace UI
 		setHidden(m_bgUp, kb);
 		setHidden(m_bgKeyboard, !kb);
 		setHidden(m_shiftKeys, !kb || !m_shift);
-		setHidden(m_shiftMark, !kb || !m_shift);
+		for (lv_obj_t* mark : m_shiftMarks)
+		{
+			setHidden(mark, !kb || !m_shift);
+		}
 		const Rect& lcd = kb ? LCD_KEYBOARD : LCD_UP;
 		lv_obj_set_pos(m_lcd, lcd.x, lcd.y);
 		lv_obj_set_size(m_lcd, lcd.w, lcd.h);
@@ -719,6 +734,7 @@ namespace UI
 			showTab(Tab::Console);
 		}
 		m_keyboardOpen = true;
+		caretToEnd();
 		applyKeyboardState();
 		refreshInput();
 	}
@@ -744,6 +760,7 @@ namespace UI
 	{
 		m_target = Target::Entry;
 		m_entryText = text;
+		m_caret = text.size();
 		m_onEntry = std::move(onEnter);
 		if (m_built)
 		{
@@ -767,6 +784,7 @@ namespace UI
 		m_console.addCommand(cmd, now());
 		Comm::DUET.SendGcode(cmd);
 		draft.clear();
+		m_caret = 0;
 		refreshConsole();
 		refreshInput();
 	}
@@ -779,22 +797,37 @@ namespace UI
 		}
 		const KeyDef& k = KEYS[index];
 		std::string& text = editText();
+		const size_t pos = caret();
 		switch (k.kind)
 		{
 		case KeyKind::Char:
-			if (text.size() < MAX_INPUT_CHARS)
-			{
-				text.push_back(m_shift ? k.shifted : k.normal);
-			}
-			break;
 		case KeyKind::Space:
 			if (text.size() < MAX_INPUT_CHARS)
 			{
-				text.push_back(' ');
+				const char c = k.kind == KeyKind::Space ? ' ' : (m_shift ? k.shifted : k.normal);
+				text.insert(pos, 1, c);
+				m_caret = pos + 1;
 			}
 			break;
 		case KeyKind::Backspace:
-			popChar(text);
+			if (pos > 0)
+			{
+				text.erase(pos - 1, 1);
+				m_caret = pos - 1;
+			}
+			break;
+		case KeyKind::Delete:
+			if (pos < text.size())
+			{
+				text.erase(pos, 1);
+			}
+			m_caret = pos;
+			break;
+		case KeyKind::Left:
+			m_caret = pos > 0 ? pos - 1 : 0;
+			break;
+		case KeyKind::Right:
+			m_caret = pos < text.size() ? pos + 1 : pos;
 			break;
 		case KeyKind::Shift:
 			m_shift = !m_shift;
@@ -805,6 +838,7 @@ namespace UI
 			if (m_target == Target::Console)
 			{
 				m_console.draft() = m_console.historyStep(k.kind == KeyKind::Up ? -1 : 1);
+				caretToEnd();
 			}
 			break;
 		case KeyKind::Enter:
@@ -827,8 +861,6 @@ namespace UI
 			break;
 		case KeyKind::Hide:
 			closeKeyboard();
-			return;
-		case KeyKind::Blank:
 			return;
 		}
 		refreshInput();

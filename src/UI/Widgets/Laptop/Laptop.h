@@ -81,6 +81,7 @@ namespace UI
 		LaptopLog::AlertList& alertList() { return m_alerts; }
 		const std::string& inputText() const;
 		bool shift() const { return m_shift; }
+		size_t cursor() const { return caret(); }
 		size_t settingsPage() const { return m_settingsPage; }
 		void setClock(std::function<uint32_t()> clock) { m_clock = std::move(clock); }
 
@@ -144,6 +145,8 @@ namespace UI
 		void sendCommand();
 		void openEntry(const std::string& title, const std::string& text, std::function<void(const std::string&)> onEnter);
 		std::string& editText();
+		size_t caret() const;
+		void caretToEnd();
 
 		/* settings */
 		void chooseConnection();
@@ -175,7 +178,7 @@ namespace UI
 		lv_obj_t* m_bgUp = nullptr;
 		lv_obj_t* m_bgKeyboard = nullptr;
 		lv_obj_t* m_shiftKeys = nullptr;
-		lv_obj_t* m_shiftMark = nullptr;
+		std::vector<lv_obj_t*> m_shiftMarks;
 		lv_obj_t* m_lcd = nullptr;
 		lv_obj_t* m_page = nullptr;
 		lv_obj_t* m_sideBlock = nullptr;
@@ -193,6 +196,8 @@ namespace UI
 		lv_obj_t* m_kbButton = nullptr;
 		lv_obj_t* m_entryTitle = nullptr;
 		size_t m_inputChars = 50;
+		int32_t m_inputGlyph = 11;
+		size_t m_caret = 0; /* cursor in the text being typed (bytes; the keys type ASCII) */
 
 		lv_obj_t* m_alertsPane = nullptr;
 		std::array<AlertRowObjs, LaptopLog::AlertList::PAGE_ROWS> m_alertRows{};

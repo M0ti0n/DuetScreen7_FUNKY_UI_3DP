@@ -182,6 +182,55 @@ TEST_F(TestLaptop, KeyboardTypesAndSends)
 	EXPECT_EQ(laptop().inputText(), "M98 P\"homeall.g\""); /* the unsent text stays */
 }
 
+TEST_F(TestLaptop, CursorEditsInsideTheLine)
+{
+	open();
+	laptop().openKeyboard();
+	laptop().type("G1 X10 F600");
+	EXPECT_EQ(laptop().cursor(), 11u);
+
+	/* Left / right move the cursor, typing inserts there */
+	for (int i = 0; i < 5; i++)
+	{
+		laptop().pressKey(KeyKind::Left);
+	}
+	EXPECT_EQ(laptop().cursor(), 6u);
+	laptop().type(" Y5");
+	EXPECT_EQ(laptop().inputText(), "G1 X10 Y5 F600");
+	EXPECT_EQ(laptop().cursor(), 9u);
+
+	/* Backspace erases before the cursor, DEL the character at it */
+	laptop().pressKey(KeyKind::Backspace);
+	EXPECT_EQ(laptop().inputText(), "G1 X10 Y F600");
+	laptop().pressKey(KeyKind::Delete);
+	EXPECT_EQ(laptop().inputText(), "G1 X10 YF600");
+	laptop().type("2 ");
+	EXPECT_EQ(laptop().inputText(), "G1 X10 Y2 F600");
+	EXPECT_EQUAL_SCREENSHOT("laptop/keyboard_cursor.png");
+
+	/* Right stops at the end; left at the start */
+	for (int i = 0; i < 20; i++)
+	{
+		laptop().pressKey(KeyKind::Right);
+	}
+	EXPECT_EQ(laptop().cursor(), 14u);
+	for (int i = 0; i < 20; i++)
+	{
+		laptop().pressKey(KeyKind::Left);
+	}
+	EXPECT_EQ(laptop().cursor(), 0u);
+	laptop().pressKey(KeyKind::Backspace);
+	EXPECT_EQ(laptop().inputText(), "G1 X10 Y2 F600");
+
+	/* ENTER sends the whole line wherever the cursor is; history puts it at the end */
+	laptop().pressKey(KeyKind::Enter);
+	EXPECT_EQ(laptop().consoleLog().history().front(), "G1 X10 Y2 F600");
+	EXPECT_EQ(laptop().cursor(), 0u);
+	laptop().pressKey(KeyKind::Up);
+	EXPECT_EQ(laptop().inputText(), "G1 X10 Y2 F600");
+	EXPECT_EQ(laptop().cursor(), 14u);
+}
+
 TEST_F(TestLaptop, Alerts)
 {
 	open();

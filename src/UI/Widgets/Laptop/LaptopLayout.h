@@ -69,13 +69,15 @@ namespace UI::LaptopLayout
 	{
 		Char,
 		Backspace,
-		Blank,
-		Up,
-		Down,
+		Delete, /* the character at the cursor */
+		Up,		/* history: older */
+		Down,	/* history: newer */
+		Left,	/* cursor */
+		Right,
 		Shift,
 		Space,
 		Hide,
-		Enter,
+		Enter, /* L-shaped: two tap zones */
 	};
 
 	struct KeyDef
@@ -112,7 +114,6 @@ namespace UI::LaptopLayout
 		{KeyKind::Char, 'P', 'p', {711, 329, 65, 60}},
 		{KeyKind::Char, '[', '{', {782, 329, 65, 60}},
 		{KeyKind::Char, ']', '}', {854, 329, 65, 60}},
-		{KeyKind::Blank, 0, 0, {925, 329, 65, 60}},
 		{KeyKind::Char, 'A', 'a', {82, 397, 65, 60}},
 		{KeyKind::Char, 'S', 's', {154, 397, 65, 60}},
 		{KeyKind::Char, 'D', 'd', {226, 397, 65, 60}},
@@ -124,7 +125,8 @@ namespace UI::LaptopLayout
 		{KeyKind::Char, 'L', 'l', {655, 397, 65, 60}},
 		{KeyKind::Char, ':', ';', {727, 397, 65, 60}},
 		{KeyKind::Char, '@', '\'', {798, 397, 65, 60}},
-		{KeyKind::Up, 0, 0, {870, 397, 120, 60}},
+		{KeyKind::Enter, 0, 0, {925, 329, 65, 60}},
+		{KeyKind::Enter, 0, 0, {870, 397, 120, 60}},
 		{KeyKind::Char, 'Z', 'z', {99, 464, 65, 60}},
 		{KeyKind::Char, 'X', 'x', {170, 464, 65, 60}},
 		{KeyKind::Char, 'C', 'c', {242, 464, 65, 60}},
@@ -135,10 +137,14 @@ namespace UI::LaptopLayout
 		{KeyKind::Char, ',', '<', {600, 464, 65, 60}},
 		{KeyKind::Char, '.', '>', {671, 464, 65, 60}},
 		{KeyKind::Char, '/', '?', {743, 464, 65, 60}},
-		{KeyKind::Down, 0, 0, {815, 464, 175, 60}},
+		{KeyKind::Shift, 0, 0, {815, 464, 46, 60}},
+		{KeyKind::Up, 0, 0, {868, 464, 58, 60}},
+		{KeyKind::Delete, 0, 0, {932, 464, 58, 60}},
 		{KeyKind::Shift, 0, 0, {34, 532, 152, 60}},
 		{KeyKind::Space, 0, 0, {193, 532, 485, 60}},
 		{KeyKind::Hide, 0, 0, {685, 532, 111, 60}},
-		{KeyKind::Enter, 0, 0, {803, 532, 187, 60}},
+		{KeyKind::Left, 0, 0, {803, 532, 58, 60}},
+		{KeyKind::Down, 0, 0, {868, 532, 58, 60}},
+		{KeyKind::Right, 0, 0, {932, 532, 58, 60}},
 	};
 } // namespace UI::LaptopLayout

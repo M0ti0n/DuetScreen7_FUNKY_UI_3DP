@@ -10,11 +10,6 @@ LCD_UP=(46,24,978,506)      # x0,y0,x1,y1
 LCD_KB=(46,18,978,222)
 KB=(34,262,990,592)
 
-REC=None
-_key=key
-def key(d,x,y,w,h,label='',f=None,icon=None,legend=LEG):
-    if REC is not None: REC.append(dict(x=x,y=y,w=w,h=h,label=label,icon=icon))
-    _key(d,x,y,w,h,label,f,icon,legend)
 
 def lcd_full():
     w=LCD_UP[2]-LCD_UP[0]; h=LCD_UP[3]-LCD_UP[1]
@@ -30,12 +25,9 @@ def bg_screen_up():
     return im.resize((W,H),Image.LANCZOS).convert('RGB')
 
 def bg_keyboard(shift):
-    global REC
     im=backdrop(); d=ImageDraw.Draw(im)
     deck(d,236)
-    REC=[] if not shift else None
-    keyboard(d,*KB,shift)
-    rec=REC; REC=None
+    rec=keyboard(d,*KB,shift)
     quad=[(LCD_KB[0],LCD_KB[1]),(LCD_KB[2],LCD_KB[1]),(LCD_KB[2],LCD_KB[3]),(LCD_KB[0],LCD_KB[3])]
     lid(d,quad,0); hinge(d,228)
     full=lcd_full(); hk=P(LCD_KB[3]-LCD_KB[1])
@@ -47,18 +39,6 @@ kb,rec=bg_keyboard(False); kb.save(OUT+'keyboard.png',optimize=True)
 kbs,_=bg_keyboard(True)
 kbs.crop(KB).save(OUT+'keys_shift.png',optimize=True)
 
-rows=["1234567890-+","QWERTYUIOP[]","ASDFGHJKL:@","ZXCVBNM,./"]
-srows=['!"#$%^&*()_=',"qwertyuiop{}","asdfghjkl;'","zxcvbnm<>?"]
-norm=''.join(rows); shf=''.join(srows)
-keys=[]; ci=0
-specials={('bksp',None):'Backspace',('up',None):'Up',('down',None):'Down',('shift',None):'Shift',('hide',None):'Hide',('enter',None):'Enter'}
-for k in rec:
-    r=[int(round(k['x'])),int(round(k['y'])),int(round(k['w'])),int(round(k['h']))]
-    if k['label']:
-        keys.append(('Char',norm[ci],shf[ci],r)); ci+=1
-    elif k['icon']:
-        keys.append(({'bksp':'Backspace','up':'Up','down':'Down','shift':'Shift','hide':'Hide','enter':'Enter'}[k['icon']],None,None,r))
-    else:
-        keys.append(('Space' if r[2]>300 else 'Blank',None,None,r))
+keys=[(k,n,sh,[int(round(v)) for v in r]) for k,n,sh,r in rec]
 json.dump(keys,open(HERE+'keys.json','w'))  # -> LaptopLayout.h KEYS
 print(len(keys), [k for k in keys if k[0]!='Char'])

@@ -190,40 +190,78 @@ def key(d,x,y,w,h,label='',f=None,icon=None,legend=LEG):
     elif icon=='hide':
         kb_icon(d,cx,cy-5,8,legend)
         d.line([P(cx-6),P(cy+9),P(cx),P(cy+14),P(cx+6),P(cy+9)],fill=legend,width=P(2.5),joint='curve')
-    elif icon in ('up','down'):
-        s=8; sg=-1 if icon=='up' else 1
-        d.line([P(cx-s),P(cy-sg*s/2),P(cx),P(cy+sg*s/2),P(cx+s),P(cy-sg*s/2)],fill=legend,width=P(3),joint='curve')
+    elif icon in ('up','down','left','right'):
+        # arrow with a shaft
+        s=10; dx,dy={'up':(0,-1),'down':(0,1),'left':(-1,0),'right':(1,0)}[icon]
+        d.line([P(cx-dx*s),P(cy-dy*s),P(cx+dx*s),P(cy+dy*s)],fill=legend,width=P(3))
+        px,py=-dy,dx
+        hx,hy=cx+dx*s,cy+dy*s
+        d.line([P(hx-dx*7+px*7),P(hy-dy*7+py*7),P(hx),P(hy),P(hx-dx*7-px*7),P(hy-dy*7-py*7)],fill=legend,width=P(3),joint='curve')
     elif icon=='shift':
         s=10; pts=[(cx,cy-s),(cx+s,cy),(cx+s*0.45,cy),(cx+s*0.45,cy+s*0.8),(cx-s*0.45,cy+s*0.8),(cx-s*0.45,cy),(cx-s,cy)]
         d.line([(P(a),P(b)) for a,b in pts+[pts[0]]],fill=legend,width=P(2.5),joint='curve')
     elif label:
         T(d,cx,cy,label,f or F(20,600),legend,'mm')
 
+def key_l(d,a,b,legend=ACC):
+    """ISO-style L-shaped ENTER: a = tall right bar (x,y,w,h), b = lower wide part"""
+    layers=[(0,0,0,0,6,INK),(1.5,1.5,1.5,1.5,5,KEY_SIDE),(4,2.5,4,7,5,KEY_TOP)]
+    for l,t,r,bt,rad,c in layers:
+        for x,y,w,h in (a,b):
+            d.rounded_rectangle([P(x+l),P(y+t),P(x+w-r),P(y+h-bt)],radius=P(rad),fill=c)
+    d.line([P(a[0]+7),P(a[1]+4),P(a[0]+a[2]-7),P(a[1]+4)],fill=(86,87,94),width=P(1))
+    d.line([P(b[0]+7),P(b[1]+4),P(a[0]-4),P(b[1]+4)],fill=(86,87,94),width=P(1))
+    cx,cy=b[0]+b[2]*0.55,b[1]+(b[3]-5)/2
+    d.line([P(cx+18),P(cy-14),P(cx+18),P(cy+5),P(cx-14),P(cy+5)],fill=legend,width=P(3),joint='curve')
+    d.line([P(cx-14),P(cy+5),P(cx-6),P(cy-3)],fill=legend,width=P(3)); d.line([P(cx-14),P(cy+5),P(cx-6),P(cy+13)],fill=legend,width=P(3))
+
 def keyboard(d,x0,y0,x1,y1,shift=False):
-    rows=["1234567890-+","QWERTYUIOP[]","ASDFGHJKL:@","ZXCVBNM,./"] if not shift else ['!"#$%^&*()_=',"qwertyuiop{}","asdfghjkl;'","zxcvbnm<>?"]
+    """Draws the keys; returns [(kind, normal, shifted, (x,y,w,h))] for the tap zones"""
+    rows=["1234567890-+","QWERTYUIOP[]","ASDFGHJKL:@","ZXCVBNM,./"]
+    srows=['!"#$%^&*()_=',"qwertyuiop{}","asdfghjkl;'","zxcvbnm<>?"]
     g=7; nr=5; kh=(y1-y0-g*(nr-1))/nr
     u=(x1-x0-12*g)/13.5
-    pos={}
-    for r,chars in enumerate(rows):
-        y=y0+r*(kh+g); x=x0+[0,0.5,0.75,1.0][r]*u
-        for ch in chars:
-            key(d,x,y,u,kh,ch); pos[ch]=(x,y); x+=u+g
-        rest=x1-x
-        if r==0: key(d,x,y,rest,kh,icon='bksp')
-        elif r==1: key(d,x,y,rest,kh,'')   # spare / blank like a real board
-        elif r==2: key(d,x,y,rest,kh,icon='up')
-        else: key(d,x,y,rest,kh,icon='down')
-    y=y0+4*(kh+g)
-    ws=[2.2,7.0,1.6,2.7]; tot=sum(ws); avail=x1-x0-3*g; x=x0
+    keys=[]; pos={}
+    # bottom row widths: SHIFT, SPACE, HIDE, then the arrow block (3 keys)
+    ws=[2.2,7.0,1.6,2.7]; tot=sum(ws); avail=x1-x0-3*g
     widths=[avail*w/tot for w in ws]
-    key(d,x,y,widths[0],kh,icon='shift'); x+=widths[0]+g
-    key(d,x,y,widths[1],kh,''); x+=widths[1]+g
-    key(d,x,y,widths[2],kh,icon='hide'); x+=widths[2]+g
-    key(d,x,y,widths[3],kh,icon='enter',legend=ACC)
+    ax0=x1-widths[3]; aw=(widths[3]-2*g)/3
+    for r in range(4):
+        y=y0+r*(kh+g); x=x0+[0,0.5,0.75,1.0][r]*u
+        for i,ch in enumerate(rows[r]):
+            sh=srows[r][i]
+            key(d,x,y,u,kh,sh if shift else ch); pos[ch]=(x,y)
+            keys.append(('Char',ch,sh,(x,y,u,kh))); x+=u+g
+        rest=x1-x
+        if r==0:
+            key(d,x,y,rest,kh,icon='bksp'); keys.append(('Backspace',None,None,(x,y,rest,kh)))
+        elif r==1:
+            enter_top=(x,y,rest,kh)
+        elif r==2:
+            ex=x
+            a=(enter_top[0],enter_top[1],enter_top[2],y+kh-enter_top[1]); b=(ex,y,x1-ex,kh)
+            key_l(d,a,b)
+            keys.append(('Enter',None,None,(a[0],a[1],a[2],a[3]-kh-g)))
+            keys.append(('Enter',None,None,b))
+        else:
+            # right SHIFT, UP (above DOWN), DEL
+            ux=ax0+aw+g
+            key(d,x,y,ux-g-x,kh,icon='shift'); keys.append(('Shift',None,None,(x,y,ux-g-x,kh)))
+            key(d,ux,y,aw,kh,icon='up'); keys.append(('Up',None,None,(ux,y,aw,kh)))
+            dx=ux+aw+g
+            key(d,dx,y,x1-dx,kh,'DEL',f=F(15,700)); keys.append(('Delete',None,None,(dx,y,x1-dx,kh)))
+    y=y0+4*(kh+g); x=x0
+    key(d,x,y,widths[0],kh,icon='shift'); keys.append(('Shift',None,None,(x,y,widths[0],kh))); x+=widths[0]+g
+    key(d,x,y,widths[1],kh,''); keys.append(('Space',None,None,(x,y,widths[1],kh))); x+=widths[1]+g
+    key(d,x,y,widths[2],kh,icon='hide'); keys.append(('Hide',None,None,(x,y,widths[2],kh)))
+    for i,(k,ic) in enumerate([('Left','left'),('Down','down'),('Right','right')]):
+        kx=ax0+i*(aw+g)
+        key(d,kx,y,aw,kh,icon=ic); keys.append((k,None,None,(kx,y,aw,kh)))
     # red TrackPoint between G H B
-    gx,gy=pos['G' if not shift else 'g']; cx=gx+u+g/2; cy=gy+kh+g/2
+    gx,gy=pos['G']; cx=gx+u+g/2; cy=gy+kh+g/2
     d.ellipse([P(cx-7),P(cy-7),P(cx+7),P(cy+7)],fill=INK); d.ellipse([P(cx-5.5),P(cy-5.5),P(cx+5.5),P(cy+5.5)],fill=(200,30,36))
     d.ellipse([P(cx-3),P(cy-4),P(cx),P(cy-1)],fill=(240,110,110))
+    return keys
 
 def deck(d,top,bottom=None):
     bottom=bottom or H+20
