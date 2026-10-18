@@ -25,6 +25,10 @@ console, settings) is DuetScreen's.
 
 Keep changes to upstream files small, so upstream updates merge cleanly.
 
+## Popups
+
+One popup style for the whole UI; see [docs/workshop/POPUPS.md](docs/workshop/POPUPS.md) (locked).
+
 ## Tap zones
 
 ![Tap zones](docs/workshop/home_tap_zones.png)
