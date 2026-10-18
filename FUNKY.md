@@ -109,7 +109,7 @@ something is unread), **CONSOLE**, **SETTINGS**, **HOME** (back to the workshop)
 | Page | What |
 |---|---|
 | CONSOLE | Every reply and typed command, with its age (`4m08`), newest at the bottom. Warnings amber, errors red, typed G-code blue. The command line or the keyboard button opens the keyboard. |
-| Keyboard | The screen slides down, only its bottom part stays (the side column is pushed off and does nothing). Keys as Modern UI: SHIFT (lower case and symbols), ↑ / ↓ last 5 commands, ⌫, ENTER sends and stays open, hide key closes (the unsent text stays). |
+| Keyboard | The screen slides down, only its bottom part stays (the side column is pushed off and does nothing). Keys as Modern UI plus a cursor: SHIFT (left and right; lower case and symbols), L-shaped ENTER sends and stays open, arrow keys bottom right: ↑ / ↓ last 5 commands, ← / → move the cursor inside the line (typing inserts there, ⌫ erases before it, DEL at it), hide key closes (the unsent text stays). |
 | ALERTS | 21 slots (3 pages of 7), newest first: `Error:` / `Warning:` lines and INFO events (connection, job start / pause / end). The oldest falls out. Right column: ▲, filter ALL → ERR → WRN → INFO (pages count only what matches), ▼. A tap opens the whole text; the row is then read. |
 | SETTINGS 1/2 SYSTEM | BRIGHTNESS, SOUND, SCREEN DIMMING, ORIENTATION, CONNECTION (locked during a print; NETWORK asks for the IP on the keyboard), ABOUT, FACTORY RESET (asks first). Popups as in the DuetScreen7 CNC UI. |
 | SETTINGS 2/2 PERSONALIZATION | DRAWER INDICATOR (stored; used once the drawer pages exist). Room for more. |
