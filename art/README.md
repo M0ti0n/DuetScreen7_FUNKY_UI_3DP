@@ -10,6 +10,7 @@ Everything here is source material. The app loads the 1024 × 600 images in `../
 | `home_reference_printing_1336x784.png` | Reference of the printing look |
 | `ref_original_concept.png` | Original concept the objects were cut from |
 | `ref_laptop_screen_dwc.png` | Image shown on the laptop screen |
+| `objects/fire_bell.png` | The fire bell cut from the start point. The scenes draw it 20 % bigger (scaled from the top, 5 px to the left) over the original |
 | `objects/` | Each scene object as a transparent layer at master size, positions in `objects.json` |
 | `drawers/` | Drawer opening animations, 7 frames stacked vertically |
 | `layout.json` | Positions on the 1024 × 600 screen |

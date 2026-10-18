@@ -75,8 +75,8 @@ namespace UI::WorkshopLayout
 		{"object_cancel", Target::ObjectCancel, {808, 395, 212, 101}},
 	};
 
-	/* Fire alarm = emergency stop */
-	constexpr Rect ESTOP = {0, 0, 134, 114};
+	/* Fire alarm = emergency stop (bell drawn 20 % bigger, tap zone grown with it) */
+	constexpr Rect ESTOP = {0, 0, 150, 130};
 
 	/* Print on the printer's bed, revealed from the bed upward with progress */
 	constexpr LayerDef PRINT_PART = {"layers/print_part.png", 576, 223};
