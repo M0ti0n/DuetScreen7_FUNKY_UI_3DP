@@ -139,6 +139,7 @@ namespace UI
 		void refreshAlerts();
 		void refreshSettings();
 		void applyKeyboardState();
+		void setArt(bool loaded);
 
 		void sendCommand();
 		void openEntry(const std::string& title, const std::string& text, std::function<void(const std::string&)> onEnter);

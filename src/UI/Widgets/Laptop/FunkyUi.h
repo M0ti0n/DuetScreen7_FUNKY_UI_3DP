@@ -49,7 +49,8 @@ namespace UI::Funky
 		return lv_color_hex(hex);
 	}
 
-	/* PNGs decoded once and kept in RAM; freed with the store */
+	/* PNGs decoded once and kept in RAM until released. LVGL has a fixed heap (LV_MEM_SIZE),
+	 * so opaque art is kept as RGB888 (3 bytes a pixel) and pages release theirs when hidden. */
 	class Images
 	{
 	  public:
@@ -58,8 +59,10 @@ namespace UI::Funky
 		Images(const Images&) = delete;
 		Images& operator=(const Images&) = delete;
 
-		/* path relative to assets/workshop/ */
-		const lv_draw_buf_t* get(const std::string& relPath);
+		/* path relative to assets/workshop/; opaque: drop the alpha channel */
+		const lv_draw_buf_t* get(const std::string& relPath, bool opaque = false);
+		void release(const std::string& relPath);
+		void clear();
 
 	  private:
 		std::map<std::string, lv_draw_buf_t*> m_bufs;

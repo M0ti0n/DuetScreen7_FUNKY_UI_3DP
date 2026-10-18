@@ -18,6 +18,7 @@ namespace UI::Funky
 	static constexpr int32_t FRAME_Y = 4;
 	static constexpr int32_t SCREEN_W = 1024;
 	static constexpr int32_t SCREEN_H = 600;
+	static constexpr const char* FRAME_IMAGE = "popup/frame.png";
 
 	/* Modern UI positions */
 	static constexpr double TILE_Y = 35, TILE_H = 60;
@@ -63,10 +64,9 @@ namespace UI::Funky
 		lv_obj_set_style_bg_color(m_root, lv_color_hex(0x080605), 0);
 		lv_obj_set_style_bg_opa(m_root, LV_OPA_50, 0);
 
-		lv_obj_t* frame = lv_image_create(m_root);
-		lv_image_set_src(frame, m_images.get("popup/frame.png"));
-		lv_obj_set_pos(frame, FRAME_X, FRAME_Y);
-		lv_obj_remove_flag(frame, LV_OBJ_FLAG_CLICKABLE);
+		m_frame = lv_image_create(m_root); /* the image is loaded while a popup is open */
+		lv_obj_set_pos(m_frame, FRAME_X, FRAME_Y);
+		lv_obj_remove_flag(m_frame, LV_OBJ_FLAG_CLICKABLE);
 
 		m_content = box(m_root, 0, 0, SCREEN_W, SCREEN_H);
 		setHidden(m_root, true);
@@ -78,6 +78,10 @@ namespace UI::Funky
 		{
 			LOG_ERROR("Funky popup used before attach()");
 			return;
+		}
+		if (!m_open)
+		{
+			lv_image_set_src(m_frame, m_images.get(FRAME_IMAGE));
 		}
 		lv_obj_clean(m_content);
 		m_choices.clear();
@@ -258,6 +262,15 @@ namespace UI::Funky
 			return;
 		}
 		setHidden(m_root, true);
+		if (m_open)
+		{
+			/* free the frame (LVGL's heap is fixed) and the content */
+			lv_obj_clean(m_content);
+			m_choices.clear();
+			m_okButton = m_cancelButton = nullptr;
+			lv_image_set_src(m_frame, nullptr);
+			m_images.release(FRAME_IMAGE);
+		}
 		m_open = false;
 	}
 

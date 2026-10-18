@@ -15,6 +15,11 @@ namespace UI::Funky
 
 	Images::~Images()
 	{
+		clear();
+	}
+
+	void Images::clear()
+	{
 		for (auto& [path, buf] : m_bufs)
 		{
 			if (buf != nullptr)
@@ -22,9 +27,52 @@ namespace UI::Funky
 				lv_draw_buf_destroy(buf);
 			}
 		}
+		m_bufs.clear();
 	}
 
-	const lv_draw_buf_t* Images::get(const std::string& relPath)
+	void Images::release(const std::string& relPath)
+	{
+		if (auto it = m_bufs.find(relPath); it != m_bufs.end())
+		{
+			if (it->second != nullptr)
+			{
+				lv_draw_buf_destroy(it->second);
+			}
+			m_bufs.erase(it);
+		}
+	}
+
+	/* ARGB8888 / XRGB8888 to RGB888 (both B, G, R in memory) */
+	static lv_draw_buf_t* toRgb888(const lv_draw_buf_t* src)
+	{
+		const lv_color_format_t cf = static_cast<lv_color_format_t>(src->header.cf);
+		if (cf != LV_COLOR_FORMAT_ARGB8888 && cf != LV_COLOR_FORMAT_XRGB8888)
+		{
+			return nullptr;
+		}
+		const uint32_t w = src->header.w, h = src->header.h;
+		lv_draw_buf_t* dst = lv_draw_buf_create(w, h, LV_COLOR_FORMAT_RGB888, LV_STRIDE_AUTO);
+		if (dst == nullptr)
+		{
+			return nullptr;
+		}
+		for (uint32_t y = 0; y < h; y++)
+		{
+			const uint8_t* in = src->data + y * src->header.stride;
+			uint8_t* out = dst->data + y * dst->header.stride;
+			for (uint32_t x = 0; x < w; x++)
+			{
+				out[0] = in[0];
+				out[1] = in[1];
+				out[2] = in[2];
+				in += 4;
+				out += 3;
+			}
+		}
+		return dst;
+	}
+
+	const lv_draw_buf_t* Images::get(const std::string& relPath, bool opaque)
 	{
 		ZoneScoped;
 		if (auto it = m_bufs.find(relPath); it != m_bufs.end())
@@ -36,10 +84,14 @@ namespace UI::Funky
 		lv_image_decoder_dsc_t dsc{};
 		if (lv_image_decoder_open(&dsc, path.c_str(), nullptr) == LV_RESULT_OK && dsc.decoded != nullptr)
 		{
-			copy = lv_draw_buf_dup(dsc.decoded);
+			copy = opaque ? toRgb888(dsc.decoded) : nullptr;
+			if (copy == nullptr)
+			{
+				copy = lv_draw_buf_dup(dsc.decoded);
+			}
 			lv_image_decoder_close(&dsc);
 		}
-		else
+		if (copy == nullptr)
 		{
 			LOG_ERROR("Funky: failed to load {:s}", path);
 		}

@@ -174,14 +174,12 @@ namespace UI
 		lv_obj_t* root = getRootPtr();
 
 		m_bgUp = lv_image_create(root);
-		lv_image_set_src(m_bgUp, m_images.get("laptop/screen_up.png"));
 		lv_obj_set_pos(m_bgUp, 0, 0);
 		m_bgKeyboard = lv_image_create(root);
-		lv_image_set_src(m_bgKeyboard, m_images.get("laptop/keyboard.png"));
 		lv_obj_set_pos(m_bgKeyboard, 0, 0);
 		m_shiftKeys = lv_image_create(root);
-		lv_image_set_src(m_shiftKeys, m_images.get("laptop/keys_shift.png"));
 		lv_obj_set_pos(m_shiftKeys, KEYBOARD.x, KEYBOARD.y);
+		setArt(true);
 
 		/* The LCD clips the page; the page is always the full screen size */
 		m_lcd = box(root, LCD_UP.x, LCD_UP.y, LCD_UP.w, LCD_UP.h);
@@ -396,12 +394,37 @@ namespace UI
 
 	/* ---------------- showing ---------------- */
 
+	void Laptop::setArt(bool loaded)
+	{
+		/* The art is only kept while the page is shown (LVGL's heap is fixed) */
+		static constexpr const char* FILES[] = {
+			"laptop/screen_up.png", "laptop/keyboard.png", "laptop/keys_shift.png"};
+		lv_obj_t* objs[] = {m_bgUp, m_bgKeyboard, m_shiftKeys};
+		for (size_t i = 0; i < std::size(FILES); i++)
+		{
+			if (objs[i] == nullptr)
+			{
+				continue;
+			}
+			if (loaded)
+			{
+				lv_image_set_src(objs[i], m_images.get(FILES[i], true));
+			}
+			else
+			{
+				lv_image_set_src(objs[i], nullptr);
+				m_images.release(FILES[i]);
+			}
+		}
+	}
+
 	void Laptop::onShow()
 	{
 		ZoneScoped;
 		moveToFront();
 		if (m_built)
 		{
+			setArt(true);
 			showTab(m_tab);
 		}
 	}
@@ -413,6 +436,7 @@ namespace UI
 			closeKeyboard();
 		}
 		m_popup.close();
+		setArt(false);
 	}
 
 	void Laptop::showTab(Tab tab)

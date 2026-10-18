@@ -92,6 +92,7 @@ namespace UI::Funky
 		Images& m_images;
 		Fonts& m_fonts;
 		lv_obj_t* m_root = nullptr;	   /* dims the page and blocks its touches */
+		lv_obj_t* m_frame = nullptr;
 		lv_obj_t* m_content = nullptr; /* rebuilt for every popup */
 		lv_obj_t* m_okButton = nullptr;
 		lv_obj_t* m_cancelButton = nullptr;
