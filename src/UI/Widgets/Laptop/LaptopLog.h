@@ -104,7 +104,7 @@ namespace UI::LaptopLog
 		static constexpr size_t PAGE_ROWS = 7;
 		static constexpr size_t PAGES = 3;
 		static constexpr size_t MAX_ALERTS = PAGE_ROWS * PAGES;
-		static constexpr size_t MAX_TEXT = 100;
+		static constexpr size_t MAX_TEXT = 160; /* fits the 4 lines of the popup */
 
 		/* A machine reply: every "Error:" / "Warning:" line is kept. isError: the reply
 		 * came as an error (a line without a tag is then an error too). */
