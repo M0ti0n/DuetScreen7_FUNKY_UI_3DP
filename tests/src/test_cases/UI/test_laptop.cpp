@@ -198,7 +198,7 @@ TEST_F(TestLaptop, Alerts)
 	EXPECT_EQ(alerts.rowIndex(0), 0);
 	EXPECT_EQ(alerts.rowIndex(1), 5);
 	EXPECT_EQ(alerts.rowIndex(2), -1);
-	EXPECT_EQUAL_SCREENSHOT("laptop/alerts_err.png");
+	EXPECT_EQUAL_SCREENSHOT("laptop/alerts_filter_errors.png");
 	laptop().pressAlertFilter();
 	laptop().pressAlertFilter();
 	laptop().pressAlertFilter();
