@@ -331,7 +331,7 @@ namespace UI
 			row.age = label(row.tile, m_fonts.get(16, false, true), Colour::DIM, "");
 			lv_obj_align(row.age, LV_ALIGN_LEFT_MID, 82, 0);
 			row.text = label(row.tile, m_fonts.get(17), Colour::TEXT, "");
-			lv_obj_set_width(row.text, ALERT_W - 170 - 34);
+			lv_obj_set_size(row.text, ALERT_W - 170 - 34, lv_font_get_line_height(m_fonts.get(17)));
 			lv_label_set_long_mode(row.text, LV_LABEL_LONG_MODE_DOTS);
 			lv_obj_align(row.text, LV_ALIGN_LEFT_MID, 170, 0);
 			row.dot = box(row.tile, ALERT_W - 23, ALERT_ROW_H / 2 - 5, 10, 10);
@@ -607,9 +607,7 @@ namespace UI
 			return LaptopSettings::UpsideDown() ? "UPSIDE DOWN" : "NORMAL";
 		case 4:
 			return linkName(LaptopSettings::Connection());
-		case 5:
-			return std::string("v") + FIRMWARE_VERSION;
-		default:
+		default: /* ABOUT: the version is in its popup */
 			return "";
 		}
 	}
