@@ -21,6 +21,20 @@ changed areas redraw. No zoom/scale animations, no blur.
 
 ![Popups](popups/popup_sheet.png)
 
+## Rule: Modern UI popups, new clothes
+
+Every popup is taken from the PanelDue **Modern UI** firmware with the same layout,
+title, text and buttons, and only re-dressed in this style. Exceptions with their own
+new layout: the **numpad** (below) and the **keyboard** (to be designed).
+
+## Name tile
+
+The popup title (ATTENTION !, WARNING, the Modern UI tile names …) sits in a tile
+centred at the top: blue outline only, filled with the popup's own glass colour so it
+blends in. Text below it is centred.
+
+![Name tile](popups/title_tile_sheet.png)
+
 ## Standard buttons — icons only, no text
 
 | Button | Icon | Colour | Position | Does |
@@ -44,7 +58,8 @@ changed areas redraw. No zoom/scale animations, no blur.
 
 ![Numpad](popups/numpad_sheet.png)
 
-- **Left column:** title (e.g. `NOZZLE T0`), status line (`ACTIVE · now 24 °C`), big value
+- **Name tile** on top (e.g. `NOZZLE T0`).
+- **Left column:** status line (`ACTIVE · now 24 °C`), big value
   field with unit, range line (`range 0 – 300 °C`). Status and range text are large;
   a long range shrinks just enough to fit the column.
 - **Right:** keypad `7 8 9 / 4 5 6 / 1 2 3 / 0 (double width) .`, plus a function column
