@@ -222,10 +222,12 @@ def keyboard(d,x0,y0,x1,y1,shift=False):
     g=7; nr=5; kh=(y1-y0-g*(nr-1))/nr
     u=(x1-x0-12*g)/13.5
     keys=[]; pos={}
-    # bottom row widths: SHIFT, SPACE, HIDE, then the arrow block (3 keys)
-    ws=[2.2,7.0,1.6,2.7]; tot=sum(ws); avail=x1-x0-3*g
-    widths=[avail*w/tot for w in ws]
-    ax0=x1-widths[3]; aw=(widths[3]-2*g)/3
+    # bottom row: SHIFT, SPACE, HIDE, then the arrow block (3 keys, 10 % wider than first drawn)
+    aw=((x1-x0-3*g)*2.7/13.5-2*g)/3*1.1
+    block=3*aw+2*g
+    ws=[2.2,7.0,1.6]; tot=sum(ws); avail=x1-x0-3*g-block
+    widths=[avail*w/tot for w in ws]+[block]
+    ax0=x1-block
     for r in range(4):
         y=y0+r*(kh+g); x=x0+[0,0.5,0.75,1.0][r]*u
         for i,ch in enumerate(rows[r]):
