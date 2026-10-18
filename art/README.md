@@ -26,3 +26,13 @@ scaled to 1024 × 600.
 | `bed_boat/spinner/bar/cube.png` | printing — a random 1–4 of them per job, on the spare bed |
 
 The printer's little display is blank in the art; its text is drawn live by the app.
+
+## Laptop page (`laptop/`)
+
+| File | What it is |
+|---|---|
+| `mockups.py` | Draws the laptop mock-ups (all tabs, keyboard) and holds the drawing code |
+| `export_laptop.py` | Writes `assets/workshop/laptop/` (screen up, keyboard open, shifted keys) and `keys.json` (key rectangles, copied into `LaptopLayout.h`) |
+| `popup_frame.py`, `export_popup.py` | The standard popup frame and the X / ✓ / trash buttons in `assets/workshop/popup/` |
+
+Run from anywhere: `python3 art/laptop/export_laptop.py` (needs Pillow, numpy, opencv).

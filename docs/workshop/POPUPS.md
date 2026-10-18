@@ -30,8 +30,15 @@ new layout: the **numpad** (below) and the **keyboard** (to be designed).
 ## Name tile
 
 The popup title (ATTENTION !, WARNING, the Modern UI tile names …) sits in a tile
-centred at the top: blue outline only, filled with the popup's own glass colour so it
+centred at the top: outline only, filled with the popup's own glass colour so it
 blends in. Text below it is centred.
+
+The outline follows the tone of the message: **red** for errors, **amber** for warnings,
+**blue** for everything else (info, settings, questions).
+
+In code: `UI::Funky::Popup` (`src/UI/Widgets/Laptop/FunkyPopup.h`) — `choose()` (preset
+tiles), `chooseRows()` (rows with captions, e.g. SOUND), `confirm()` (info card, X / ✓)
+and `message()` (ERROR / WARNING / INFO with the whole text, X only).
 
 ![Name tile](popups/title_tile_sheet.png)
 
