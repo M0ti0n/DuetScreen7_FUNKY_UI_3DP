@@ -76,7 +76,12 @@ blends in. Text below it is centred.
 
 Taken from `PanelDueFirmware-MODERN_UI` (`CreateModernStandardPopup`, 660 × 460): same
 name tile (short/long), info card, choice buttons, positions and preset values,
-mapped onto our frame.
+mapped onto our frame. **Locked.**
+
+Inner tiles (info card, choice and adjust buttons, page arrows) are only slightly
+visible: a fill just lighter than the glass and a faint blue-grey outline. The
+selected choice gets the bright blue outline. Coloured fills are reserved for the
+action buttons (trash/UNLOAD, X, check).
 
 ![Regular](popups/modern_regular.png)
 
