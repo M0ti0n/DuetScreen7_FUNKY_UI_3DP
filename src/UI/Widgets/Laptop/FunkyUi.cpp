@@ -4,6 +4,7 @@
 
 #include "FunkyUi.h"
 #include "Debug.h"
+#include "UI/Styles/Styles.h"
 #include "lvgl/src/draw/lv_image_decoder_private.h"
 
 namespace UI::Funky

@@ -10,6 +10,7 @@
 #include "UI/Screens/Home/HomeView.h"
 #include "UI/Widgets/Laptop/Laptop.h"
 #include "UI/Widgets/Laptop/LaptopSettings.h"
+#include "utils/DisplayHelper.h"
 #include "test_utils/UiTestSuite.h"
 #include "utils/StorageHelper.h"
 #include <chrono>
