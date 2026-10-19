@@ -82,7 +82,7 @@ def btn(d,x,y,w,h,label,color,icon=None,font=None,outline=False,fg=W1):
             d.line([ix-s*0.75,iy+s*0.75,ix+s*0.75,iy-s*0.75],fill=fg,width=lw)
         elif icon=='trash':
             # classic outline bin: lid with handle, tapered body, three ribs
-            t=int(lw*0.8)
+            t=max(1,round(lw*0.8*0.7))   # 30 % thinner lines
             top=iy-s*0.55; bot=iy+s*0.95; wt=s*0.72; wb=s*0.56
             d.rounded_rectangle([ix-s*0.32,top-s*0.36,ix+s*0.32,top+t*0.2],radius=int(s*0.12),outline=W1,width=t)   # handle
             d.rounded_rectangle([ix-s*0.98,top-t*0.5,ix+s*0.98,top+t*0.6],radius=int(t*0.5),fill=fg)               # lid
