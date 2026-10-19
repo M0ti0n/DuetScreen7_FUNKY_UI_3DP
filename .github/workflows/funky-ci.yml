@@ -44,7 +44,7 @@ jobs:
         if: always() && steps.tests.outcome == 'failure'
         run: |
           BIN=$(find out/build/Test -maxdepth 2 -type f -name 'DuetScreen.tests' | head -1)
-          timeout 300 gdb-multiarch -batch -ex run -ex bt -ex 'info locals' --args "$BIN" --gtest_filter='TestWorkshop.*:TestLaptop.*:TestObjectFolder.*' > gdb.log 2>&1 || true
+          timeout 300 gdb-multiarch -batch -ex run -ex bt -ex 'info locals' --args "$BIN" --gtest_filter='TestWorkshop.*:TestLaptop.*:TestObjectFolder.*:TestJobsFolder.*:JobsList.*' > gdb.log 2>&1 || true
 
       - name: Publish results to ci-results branch
         if: always()
@@ -56,10 +56,11 @@ jobs:
           [ -f build.log ] && tail -400 build.log > /tmp/res/build_tail.log
           [ -f ctest.log ] && tail -600 ctest.log > /tmp/res/ctest_tail.log
           [ -f gdb.log ] && tail -300 gdb.log > /tmp/res/gdb_tail.log
-          mkdir -p /tmp/res/workshop /tmp/res/laptop /tmp/res/objects /tmp/res/errors
+          mkdir -p /tmp/res/workshop /tmp/res/laptop /tmp/res/objects /tmp/res/jobs /tmp/res/errors
           cp tests/ref_imgs/workshop/*.png /tmp/res/workshop/ 2>/dev/null
           cp tests/ref_imgs/laptop/*.png /tmp/res/laptop/ 2>/dev/null
           cp tests/ref_imgs/objects/*.png /tmp/res/objects/ 2>/dev/null
+          cp tests/ref_imgs/jobs/*.png /tmp/res/jobs/ 2>/dev/null
           find tests/ref_imgs -name "*_err.png" -exec cp {} /tmp/res/errors/ \; 2>/dev/null
           cd /tmp/res
           git init -q

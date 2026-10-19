@@ -17,11 +17,13 @@ console, settings) is DuetScreen's.
 | `src/UI/Widgets/Workshop/` | The workshop scene (view, presenter, positions) |
 | `src/UI/Widgets/Laptop/` | The laptop page (console, alerts, settings, keyboard) and the shared popup |
 | `src/UI/Widgets/ObjectFolder/` | The object cancel folder |
+| `src/UI/Widgets/JobsFolder/` | The jobs folder (list model in `JobsList`) |
 | `assets/workshop/` | Runtime images, 1024 × 600 |
 | `art/` | Source art and masters, see `art/README.md` |
 | `docs/workshop/` | Screenshots (`laptop/` for the laptop page) and the clickable browser mock-up |
 | `tests/src/test_cases/UI/test_workshop.cpp` | Screenshot tests of the scene (references in `tests/ref_imgs/workshop/`) |
 | `tests/src/test_cases/UI/test_laptop.cpp` | Laptop page tests (references in `tests/ref_imgs/laptop/`) |
+| `tests/src/test_cases/UI/test_object_folder.cpp`, `test_jobs_folder.cpp` | Folder tests (references in `tests/ref_imgs/objects/`, `jobs/`) |
 | `.github/workflows/funky-ci.yml` | Builds, runs the tests, publishes logs and screenshots to the `ci-results` branch |
 | `.github/workflows/upstream-sync.yml` | Weekly check for upstream changes, opens a PR |
 | small hooks | `HomeView` (registers the scene and the laptop), `Storage` (`ui:workshop_home` setting), `main.cpp` (touch click / M300 sound) |
@@ -48,7 +50,7 @@ One popup style for the whole UI; see [docs/workshop/POPUPS.md](docs/workshop/PO
 | Wall bed with the "LEVEL !!!" note | Control › Height map | bed levelling |
 | Laptop | Laptop page: CONSOLE / ALERTS / SETTINGS | |
 | Printer | Dashboard › Status | print status |
-| Job folder rack | Files › Jobs | jobs |
+| Job folder rack | Jobs folder | |
 | Spare bed on the table | Object cancel folder | |
 
 Opening anything hides the scene and shows DuetScreen's normal layout; the
@@ -139,4 +141,33 @@ Opened from the spare bed. An open folder on the desk, working as the Modern UI 
   (emergency stop) clipped in the corner, and the workbench drawers along the bottom: a drawer
   goes back to the workshop and slides open there.
 
+Popups on this folder use the paper theme (see below).
+
 Art: `art/objects/` (`export_objects.py` writes `assets/workshop/objects/`).
+
+## Jobs folder
+
+![Jobs](docs/workshop/jobs/details.png)
+
+Opened from the job folder rack. Laid out like the object cancel folder:
+
+- **Left page:** the selected job. Its thumbnail (largest one in the file, up to 250 × 250) as a
+  photo taped onto the page, the file name, print time, filament (material and length), layer
+  height, height, slicer and when it was saved. The red **PRINT** stamp is a button: the
+  START PRINT popup has bin / X / ✓; the bin asks again (DELETE FILE) before deleting.
+- **Right page:** `JOBS:` with the sort direction arrows ↑ ↓ and `page/pages`, then the files,
+  8 a page, with their age. Folders come first; tap one to open it, `..` goes back up.
+- **SORT card** (between ▲ and ▼) cycles **NEW** (newest on top), **A-Z** and **FILA**
+  (by material, then name; the rows show a material tag instead of the age). The material is
+  the last `_` part of the file name, as the slicer's output name template writes it, e.g.
+  OrcaSlicer `{input_filename_base}_{filament_type[initial_tool]}.gcode`. Sort and direction
+  are remembered.
+- HOME, STOP and the drawers work as on the object cancel folder.
+
+Art: `art/jobs/` (`export_jobs.py` writes `assets/workshop/jobs/`).
+
+### Paper popups
+
+The object cancel and jobs folders use a paper theme of the popup (`Funky::PopupTheme::Paper`):
+the same frame, with cardboard instead of glass, paper tiles with ink outlines, and the coloured
+buttons with ink icons and a thin ink outline. Everything else keeps the standard glass popup.

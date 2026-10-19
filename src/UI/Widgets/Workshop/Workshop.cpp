@@ -420,7 +420,7 @@ namespace UI
 			openFiles(0);
 			break;
 		case Target::Jobs:
-			openFiles(1);
+			openScreen(&home.getJobsFolder(), true);
 			break;
 		case Target::Console:
 			openScreen(&home.getLaptop(), true);

@@ -22,3 +22,15 @@ for name,col,ic,fg in [('btn_x',RED,'x',W1),('btn_check',GRN,'check',W1),('btn_t
     btn(d,0,0,bw,bh,'',col,ic,fg=fg)
     im=im.resize((round(bw*K),round(bh*K)),Image.LANCZOS); im.save(OUT+name+'.png',optimize=True)
     print(name,im.size)
+
+# ---- cardboard variant (object cancel and jobs folders only) ----
+SCR_T=(226,188,128); SCR_B=(204,160,100)
+fr,g,pad=frame(660,386)
+fr=fr.resize((fw,fh),Image.LANCZOS); fr.save(OUT+'frame_paper.png',optimize=True)
+W1=INK   # icons (and the bin handle) in ink
+for name,col,ic in [('btn_x_paper',RED,'x'),('btn_check_paper',GRN,'check'),('btn_trash_paper',ORG,'trash')]:
+    im=Image.new('RGBA',(int(bw*S)+2,int(bh*S)+2),(0,0,0,0)); d=ImageDraw.Draw(im)
+    btn(d,0,0,bw,bh,'',col,ic,fg=INK)
+    d.rounded_rectangle([0,0,int(bw*S),int(bh*S)],radius=8*S,outline=INK,width=int(1.5*S))
+    im=im.resize((round(bw*K),round(bh*K)),Image.LANCZOS); im.save(OUT+name+'.png',optimize=True)
+    print(name,im.size)

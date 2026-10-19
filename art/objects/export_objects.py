@@ -12,7 +12,6 @@ def background():
     bed_page(base,[],-1,(),False,outline=False)
     list_page(base,'',[],0,-1,(),False)
     estop(base,3,3); clip(ImageDraw.Draw(base),84,-4,0.95)
-    T(ImageDraw.Draw(base),118,44,'just in case!',HAND(15,500),PENCIL,'la')
     home_note(base,914,10)
     pager(base,0,2,text=False)
     # the up arrow was drawn grey (page 0): draw it in ink, the page shows/greys it at run time

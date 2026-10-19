@@ -33,7 +33,7 @@ The printer's little display is blank in the art; its text is drawn live by the 
 |---|---|
 | `mockups.py` | Draws the laptop mock-ups (all tabs, keyboard) and holds the drawing code |
 | `export_laptop.py` | Writes `assets/workshop/laptop/` (screen up, keyboard open, shifted keys) and `keys.json` (key rectangles, copied into `LaptopLayout.h`) |
-| `popup_frame.py`, `export_popup.py` | The standard popup frame and the X / ✓ / trash buttons in `assets/workshop/popup/` |
+| `popup_frame.py`, `export_popup.py` | The popup frame and the X / ✓ / trash buttons in `assets/workshop/popup/`, standard (glass) and `_paper` (cardboard, for the folders) |
 
 Run from anywhere: `python3 art/laptop/export_laptop.py` (needs Pillow, numpy, opencv).
 
@@ -43,3 +43,10 @@ Run from anywhere: `python3 art/laptop/export_laptop.py` (needs Pillow, numpy, o
 |---|---|
 | `mockups.py` | Draws the folder mock-ups and holds the drawing code |
 | `export_objects.py` | Writes `assets/workshop/objects/`: the background (desk, folder, papers, stickers, cards, drawers) and the box sprites |
+
+## Jobs folder (`jobs/`)
+
+| File | What it is |
+|---|---|
+| `mockups.py` | Draws the jobs folder mock-ups (uses the drawing code of `objects/mockups.py`) |
+| `export_jobs.py` | Writes `assets/workshop/jobs/`: the background, the taped photo frame, the PRINT stamp, row boxes, sort arrows, folder icon and the "no picture" sketch |

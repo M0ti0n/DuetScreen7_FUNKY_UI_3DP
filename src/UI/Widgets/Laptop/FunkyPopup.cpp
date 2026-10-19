@@ -6,6 +6,7 @@
 #include "Debug.h"
 #include <algorithm>
 #include <cmath>
+#include <fmt/format.h>
 
 namespace UI::Funky
 {
@@ -18,7 +19,11 @@ namespace UI::Funky
 	static constexpr int32_t FRAME_Y = 4;
 	static constexpr int32_t SCREEN_W = 1024;
 	static constexpr int32_t SCREEN_H = 600;
-	static constexpr const char* FRAME_IMAGE = "popup/frame.png";
+	static constexpr double BUTTON_TRASH_X = 102, BUTTON_MID_X = 275, BUTTON_RIGHT_X = 448;
+	static constexpr uint32_t INK = 0x161412;
+	static constexpr uint32_t PAPER = 0xF7F4EB;
+	static constexpr uint32_t PAPER_DIM = 0x5C5448;
+	static constexpr uint32_t PAPER_BLUE = 0x2668C4;
 
 	/* Modern UI positions */
 	static constexpr double TILE_Y = 35, TILE_H = 60;
@@ -79,25 +84,33 @@ namespace UI::Funky
 			LOG_ERROR("Funky popup used before attach()");
 			return;
 		}
-		if (!m_open)
+		if (m_frameLoaded != frameImage())
 		{
-			lv_image_set_src(m_frame, m_images.get(FRAME_IMAGE));
+			if (!m_frameLoaded.empty())
+			{
+				lv_image_set_src(m_frame, nullptr);
+				m_images.release(m_frameLoaded);
+			}
+			m_frameLoaded = frameImage();
+			lv_image_set_src(m_frame, m_images.get(m_frameLoaded));
 		}
 		lv_obj_clean(m_content);
 		m_choices.clear();
-		m_okButton = m_cancelButton = nullptr;
+		m_okButton = m_cancelButton = m_trashButton = nullptr;
 		m_onChoice = nullptr;
 		m_onConfirm = nullptr;
+		m_onTrash = nullptr;
 		m_pending = 0;
 		m_title = title;
 
 		/* Name tile: centred, glass-coloured, outline by tone */
 		const double w = longTitle ? 550 : 250, x = longTitle ? 55 : 205;
-		lv_obj_t* t = tile(m_content, mapX(x), mapY(TILE_Y), mapW(w), mapH(TILE_H), TileLook::PopupCard, false);
-		const uint32_t outline = tone == Tone::Error ? Colour::RED : tone == Tone::Warning ? Colour::AMBER : Colour::ACCENT;
+		lv_obj_t* t = card(mapX(x), mapY(TILE_Y), mapW(w), mapH(TILE_H));
+		const uint32_t info = m_theme == PopupTheme::Paper ? INK : Colour::ACCENT;
+		const uint32_t outline = tone == Tone::Error ? Colour::RED : tone == Tone::Warning ? Colour::AMBER : info;
 		lv_obj_set_style_border_color(t, col(outline), 0);
 		lv_obj_set_style_border_width(t, 4, 0);
-		centredLabel(t, m_fonts.get(34, true), Colour::TEXT, title.c_str(), 1);
+		centredLabel(t, m_fonts.get(34, true), textColour(), title.c_str(), 1);
 
 		lv_obj_move_to_index(m_root, -1);
 		setHidden(m_root, false);
@@ -116,16 +129,54 @@ namespace UI::Funky
 		return b;
 	}
 
-	void Popup::addButtons(bool withOk)
+	std::string Popup::button(const char* name) const
 	{
-		if (withOk)
+		return fmt::format("popup/btn_{:s}{:s}.png", name, m_theme == PopupTheme::Paper ? "_paper" : "");
+	}
+
+	const char* Popup::frameImage() const
+	{
+		return m_theme == PopupTheme::Paper ? "popup/frame_paper.png" : "popup/frame.png";
+	}
+
+	uint32_t Popup::textColour() const
+	{
+		return m_theme == PopupTheme::Paper ? INK : Colour::TEXT;
+	}
+
+	uint32_t Popup::dimColour() const
+	{
+		return m_theme == PopupTheme::Paper ? PAPER_DIM : Colour::POPUP_DIM;
+	}
+
+	lv_obj_t* Popup::card(int32_t x, int32_t y, int32_t w, int32_t h)
+	{
+		lv_obj_t* t = tile(m_content, x, y, w, h, TileLook::PopupCard, false);
+		if (m_theme == PopupTheme::Paper)
 		{
-			m_cancelButton = addButton("popup/btn_x.png", static_cast<int32_t>(BUTTON_CANCEL_X));
-			m_okButton = addButton("popup/btn_check.png", static_cast<int32_t>(BUTTON_OK_X));
+			lv_obj_set_style_bg_color(t, col(PAPER), 0);
+			lv_obj_set_style_border_color(t, col(INK), 0);
+			lv_obj_set_style_border_width(t, 3, 0);
+		}
+		return t;
+	}
+
+	void Popup::addButtons(bool withOk, bool withTrash)
+	{
+		if (withTrash)
+		{
+			m_trashButton = addButton(button("trash").c_str(), static_cast<int32_t>(BUTTON_TRASH_X));
+			m_cancelButton = addButton(button("x").c_str(), static_cast<int32_t>(BUTTON_MID_X));
+			m_okButton = addButton(button("check").c_str(), static_cast<int32_t>(BUTTON_RIGHT_X));
+		}
+		else if (withOk)
+		{
+			m_cancelButton = addButton(button("x").c_str(), static_cast<int32_t>(BUTTON_CANCEL_X));
+			m_okButton = addButton(button("check").c_str(), static_cast<int32_t>(BUTTON_OK_X));
 		}
 		else
 		{
-			m_cancelButton = addButton("popup/btn_x.png", static_cast<int32_t>(BUTTON_ALONE_X));
+			m_cancelButton = addButton(button("x").c_str(), static_cast<int32_t>(BUTTON_ALONE_X));
 		}
 	}
 
@@ -173,7 +224,7 @@ namespace UI::Funky
 		{
 			if (!row.caption.empty())
 			{
-				lv_obj_t* c = label(m_content, m_fonts.get(27), Colour::POPUP_DIM, row.caption.c_str());
+				lv_obj_t* c = label(m_content, m_fonts.get(27), dimColour(), row.caption.c_str());
 				lv_obj_set_width(c, mapW(AREA_W));
 				lv_obj_set_style_text_align(c, LV_TEXT_ALIGN_CENTER, 0);
 				lv_obj_set_pos(c, mapX(AREA_X), mapY(y + 2));
@@ -185,7 +236,7 @@ namespace UI::Funky
 			for (const std::string& item : row.items)
 			{
 				lv_obj_t* t = tile(m_content, mapX(x), mapY(y), mapW(w), mapH(CHOICE_H), TileLook::PopupChoice, true);
-				centredLabel(t, m_fonts.get(29, true), Colour::TEXT, item.c_str(), 1);
+				centredLabel(t, m_fonts.get(29, true), textColour(), item.c_str(), 1);
 				lv_obj_add_event_cb(t, clicked, LV_EVENT_CLICKED, this);
 				m_choices.push_back(t);
 				x += w + row.gap;
@@ -197,7 +248,10 @@ namespace UI::Funky
 		addButtons(true);
 	}
 
-	void Popup::confirm(const std::string& title, const std::vector<std::string>& lines, std::function<void()> onOk)
+	void Popup::confirm(const std::string& title,
+						const std::vector<std::string>& lines,
+						std::function<void()> onOk,
+						std::function<void()> onTrash)
 	{
 		open(title, Tone::Info, title.size() > 11);
 		if (!m_open)
@@ -205,7 +259,8 @@ namespace UI::Funky
 			return;
 		}
 		m_onConfirm = std::move(onOk);
-		tile(m_content, mapX(AREA_X), mapY(139), mapW(AREA_W), mapH(150), TileLook::PopupCard, false);
+		m_onTrash = std::move(onTrash);
+		card(mapX(AREA_X), mapY(139), mapW(AREA_W), mapH(150));
 		static constexpr double ys[4][4] = {
 			{205, 0, 0, 0}, {186, 226, 0, 0}, {170, 205, 240, 0}, {158, 190, 222, 254}};
 		const size_t n = std::min<size_t>(lines.size(), 4);
@@ -214,13 +269,13 @@ namespace UI::Funky
 			const bool last = (i + 1 == n);
 			lv_obj_t* l = label(m_content,
 								m_fonts.get(29, n > 1 && last),
-								(n == 1 || last) ? Colour::TEXT : Colour::POPUP_DIM,
+								(n == 1 || last) ? textColour() : dimColour(),
 								lines[i].c_str());
 			lv_obj_set_width(l, mapW(AREA_W));
 			lv_obj_set_style_text_align(l, LV_TEXT_ALIGN_CENTER, 0);
 			lv_obj_set_pos(l, mapX(AREA_X), mapY(ys[n - 1][i] + 11) - 17);
 		}
-		addButtons(true);
+		addButtons(true, m_onTrash != nullptr);
 	}
 
 	void Popup::message(
@@ -232,10 +287,12 @@ namespace UI::Funky
 			return;
 		}
 		const int32_t cx = mapX(AREA_X), cy = mapY(118), cw = mapW(AREA_W), ch = mapH(196);
-		tile(m_content, cx, cy, cw, ch, TileLook::PopupCard, false);
+		card(cx, cy, cw, ch);
 
-		const uint32_t toneColour =
-			tone == Tone::Error ? Colour::RED : tone == Tone::Warning ? Colour::AMBER : Colour::ACCENT;
+		const uint32_t toneColour = tone == Tone::Error	  ? Colour::RED
+									: tone == Tone::Warning ? Colour::AMBER
+									: m_theme == PopupTheme::Paper ? INK
+																  : Colour::ACCENT;
 		lv_obj_t* b = box(m_content, cx + 26, cy + 20, 86, 37);
 		lv_obj_set_style_radius(b, 7, 0);
 		lv_obj_set_style_border_color(b, col(toneColour), 0);
@@ -243,10 +300,10 @@ namespace UI::Funky
 		lv_obj_set_style_border_opa(b, LV_OPA_COVER, 0);
 		centredLabel(b, m_fonts.get(21, true), toneColour, badge.c_str(), 1);
 
-		lv_obj_t* m = label(m_content, m_fonts.get(24), Colour::POPUP_DIM, meta.c_str());
+		lv_obj_t* m = label(m_content, m_fonts.get(24), dimColour(), meta.c_str());
 		lv_obj_set_pos(m, cx + 132, cy + 25);
 
-		lv_obj_t* body = label(m_content, m_fonts.get(26), Colour::TEXT, text.c_str());
+		lv_obj_t* body = label(m_content, m_fonts.get(26), textColour(), text.c_str());
 		lv_label_set_long_mode(body, LV_LABEL_LONG_MODE_WRAP);
 		lv_obj_set_width(body, cw - 52);
 		lv_obj_set_style_text_line_space(body, 6, 0);
@@ -267,9 +324,10 @@ namespace UI::Funky
 			/* free the frame (LVGL's heap is fixed) and the content */
 			lv_obj_clean(m_content);
 			m_choices.clear();
-			m_okButton = m_cancelButton = nullptr;
+			m_okButton = m_cancelButton = m_trashButton = nullptr;
 			lv_image_set_src(m_frame, nullptr);
-			m_images.release(FRAME_IMAGE);
+			m_images.release(m_frameLoaded);
+			m_frameLoaded.clear();
 		}
 		m_open = false;
 	}
@@ -279,6 +337,12 @@ namespace UI::Funky
 		for (size_t i = 0; i < m_choices.size(); i++)
 		{
 			setTileLook(m_choices[i], i == m_pending ? TileLook::PopupChoiceSelected : TileLook::PopupChoice);
+			if (m_theme == PopupTheme::Paper)
+			{
+				lv_obj_set_style_bg_color(m_choices[i], col(PAPER), 0);
+				lv_obj_set_style_border_color(m_choices[i], col(i == m_pending ? PAPER_BLUE : INK), 0);
+				lv_obj_set_style_border_width(m_choices[i], i == m_pending ? 4 : 2, 0);
+			}
 			lv_obj_set_style_bg_color(m_choices[i], lv_color_black(), LV_STATE_PRESSED);
 			lv_obj_set_style_bg_opa(m_choices[i], LV_OPA_50, LV_STATE_PRESSED);
 		}
@@ -315,6 +379,20 @@ namespace UI::Funky
 		}
 	}
 
+	void Popup::pressTrash()
+	{
+		if (!m_open || m_trashButton == nullptr)
+		{
+			return;
+		}
+		auto onTrash = std::move(m_onTrash);
+		close();
+		if (onTrash)
+		{
+			onTrash();
+		}
+	}
+
 	void Popup::pressCancel()
 	{
 		if (!m_open)
@@ -331,6 +409,11 @@ namespace UI::Funky
 		if (target == self->m_okButton)
 		{
 			self->pressOk();
+			return;
+		}
+		if (target == self->m_trashButton)
+		{
+			self->pressTrash();
 			return;
 		}
 		if (target == self->m_cancelButton)

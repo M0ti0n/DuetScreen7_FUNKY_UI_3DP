@@ -80,12 +80,24 @@ def estop(base,x,y,s=92):
     shadow(base,lambda dd:dd.rounded_rectangle([P(x),P(y),P(x+s),P(y+s)],radius=P(8),fill=255),(3,4),3,110)
     d=ImageDraw.Draw(base)
     d.rounded_rectangle([P(x),P(y),P(x+s),P(y+s)],radius=P(8),fill=(214,40,34),outline=INK,width=P(3))
-    # call point: glass frame with the push button
-    bx,by,bs=x+18,y+12,s-36
-    d.rounded_rectangle([P(bx),P(by),P(bx+bs),P(by+bs)],radius=P(6),outline=(255,255,255),width=P(4))
-    d.ellipse([P(bx+bs*0.27),P(by+bs*0.27),P(bx+bs*0.73),P(by+bs*0.73)],fill=(255,255,255))
-    d.ellipse([P(bx+bs*0.36),P(by+bs*0.36),P(bx+bs*0.64),P(by+bs*0.64)],fill=(214,40,34))
+    # white stop hand (palm up, four fingers, thumb out to the right)
+    hand(d,x+s/2-2,y+40,0.92)
     T(d,x+s/2,y+s-12,'STOP',F(15,800),(255,255,255),'mm')
+
+def hand(d,cx,cy,k=1.0,c=(255,255,255)):
+    def rr(x0,y0,x1,y1,r): d.rounded_rectangle([P(cx+x0*k),P(cy+y0*k),P(cx+x1*k),P(cy+y1*k)],radius=P(r*k),fill=c)
+    rr(-17,-4,15.2,26,12)                       # palm
+    for fx,top,w in ((-17,-25,6.6),(-8.3,-31,6.6),(0.4,-29,6.6),(9.0,-23,6.2)):
+        rr(fx,top,fx+w,4,w/2)                   # fingers
+    # thumb, angled up and out
+    import math
+    a=math.radians(-48); L=22; W=8
+    ox,oy=11,10
+    dx,dy=math.cos(a),math.sin(a); px,py=-dy,dx
+    pts=[(ox+px*W/2,oy+py*W/2),(ox+dx*L+px*W/2,oy+dy*L+py*W/2),(ox+dx*L-px*W/2,oy+dy*L-py*W/2),(ox-px*W/2,oy-py*W/2)]
+    d.polygon([(P(cx+X*k),P(cy+Y*k)) for X,Y in pts],fill=c)
+    tx,ty=ox+dx*L,oy+dy*L
+    d.ellipse([P(cx+(tx-W/2)*k),P(cy+(ty-W/2)*k),P(cx+(tx+W/2)*k),P(cy+(ty+W/2)*k)],fill=c)
 
 def home_note(base,x,y,w=96,h=92):
     d=ImageDraw.Draw(base)
@@ -120,6 +132,7 @@ def bed_page(base,objs,selected,cancelled,empty=False,outline=True):
     paper(base,40,30,452,462,11)
     d=ImageDraw.Draw(base)
     ox,oy=74,426
+    T(d,266,66,'Object Cancel',TYPE(26,700),INK,'mm')
     d.line([P(ox),P(oy+12),P(ox),P(108)],fill=INK,width=P(3)); d.line([P(ox-9),P(122),P(ox),P(106),P(ox+9),P(122)],fill=INK,width=P(3),joint='curve')
     d.line([P(ox-12),P(oy),P(442),P(oy)],fill=INK,width=P(3)); d.line([P(428),P(oy-9),P(444),P(oy),P(428),P(oy+9)],fill=INK,width=P(3),joint='curve')
     T(d,ox+14,92,'Y',HAND(22,600)); T(d,420,430,'X',HAND(22,600)); T(d,ox-16,oy+2,'0',HAND(15,500),PENCIL)
@@ -190,7 +203,6 @@ def scene(job='engine_block_v8.gcode',page=0,selected=2,cancelled=(3,),empty=Fal
     d=ImageDraw.Draw(base)
     estop(base,3,3)
     clip(ImageDraw.Draw(base),84,-4,0.95)
-    T(ImageDraw.Draw(base),118,44,'just in case!',HAND(15,500),PENCIL,'la')
     home_note(base,914,10)
     pages=max(1,(len(objs)+4)//5) if not empty else 1
     pager(base,page,pages)

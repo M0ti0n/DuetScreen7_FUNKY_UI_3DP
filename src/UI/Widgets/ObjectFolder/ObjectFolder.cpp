@@ -138,6 +138,7 @@ namespace UI
 			m_drawers[i] = tap({d.x, d.y, d.w, d.h}, true);
 		}
 
+		m_popup.setTheme(Funky::PopupTheme::Paper);
 		m_popup.attach(root);
 		m_built = true;
 		refresh();

@@ -31,6 +31,14 @@ namespace UI::Funky
 		Error,
 	};
 
+	/* Glass: the printer-screen look (laptop, everywhere else). Paper: the folders on the desk
+	 * (object cancel, jobs): cardboard glass, paper tiles with ink outlines, ink icons. */
+	enum class PopupTheme : uint8_t
+	{
+		Glass,
+		Paper,
+	};
+
 	class Popup
 	{
 	  public:
@@ -49,6 +57,7 @@ namespace UI::Funky
 
 		/* The full-screen object the popup covers (built on first use) */
 		void attach(lv_obj_t* screen);
+		void setTheme(PopupTheme theme) { m_theme = theme; }
 
 		void choose(const std::string& title,
 					const std::vector<std::string>& choices,
@@ -59,7 +68,11 @@ namespace UI::Funky
 						const std::vector<Row>& rows,
 						size_t selected,
 						std::function<void(size_t)> onOk);
-		void confirm(const std::string& title, const std::vector<std::string>& lines, std::function<void()> onOk);
+		/* onTrash: adds the bin button left of X (Modern UI order: bin, X, check) */
+		void confirm(const std::string& title,
+					 const std::vector<std::string>& lines,
+					 std::function<void()> onOk,
+					 std::function<void()> onTrash = nullptr);
 		void message(const std::string& title,
 					 Tone tone,
 					 const std::string& badge,
@@ -72,6 +85,8 @@ namespace UI::Funky
 		void pressChoice(size_t index);
 		void pressOk();
 		void pressCancel();
+		void pressTrash();
+		bool hasTrash() const { return m_trashButton != nullptr; }
 		size_t pending() const { return m_pending; }
 		size_t choiceCount() const { return m_choices.size(); }
 		const std::string& title() const { return m_title; }
@@ -84,8 +99,13 @@ namespace UI::Funky
 
 	  private:
 		void open(const std::string& title, Tone tone, bool longTitle);
-		void addButtons(bool withOk);
+		void addButtons(bool withOk, bool withTrash = false);
 		lv_obj_t* addButton(const char* image, int32_t modernX);
+		std::string button(const char* name) const;
+		const char* frameImage() const;
+		uint32_t textColour() const;
+		uint32_t dimColour() const;
+		lv_obj_t* card(int32_t x, int32_t y, int32_t w, int32_t h);
 		void showSelection();
 		static void clicked(lv_event_t* e);
 
@@ -96,12 +116,16 @@ namespace UI::Funky
 		lv_obj_t* m_content = nullptr; /* rebuilt for every popup */
 		lv_obj_t* m_okButton = nullptr;
 		lv_obj_t* m_cancelButton = nullptr;
+		lv_obj_t* m_trashButton = nullptr;
 		std::vector<lv_obj_t*> m_choices;
+		PopupTheme m_theme = PopupTheme::Glass;
+		std::string m_frameLoaded;
 
 		bool m_open = false;
 		std::string m_title;
 		size_t m_pending = 0;
 		std::function<void(size_t)> m_onChoice;
 		std::function<void()> m_onConfirm;
+		std::function<void()> m_onTrash;
 	};
 } // namespace UI::Funky
