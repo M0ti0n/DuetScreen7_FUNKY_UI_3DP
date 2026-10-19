@@ -28,6 +28,7 @@ namespace UI
 		constexpr uint32_t INK = 0x161412;
 		constexpr uint32_t PENCIL = 0x606064;
 		constexpr uint32_t PAPER = 0xF7F4EB;
+		constexpr uint32_t RED = 0xCE3426;
 		constexpr uint32_t TAG = 0xFADE5C;
 		constexpr uint32_t PHOTO_BACK = 0x343A42;
 		constexpr const char* BACKGROUND = "jobs/background.png";
@@ -95,6 +96,24 @@ namespace UI
 			return date.empty() ? "-" : date;
 		}
 		return fmt::format("{:d} {:s} {:d}, {:02d}:{:02d}", d, MONTHS[static_cast<size_t>(mo - 1)], y, h, mi);
+	}
+
+	bool JobsFolder::SamePath(const std::string& a, const std::string& b)
+	{
+		auto strip = [](const std::string& p) -> std::string_view
+		{
+			std::string_view v(p);
+			if (v.size() >= 2 && v[1] == ':')
+			{
+				v.remove_prefix(2);
+			}
+			while (!v.empty() && v.front() == '/')
+			{
+				v.remove_prefix(1);
+			}
+			return v;
+		};
+		return !a.empty() && !b.empty() && strip(a) == strip(b);
 	}
 
 	/* ---------------- building ---------------- */
@@ -190,6 +209,8 @@ namespace UI
 			lv_obj_set_style_radius(row.tag, 3, 0);
 			row.tagText = label(row.tag, tagFont, INK, "");
 			lv_obj_align(row.tagText, LV_ALIGN_CENTER, 0, 0);
+			row.printing = label(root, m_fonts.hand(14, true), RED, "");
+			lv_obj_set_pos(row.printing, 0, y + ROW_H / 2 - lv_font_get_line_height(m_fonts.hand(14, true)) / 2);
 			row.tap = Funky::tapZone(root, ROW_X - 4, y - 2, ROW_W + 8, ROW_H + 4, 4, false);
 			lv_obj_add_event_cb(row.tap, clicked, LV_EVENT_CLICKED, this);
 		}
@@ -304,6 +325,22 @@ namespace UI
 		}
 	}
 
+	void JobsFolder::setPrinting(bool printing, bool paused, const std::string& jobPath)
+	{
+		UI_LOCK();
+		if (printing == m_printing && paused == m_paused && jobPath == m_printingPath)
+		{
+			return;
+		}
+		m_printing = printing;
+		m_paused = paused;
+		m_printingPath = printing ? jobPath : std::string();
+		if (m_built)
+		{
+			refreshList();
+		}
+	}
+
 	void JobsFolder::resort()
 	{
 		JobsList::SortEntries(m_entries, m_sort, m_ascending);
@@ -334,7 +371,7 @@ namespace UI
 			Row& row = m_rows[r];
 			const size_t i = m_page * ROWS + r;
 			const bool shown = i < m_entries.size();
-			for (lv_obj_t* o : {row.box, row.icon, row.name, row.age, row.tag, row.tap})
+			for (lv_obj_t* o : {row.box, row.icon, row.name, row.age, row.tag, row.printing, row.tap})
 			{
 				setHidden(o, !shown);
 			}
@@ -369,6 +406,19 @@ namespace UI
 				lv_point_t size{};
 				lv_text_get_size(&size, e.age.c_str(), m_fonts.hand(14), 0, 0, LV_COORD_MAX, LV_TEXT_FLAG_NONE);
 				right = AGE_RIGHT - size.x - 10;
+			}
+
+			/* The file being printed: a red pencil note left of the age / tag */
+			const bool running = m_printing && !e.folder && SamePath(e.path, m_printingPath);
+			setHidden(row.printing, !running);
+			if (running)
+			{
+				const char* note = m_paused ? "paused" : "printing";
+				lv_label_set_text(row.printing, note);
+				lv_point_t size{};
+				lv_text_get_size(&size, note, m_fonts.hand(14, true), 0, 0, LV_COORD_MAX, LV_TEXT_FLAG_NONE);
+				lv_obj_set_x(row.printing, right - size.x);
+				right -= size.x + 10;
 			}
 
 			const lv_font_t* font = e.folder ? m_fonts.get(17, true, true) : m_fonts.get(16, false, true);
@@ -507,6 +557,22 @@ namespace UI
 			return;
 		}
 		const std::string path = m_details.path, name = m_details.name;
+		if (m_printing)
+		{
+			/* No second print; other files can still be deleted, the one printing can't */
+			if (SamePath(path, m_printingPath))
+			{
+				m_popup.confirm("PRINT IN PROGRESS", {"This file is being printed.", name}, nullptr);
+			}
+			else
+			{
+				m_popup.confirm("PRINT IN PROGRESS",
+								{"A print is running.", "You can still delete this file.", name},
+								nullptr,
+								[this, path, name] { confirmDelete(path, name); });
+			}
+			return;
+		}
 		m_popup.confirm(
 			"START PRINT",
 			{"Do you want to start this print?", name},

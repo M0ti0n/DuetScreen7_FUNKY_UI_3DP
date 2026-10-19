@@ -68,7 +68,8 @@ namespace UI::Funky
 						const std::vector<Row>& rows,
 						size_t selected,
 						std::function<void(size_t)> onOk);
-		/* onTrash: adds the bin button left of X (Modern UI order: bin, X, check) */
+		/* onTrash: adds the bin button left of X (Modern UI order: bin, X, check).
+		 * onOk nullptr: no check button (bin, X or X alone) */
 		void confirm(const std::string& title,
 					 const std::vector<std::string>& lines,
 					 std::function<void()> onOk,
@@ -111,7 +112,7 @@ namespace UI::Funky
 
 		Images& m_images;
 		Fonts& m_fonts;
-		lv_obj_t* m_root = nullptr;	   /* dims the page and blocks its touches */
+		lv_obj_t* m_root = nullptr; /* dims the page and blocks its touches */
 		lv_obj_t* m_frame = nullptr;
 		lv_obj_t* m_content = nullptr; /* rebuilt for every popup */
 		lv_obj_t* m_okButton = nullptr;

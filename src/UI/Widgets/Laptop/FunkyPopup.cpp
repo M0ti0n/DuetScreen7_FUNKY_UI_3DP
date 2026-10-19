@@ -163,7 +163,12 @@ namespace UI::Funky
 
 	void Popup::addButtons(bool withOk, bool withTrash)
 	{
-		if (withTrash)
+		if (withTrash && !withOk)
+		{
+			m_trashButton = addButton(button("trash").c_str(), static_cast<int32_t>(BUTTON_CANCEL_X));
+			m_cancelButton = addButton(button("x").c_str(), static_cast<int32_t>(BUTTON_OK_X));
+		}
+		else if (withTrash)
 		{
 			m_trashButton = addButton(button("trash").c_str(), static_cast<int32_t>(BUTTON_TRASH_X));
 			m_cancelButton = addButton(button("x").c_str(), static_cast<int32_t>(BUTTON_MID_X));
@@ -195,7 +200,8 @@ namespace UI::Funky
 			Row r;
 			r.items.assign(choices.begin() + static_cast<std::ptrdiff_t>(i),
 						   choices.begin() + static_cast<std::ptrdiff_t>(std::min(n, i + perRow)));
-			r.itemWidth = static_cast<int32_t>((AREA_W - static_cast<double>(perRow - 1) * 20.0) / static_cast<double>(perRow));
+			r.itemWidth =
+				static_cast<int32_t>((AREA_W - static_cast<double>(perRow - 1) * 20.0) / static_cast<double>(perRow));
 			rows.push_back(std::move(r));
 		}
 		chooseRows(title, rows, selected, std::move(onOk));
@@ -261,8 +267,7 @@ namespace UI::Funky
 		m_onConfirm = std::move(onOk);
 		m_onTrash = std::move(onTrash);
 		card(mapX(AREA_X), mapY(139), mapW(AREA_W), mapH(150));
-		static constexpr double ys[4][4] = {
-			{205, 0, 0, 0}, {186, 226, 0, 0}, {170, 205, 240, 0}, {158, 190, 222, 254}};
+		static constexpr double ys[4][4] = {{205, 0, 0, 0}, {186, 226, 0, 0}, {170, 205, 240, 0}, {158, 190, 222, 254}};
 		const size_t n = std::min<size_t>(lines.size(), 4);
 		for (size_t i = 0; i < n; i++)
 		{
@@ -275,7 +280,7 @@ namespace UI::Funky
 			lv_obj_set_style_text_align(l, LV_TEXT_ALIGN_CENTER, 0);
 			lv_obj_set_pos(l, mapX(AREA_X), mapY(ys[n - 1][i] + 11) - 17);
 		}
-		addButtons(true, m_onTrash != nullptr);
+		addButtons(m_onConfirm != nullptr, m_onTrash != nullptr);
 	}
 
 	void Popup::message(
@@ -289,10 +294,10 @@ namespace UI::Funky
 		const int32_t cx = mapX(AREA_X), cy = mapY(118), cw = mapW(AREA_W), ch = mapH(196);
 		card(cx, cy, cw, ch);
 
-		const uint32_t toneColour = tone == Tone::Error	  ? Colour::RED
-									: tone == Tone::Warning ? Colour::AMBER
+		const uint32_t toneColour = tone == Tone::Error			   ? Colour::RED
+									: tone == Tone::Warning		   ? Colour::AMBER
 									: m_theme == PopupTheme::Paper ? INK
-																  : Colour::ACCENT;
+																   : Colour::ACCENT;
 		lv_obj_t* b = box(m_content, cx + 26, cy + 20, 86, 37);
 		lv_obj_set_style_radius(b, 7, 0);
 		lv_obj_set_style_border_color(b, col(toneColour), 0);

@@ -10,6 +10,7 @@
 #include "JobsFolder.h"
 #include "ObjectModel/Directories.h"
 #include "ObjectModel/Files.h"
+#include "ObjectModel/Job.h"
 #include "ObjectModel/PrinterStatus.h"
 #include "UI/Core/Navigation.h"
 #include <ctime>
@@ -32,6 +33,8 @@ namespace UI
 	{
 		ZoneScoped;
 		registerEventListener<EventType::ThumbnailData>(this, &JobsFolderPresenter::newThumbnailData);
+		registerEventListener<EventType::Status>([this](const OM::PrinterStatus&) { refreshPrinting(); });
+		registerEventListener<EventType::JobFileName>([this](const std::string&) { refreshPrinting(); });
 		registerEventListener<EventType::PrinterUniqueId>(
 			[this]()
 			{
@@ -48,6 +51,26 @@ namespace UI
 			requestFiles();
 		}
 		refreshDetails();
+		refreshPrinting();
+	}
+
+	void JobsFolderPresenter::refreshPrinting()
+	{
+		JobsFolder* view = getView();
+		if (view == nullptr)
+		{
+			return;
+		}
+		bool printing = false, paused = false;
+		std::string job;
+		{
+			MODEL_LOCK();
+			const OM::PrinterStatus status = OM::GetStatus();
+			printing = OM::IsPrintingStatus(status);
+			paused = status == OM::PrinterStatus::paused || status == OM::PrinterStatus::pausing;
+			job = OM::GetJobName();
+		}
+		view->setPrinting(printing, paused, job);
 	}
 
 	void JobsFolderPresenter::onDisconnect()
@@ -55,6 +78,7 @@ namespace UI
 		if (JobsFolder* view = getView(); view != nullptr)
 		{
 			view->setFiles(m_folder, {});
+			view->setPrinting(false, false, "");
 		}
 	}
 

@@ -299,3 +299,45 @@ TEST_F(TestJobsFolder, SubFolder)
 	EXPECT_EQ(jobs().entries()[0].name, "..");
 	EXPECT_EQUAL_SCREENSHOT("jobs/subfolder.png");
 }
+
+TEST_F(TestJobsFolder, PrintInProgress)
+{
+	open();
+	EXPECT_TRUE(JobsFolder::SamePath("0:/gcodes/a.gcode", "/gcodes/a.gcode"));
+	EXPECT_FALSE(JobsFolder::SamePath("0:/gcodes/a.gcode", "0:/gcodes/b.gcode"));
+
+	jobs().setPrinting(true, false, "0:/gcodes/engine_block_PETG.gcode");
+	JobsFolder::Details other = engineBlock();
+	other.path = "0:/gcodes/calibration_cube_PLA.gcode";
+	other.name = "calibration_cube_PLA.gcode";
+	jobs().setDetails(other);
+	EXPECT_EQUAL_SCREENSHOT("jobs/printing.png");
+
+	/* Another file: no check, the bin still deletes (after asking) */
+	jobs().pressPrint();
+	ASSERT_TRUE(jobs().popup().isOpen());
+	EXPECT_EQ(jobs().popup().title(), "PRINT IN PROGRESS");
+	EXPECT_TRUE(jobs().popup().hasTrash());
+	EXPECT_EQUAL_SCREENSHOT("jobs/busy_popup.png");
+	jobs().popup().pressOk(); /* no check button: nothing happens */
+	EXPECT_TRUE(jobs().popup().isOpen());
+	jobs().popup().pressTrash();
+	ASSERT_TRUE(jobs().popup().isOpen());
+	EXPECT_EQ(jobs().popup().title(), "DELETE FILE");
+	jobs().popup().pressCancel();
+
+	/* The file being printed: X only */
+	jobs().setDetails(engineBlock());
+	jobs().pressPrint();
+	ASSERT_TRUE(jobs().popup().isOpen());
+	EXPECT_EQ(jobs().popup().title(), "PRINT IN PROGRESS");
+	EXPECT_FALSE(jobs().popup().hasTrash());
+	EXPECT_EQUAL_SCREENSHOT("jobs/busy_same_popup.png");
+	jobs().popup().pressCancel();
+
+	/* Finished: START PRINT again */
+	jobs().setPrinting(false, false, "");
+	jobs().pressPrint();
+	EXPECT_EQ(jobs().popup().title(), "START PRINT");
+	jobs().popup().pressCancel();
+}

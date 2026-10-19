@@ -155,6 +155,9 @@ Opened from the job folder rack. Laid out like the object cancel folder:
   photo taped onto the page, the file name, print time, filament (material and length), layer
   height, height, slicer and when it was saved. The red **PRINT** stamp is a button: the
   START PRINT popup has bin / X / ✓; the bin asks again (DELETE FILE) before deleting.
+  While a print runs (or is paused) the stamp opens PRINT IN PROGRESS instead: bin / X, so
+  other files can still be deleted, and X only for the file being printed. That file is
+  marked "printing" / "paused" in red pencil in the list.
 - **Right page:** `JOBS:` with the sort direction arrows ↑ ↓ and `page/pages`, then the files,
   8 a page, with their age. Folders come first; tap one to open it, `..` goes back up.
 - **SORT card** (between ▲ and ▼) cycles **NEW** (newest on top), **A-Z** and **FILA**

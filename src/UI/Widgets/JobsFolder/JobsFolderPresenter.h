@@ -35,6 +35,7 @@ namespace UI
 
 	  private:
 		void newThumbnailData(const std::string& filename);
+		void refreshPrinting();
 
 		std::string m_folder; /* relative to the gcodes folder, "" or "sub/" */
 		std::string m_selected;

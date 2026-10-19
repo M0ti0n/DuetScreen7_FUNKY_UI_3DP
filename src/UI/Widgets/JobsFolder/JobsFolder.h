@@ -14,6 +14,10 @@
  *   bottom       the workbench drawers, as on the home scene
  *
  * Folders are listed first; tap one to open it, ".." to go back up.
+ *
+ * While a print runs (or is paused) the stamp opens PRINT IN PROGRESS instead: bin / X, so
+ * other files can still be deleted, and only X for the file being printed. That file is
+ * marked "printing" (or "paused") in the list.
  */
 
 #pragma once
@@ -54,6 +58,8 @@ namespace UI
 
 		void setFiles(const std::string& folder, const std::vector<JobsList::Entry>& entries);
 		void setDetails(const Details& details);
+		/* jobPath: the file being printed ("" = none) */
+		void setPrinting(bool printing, bool paused, const std::string& jobPath);
 
 		/* Touches (also used by the tests) */
 		void pressRow(size_t row);
@@ -78,6 +84,8 @@ namespace UI
 		/* Detail values as shown, for the tests */
 		static std::string FormatPrintTime(uint32_t seconds);
 		static std::string FormatSaved(const std::string& date);
+		/* Same file, with or without the "0:" drive */
+		static bool SamePath(const std::string& a, const std::string& b);
 
 	  protected:
 		void onInit() override;
@@ -93,6 +101,7 @@ namespace UI
 			lv_obj_t* age = nullptr;
 			lv_obj_t* tag = nullptr;
 			lv_obj_t* tagText = nullptr;
+			lv_obj_t* printing = nullptr;
 			lv_obj_t* tap = nullptr;
 		};
 
@@ -115,6 +124,9 @@ namespace UI
 		bool m_ascending = false;
 		size_t m_page = 0;
 		Details m_details;
+		bool m_printing = false;
+		bool m_paused = false;
+		std::string m_printingPath;
 		bool m_built = false;
 
 		lv_obj_t* m_background = nullptr;
