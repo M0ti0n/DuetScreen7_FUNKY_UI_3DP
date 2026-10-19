@@ -244,6 +244,12 @@ TEST_F(TestJobsFolder, Details)
 	jobs().setDetails(engineBlock());
 	EXPECT_EQUAL_SCREENSHOT("jobs/details.png");
 
+	/* A slicer thumbnail (transparent background) on the old-photo grey */
+	auto withThumb = engineBlock();
+	withThumb.thumbnail = "tests/fixtures/thumbnail_part.png";
+	jobs().setDetails(withThumb);
+	EXPECT_EQUAL_SCREENSHOT("jobs/details_thumbnail.png");
+
 	/* Gone from the list: nothing selected */
 	auto list = files();
 	list.erase(list.begin() + 1);

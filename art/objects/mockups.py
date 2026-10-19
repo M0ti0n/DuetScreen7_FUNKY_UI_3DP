@@ -131,11 +131,11 @@ OBJS=[('Front left clip',0.22,0.25),('Front right clip',0.72,0.27),('Rear bracke
 def bed_page(base,objs,selected,cancelled,empty=False,outline=True):
     paper(base,40,30,452,462,11)
     d=ImageDraw.Draw(base)
-    ox,oy=74,426
+    ox,oy=84,426   # Y axis moved right so the Y fits on its left
     T(d,266,66,'Object Cancel',TYPE(26,700),INK,'mm')
     d.line([P(ox),P(oy+12),P(ox),P(108)],fill=INK,width=P(3)); d.line([P(ox-9),P(122),P(ox),P(106),P(ox+9),P(122)],fill=INK,width=P(3),joint='curve')
     d.line([P(ox-12),P(oy),P(442),P(oy)],fill=INK,width=P(3)); d.line([P(428),P(oy-9),P(444),P(oy),P(428),P(oy+9)],fill=INK,width=P(3),joint='curve')
-    T(d,ox+14,92,'Y',HAND(22,600)); T(d,420,430,'X',HAND(22,600)); T(d,ox-16,oy+2,'0',HAND(15,500),PENCIL)
+    T(d,ox-18,124,'Y',HAND(22,600),INK,'mm'); T(d,420,430,'X',HAND(22,600)); T(d,ox-16,oy+2,'0',HAND(15,500),PENCIL)
     # bed outline (pencil, dashed)
     bx0,by0,bx1,by1=92,118,430,414
     if not outline: objs=[]

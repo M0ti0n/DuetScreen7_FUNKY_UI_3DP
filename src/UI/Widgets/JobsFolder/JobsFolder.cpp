@@ -30,7 +30,7 @@ namespace UI
 		constexpr uint32_t PAPER = 0xF7F4EB;
 		constexpr uint32_t RED = 0xCE3426;
 		constexpr uint32_t TAG = 0xFADE5C;
-		constexpr uint32_t PHOTO_BACK = 0x343A42;
+		constexpr uint32_t PHOTO_BACK = 0x948F86; /* old-photo grey: thumbnails have no background */
 		constexpr const char* BACKGROUND = "jobs/background.png";
 
 		constexpr StorageKey<unsigned int> ID_FUNKY_JOBS_SORT = {"funky:jobs_sort", 0u};
