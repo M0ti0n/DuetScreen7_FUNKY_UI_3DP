@@ -35,6 +35,14 @@ namespace UI
 		constexpr StorageKey<unsigned int> ID_FUNKY_JOBS_SORT = {"funky:jobs_sort", 0u};
 		constexpr StorageKey<bool> ID_FUNKY_JOBS_ASCENDING = {"funky:jobs_ascending", false};
 
+		/* Places a label centred on (cx, cy); the size comes from the text, as the page may not be laid out yet */
+		void centreOn(lv_obj_t* label, const lv_font_t* font, int32_t cx, int32_t cy)
+		{
+			lv_point_t size{};
+			lv_text_get_size(&size, lv_label_get_text(label), font, 0, 0, LV_COORD_MAX, LV_TEXT_FLAG_NONE);
+			lv_obj_set_pos(label, cx - size.x / 2, cy - size.y / 2);
+		}
+
 		constexpr std::array<const char*, 6> INFO_KEYS = {
 			"print time", "filament", "layer height", "height", "slicer", "saved"};
 	} // namespace
@@ -146,8 +154,7 @@ namespace UI
 		lv_image_set_src(m_stamp, m_images.get("jobs/stamp.png"));
 
 		m_pick = label(root, m_fonts.hand(20), PENCIL, "pick a job from the list");
-		lv_obj_update_layout(m_pick);
-		lv_obj_set_pos(m_pick, PICK_CX - lv_obj_get_width(m_pick) / 2, PICK_Y - lv_obj_get_height(m_pick) / 2);
+		centreOn(m_pick, m_fonts.hand(20), PICK_CX, PICK_Y);
 
 		/* Right page: header */
 		m_pagesLabel = label(root, m_fonts.hand(16), PENCIL, "");
@@ -187,8 +194,7 @@ namespace UI
 			lv_obj_add_event_cb(row.tap, clicked, LV_EVENT_CLICKED, this);
 		}
 		m_listEmpty = label(root, m_fonts.hand(22), PENCIL, "no jobs yet");
-		lv_obj_update_layout(m_listEmpty);
-		lv_obj_set_pos(m_listEmpty, EMPTY_CX - lv_obj_get_width(m_listEmpty) / 2, EMPTY_Y - 16);
+		centreOn(m_listEmpty, m_fonts.hand(22), EMPTY_CX, EMPTY_Y);
 
 		/* Side cards */
 		m_sortValue = label(root, m_fonts.get(18, true, true), INK, "");
