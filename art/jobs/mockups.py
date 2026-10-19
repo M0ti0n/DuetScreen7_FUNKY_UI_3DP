@@ -16,7 +16,7 @@ def thumb(base,x,y,s=250):
     d=ImageDraw.Draw(base)
     d.rectangle([P(x),P(y),P(x+s),P(y+s)],fill=(255,255,255),outline=INK,width=P(2))
     ix,iy,iw=x+8,y+8,s-16
-    im=Image.new('RGB',(P(iw),P(iw)),(148,143,134)); dd=ImageDraw.Draw(im)   # old-photo grey behind the thumbnail
+    im=Image.new('RGB',(P(iw),P(iw)),(51,51,51)); dd=ImageDraw.Draw(im)   # dark grey behind the thumbnail
     cx,cy=iw/2,iw/2+10
     def q(pts,c): dd.polygon([(P(a),P(b)) for a,b in pts],fill=c)
     w,t=78,40
