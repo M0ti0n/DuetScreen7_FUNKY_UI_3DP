@@ -414,7 +414,7 @@ namespace UI
 			openControl(&ControlView::showHeightmapView);
 			break;
 		case Target::ObjectCancel:
-			openControl(&ControlView::showObjectCancelView);
+			openScreen(&home.getObjectFolder(), true);
 			break;
 		case Target::Macros:
 			openFiles(0);

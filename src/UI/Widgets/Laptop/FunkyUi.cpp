@@ -101,20 +101,31 @@ namespace UI::Funky
 
 	/* ---------------- fonts ---------------- */
 
-	const lv_font_t* Fonts::get(uint32_t size, bool bold, bool mono)
+	const lv_font_t* Fonts::face(const char* typeface, uint32_t key, uint32_t size, bool bold)
 	{
-		const uint32_t key = size | (bold ? 0x10000u : 0u) | (mono ? 0x20000u : 0u);
 		auto it = m_fonts.find(key);
 		if (it == m_fonts.end())
 		{
 			it = m_fonts
 					 .emplace(key,
-							  FontManager::createFont(mono ? "GoogleSansCode" : "Montserrat",
+							  FontManager::createFont(typeface,
 													  size,
 													  bold ? LV_FREETYPE_FONT_STYLE_BOLD : LV_FREETYPE_FONT_STYLE_NORMAL))
 					 .first;
 		}
 		return it->second.get() != nullptr ? it->second.get() : LV_FONT_DEFAULT;
+	}
+
+	const lv_font_t* Fonts::get(uint32_t size, bool bold, bool mono)
+	{
+		const uint32_t key = size | (bold ? 0x10000u : 0u) | (mono ? 0x20000u : 0u);
+		return face(mono ? "GoogleSansCode" : "Montserrat", key, size, bold);
+	}
+
+	const lv_font_t* Fonts::hand(uint32_t size, bool bold)
+	{
+		const uint32_t key = size | (bold ? 0x10000u : 0u) | 0x40000u;
+		return face("PlaypenSans", key, size, bold);
 	}
 
 	/* ---------------- objects ---------------- */

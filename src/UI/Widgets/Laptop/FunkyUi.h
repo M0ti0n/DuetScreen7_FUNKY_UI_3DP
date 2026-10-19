@@ -73,8 +73,11 @@ namespace UI::Funky
 	{
 	  public:
 		const lv_font_t* get(uint32_t size, bool bold = false, bool mono = false);
+		/* handwriting (PlaypenSans), for the paper pages */
+		const lv_font_t* hand(uint32_t size, bool bold = false);
 
 	  private:
+		const lv_font_t* face(const char* typeface, uint32_t key, uint32_t size, bool bold);
 		std::map<uint32_t, FontManager::Font> m_fonts;
 	};
 

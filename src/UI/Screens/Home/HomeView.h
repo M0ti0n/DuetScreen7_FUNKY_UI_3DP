@@ -22,6 +22,7 @@
 #include "UI/Widgets/SideBar/SideBar.h"
 #include "UI/Widgets/StatusBar/StatusBar.h"
 #include "UI/Widgets/Laptop/Laptop.h"
+#include "UI/Widgets/ObjectFolder/ObjectFolder.h"
 #include "UI/Widgets/Workshop/Workshop.h"
 #include "lvgl/lvgl.h"
 #include <list>
@@ -54,6 +55,7 @@ namespace UI
 		Dashboard& getDashboard() { return m_dashboard; }
 		Workshop& getWorkshop() { return m_workshop; }
 		Laptop& getLaptop() { return m_laptop; }
+		ObjectFolder& getObjectFolder() { return m_objectFolder; }
 		bool isWorkshopHome() const { return m_workshopHome; }
 		StatusBar& getStatusBar() { return m_statusBar; }
 		SideBar& getSideBar() { return m_sideBar; }
@@ -140,6 +142,8 @@ namespace UI
 		Workshop m_workshop{"workshop", getRoot()};
 		/* Laptop page (console / alerts / settings), full screen, opened from the scene */
 		Laptop m_laptop{"laptop", getRoot()};
+		/* Object cancel folder, opened from the spare bed */
+		ObjectFolder m_objectFolder{"object_folder", getRoot()};
 		bool m_workshopHome = true;
 	};
 } // namespace UI
