@@ -16,6 +16,7 @@ console, settings) is DuetScreen's.
 |---|---|
 | `src/UI/Widgets/Workshop/` | The workshop scene (view, presenter, positions) |
 | `src/UI/Widgets/Laptop/` | The laptop page (console, alerts, settings, keyboard) and the shared popup |
+| `src/UI/Widgets/ObjectFolder/` | The object cancel folder |
 | `assets/workshop/` | Runtime images, 1024 × 600 |
 | `art/` | Source art and masters, see `art/README.md` |
 | `docs/workshop/` | Screenshots (`laptop/` for the laptop page) and the clickable browser mock-up |
@@ -48,7 +49,7 @@ One popup style for the whole UI; see [docs/workshop/POPUPS.md](docs/workshop/PO
 | Laptop | Laptop page: CONSOLE / ALERTS / SETTINGS | |
 | Printer | Dashboard › Status | print status |
 | Job folder rack | Files › Jobs | jobs |
-| Spare bed on the table | Control › Object cancel | cancel object |
+| Spare bed on the table | Object cancel folder | |
 
 Opening anything hides the scene and shows DuetScreen's normal layout; the
 side bar's **Home** button returns to the workshop.
@@ -120,3 +121,22 @@ picture (LVGL rotation), it can't mirror it.
 LVGL's heap (`LV_MEM_SIZE` in `lv_conf.h`) is raised from 20 to 32 MB for the scene art. The
 laptop keeps its art (as RGB888) only while it is shown; the popup frame only while a popup
 is open.
+
+## Object cancel folder
+
+![Object cancel](docs/workshop/objects/printing.png)
+
+Opened from the spare bed. An open folder on the desk, working as the Modern UI OBJECT tab:
+
+- **Left page:** the bed between pencil axes (its outline follows the printer's X / Y limits),
+  a numbered box for each object at its centre. Blue = selected, red = cancelled. Boxes close
+  together are moved apart.
+- **Right page:** the job name and the objects, 5 per page. A name or a box on the bed selects
+  (the list turns to its page); a number asks with the CANCEL OBJECT popup, ✓ sends `M486 P<n>`.
+  Cancelled objects: red number, name struck through in red pen.
+- The selection follows the object being printed; a tap keeps its choice until the next object starts.
+- Page cards ▲ / page / ▼ on the right, the HOME sticky note above them, the STOP sticker
+  (emergency stop) clipped in the corner, and the workbench drawers along the bottom: a drawer
+  goes back to the workshop and slides open there.
+
+Art: `art/objects/` (`export_objects.py` writes `assets/workshop/objects/`).

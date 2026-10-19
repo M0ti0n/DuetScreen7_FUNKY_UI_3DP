@@ -36,3 +36,10 @@ The printer's little display is blank in the art; its text is drawn live by the 
 | `popup_frame.py`, `export_popup.py` | The standard popup frame and the X / ✓ / trash buttons in `assets/workshop/popup/` |
 
 Run from anywhere: `python3 art/laptop/export_laptop.py` (needs Pillow, numpy, opencv).
+
+## Object cancel folder (`objects/`)
+
+| File | What it is |
+|---|---|
+| `mockups.py` | Draws the folder mock-ups and holds the drawing code |
+| `export_objects.py` | Writes `assets/workshop/objects/`: the background (desk, folder, papers, stickers, cards, drawers) and the box sprites |
