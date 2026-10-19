@@ -25,7 +25,7 @@ namespace UI::ObjectFolderLayout
 	/* Left page: the bed between the pencil axes */
 	constexpr Rect CANVAS = {92, 118, 338, 296};
 	constexpr int MARKER = 40;	   /* sprite size */
-	constexpr int MARKER_GAP = 36; /* markers closer than this are moved apart */
+	constexpr int MARKER_GAP = 42; /* markers closer than this are moved apart */
 
 	/* Right page */
 	constexpr int JOB_X = 552, JOB_Y = 72, JOB_W = 300;

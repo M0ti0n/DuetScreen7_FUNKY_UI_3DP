@@ -383,10 +383,6 @@ namespace UI
 			lv_label_set_text(m.label, fmt::format("{:d}", i + 1).c_str());
 			lv_obj_set_style_text_color(m.label, col(obj.cancelled ? 0xFFFFFF : sel ? BLUE : INK), 0);
 		}
-		for (lv_obj_t* l : m_bedLines)
-		{
-			setHidden(l, !any);
-		}
 	}
 
 	/* ---------------- touches ---------------- */
