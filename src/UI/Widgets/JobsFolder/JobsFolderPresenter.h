@@ -9,6 +9,7 @@
 #pragma once
 
 #include "UI/Core/Presenter.h"
+#include <cstdint>
 #include <string>
 
 namespace UI
@@ -39,5 +40,8 @@ namespace UI
 
 		std::string m_folder; /* relative to the gcodes folder, "" or "sub/" */
 		std::string m_selected;
+		bool m_largeQueued = false; /* large thumbnail asked for the selected file */
+		bool m_waiting = false;		/* the selected file's info has not arrived yet */
+		uint32_t m_thumbnailVersion = 0;
 	};
 } // namespace UI

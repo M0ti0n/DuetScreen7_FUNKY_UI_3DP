@@ -33,6 +33,15 @@ namespace UI
 	{
 		ZoneScoped;
 		registerEventListener<EventType::ThumbnailData>(this, &JobsFolderPresenter::newThumbnailData);
+		/* the file info (M36) has no event: look again every tick until it is there */
+		registerEventListener<EventType::Tick>(
+			[this]()
+			{
+				if (m_waiting && isActive())
+				{
+					refreshDetails();
+				}
+			});
 		registerEventListener<EventType::Status>([this](const OM::PrinterStatus&) { refreshPrinting(); });
 		registerEventListener<EventType::JobFileName>([this](const std::string&) { refreshPrinting(); });
 		registerEventListener<EventType::PrinterUniqueId>(
@@ -66,7 +75,7 @@ namespace UI
 		{
 			MODEL_LOCK();
 			const OM::PrinterStatus status = OM::GetStatus();
-			printing = OM::IsPrintingStatus(status);
+			printing = OM::IsPrintingStatus(status) || status == OM::PrinterStatus::cancelling;
 			paused = status == OM::PrinterStatus::paused || status == OM::PrinterStatus::pausing;
 			job = OM::GetJobName();
 		}
@@ -158,9 +167,10 @@ namespace UI
 	void JobsFolderPresenter::select(const std::string& path)
 	{
 		m_selected = path;
-		if (!path.empty())
+		m_largeQueued = false;
+		if (!path.empty() && FILEINFO_CACHE->GetFileInfo(path) == nullptr)
 		{
-			FILEINFO_CACHE->QueueLargeThumbnailRequest(path);
+			FILEINFO_CACHE->QueueFileInfoRequest(path, true); /* this one first */
 		}
 		refreshDetails();
 	}
@@ -193,11 +203,15 @@ namespace UI
 			{
 				d.thumbnail = GetThumbnailPath(m_selected).string();
 			}
-			else if (d.infoKnown)
+			if (d.infoKnown && !m_largeQueued)
 			{
-				FILEINFO_CACHE->QueueLargeThumbnailRequest(m_selected); /* the info came first */
+				/* the list only fetches small thumbnails: ask for the large one (once) */
+				m_largeQueued = true;
+				FILEINFO_CACHE->QueueLargeThumbnailRequest(m_selected);
 			}
+			d.thumbnailVersion = m_thumbnailVersion;
 		}
+		m_waiting = d.valid && !d.infoKnown;
 		view->setDetails(d);
 	}
 
@@ -205,6 +219,7 @@ namespace UI
 	{
 		if (filename == m_selected)
 		{
+			m_thumbnailVersion++; /* same file, new picture: the view reloads it */
 			refreshDetails();
 		}
 	}

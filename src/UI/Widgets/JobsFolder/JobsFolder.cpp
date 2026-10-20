@@ -9,6 +9,8 @@
 #include "UI/Core/Navigation.h"
 #include "UI/Screens/Home/HomeView.h"
 #include "UI/Widgets/Workshop/WorkshopLayout.h"
+#include "lvgl/src/misc/cache/instance/lv_image_cache.h"
+#include "lvgl/src/misc/cache/instance/lv_image_header_cache.h"
 #include "utils/StorageHelper.h"
 #include <algorithm>
 #include <array>
@@ -306,6 +308,10 @@ namespace UI
 						 [&](const JobsList::Entry& e) { return !e.folder && e.path == m_details.path; }))
 		{
 			m_details = Details{};
+			if (presenterActive())
+			{
+				getPresenter()->select(""); /* the presenter forgets it too */
+			}
 		}
 		if (m_page >= pageCount())
 		{
@@ -468,15 +474,31 @@ namespace UI
 		if (!d.valid)
 		{
 			lv_image_set_src(m_thumb, nullptr);
+			m_shownThumbnail.clear();
 			return;
 		}
 
 		/* The thumbnail, or a pencil sketch on the page */
 		const bool picture = !d.thumbnail.empty();
 		setHidden(m_thumbBack, !picture);
-		lv_image_set_src(m_thumb,
-						 picture ? static_cast<const void*>(d.thumbnail.c_str())
-								 : static_cast<const void*>(m_images.get("jobs/no_picture.png")));
+		if (picture)
+		{
+			if (d.thumbnail != m_shownThumbnail || d.thumbnailVersion != m_shownThumbnailVersion)
+			{
+				/* a new download overwrites the same file: drop LVGL's decoded copy */
+				lv_image_set_src(m_thumb, nullptr);
+				lv_image_cache_drop(d.thumbnail.c_str());
+				lv_image_header_cache_drop(d.thumbnail.c_str());
+				m_shownThumbnail = d.thumbnail;
+				m_shownThumbnailVersion = d.thumbnailVersion;
+			}
+			lv_image_set_src(m_thumb, m_shownThumbnail.c_str());
+		}
+		else
+		{
+			m_shownThumbnail.clear();
+			lv_image_set_src(m_thumb, m_images.get("jobs/no_picture.png"));
+		}
 
 		lv_label_set_text(m_fileName, d.name.c_str());
 		const std::string material = JobsList::MaterialOf(d.name);

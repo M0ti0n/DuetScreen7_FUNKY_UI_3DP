@@ -49,8 +49,9 @@ namespace UI
 			float layerHeight = 0;
 			float height = 0;
 			std::string slicer;
-			std::string saved;	   /* "2026-10-18T14:02:00" */
-			std::string thumbnail; /* cached thumbnail file, "" = none */
+			std::string saved;			   /* "2026-10-18T14:02:00" */
+			std::string thumbnail;		   /* cached thumbnail file, "" = none */
+			uint32_t thumbnailVersion = 0; /* changes when that file was downloaded again */
 		};
 
 		JobsFolder(const std::string& name, LvObj& parent);
@@ -124,6 +125,8 @@ namespace UI
 		bool m_ascending = false;
 		size_t m_page = 0;
 		Details m_details;
+		std::string m_shownThumbnail;
+		uint32_t m_shownThumbnailVersion = 0;
 		bool m_printing = false;
 		bool m_paused = false;
 		std::string m_printingPath;

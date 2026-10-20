@@ -63,9 +63,9 @@ namespace UI
 			s.printing = OM::IsPrintingStatus(status);
 			s.paused = status == OM::PrinterStatus::paused || status == OM::PrinterStatus::pausing;
 			const bool jobLoaded = !OM::GetJobName().empty();
-			if (status == OM::PrinterStatus::changingTool && jobLoaded)
+			if ((status == OM::PrinterStatus::changingTool && jobLoaded) || status == OM::PrinterStatus::cancelling)
 			{
-				s.printing = true; /* a tool change inside the job */
+				s.printing = true; /* a tool change inside the job; a job being cancelled */
 			}
 			const bool offline = status == OM::PrinterStatus::starting || status == OM::PrinterStatus::updating ||
 								 status == OM::PrinterStatus::off || status == OM::PrinterStatus::connecting ||

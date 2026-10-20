@@ -173,7 +173,9 @@ namespace UI
 		ZoneScoped;
 		moveToFront();
 		setArt(true);
-		refresh();
+		m_pickCurrent = true;
+		const State state = m_state;
+		update(state);
 	}
 
 	void ObjectFolder::onHide()
@@ -189,11 +191,11 @@ namespace UI
 		ZoneScoped;
 		UI_LOCK();
 		m_state = state;
-		/* The selection follows the object being printed (as Modern UI) */
-		if (m_state.current != m_lastCurrent)
+		/* As Modern UI: opening the page selects the object being printed when nothing is selected */
+		if (m_pickCurrent && !m_state.objects.empty())
 		{
-			m_lastCurrent = m_state.current;
-			if (m_state.current >= 0 && objectValid(static_cast<size_t>(m_state.current)))
+			m_pickCurrent = false;
+			if (m_selected < 0 && m_state.current >= 0 && objectValid(static_cast<size_t>(m_state.current)))
 			{
 				m_selected = m_state.current;
 				m_page = static_cast<size_t>(m_selected) / ROWS;

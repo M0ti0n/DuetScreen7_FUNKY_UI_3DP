@@ -113,16 +113,14 @@ TEST_F(TestObjectFolder, Printing)
 	EXPECT_EQ(folder().selected(), 1);
 	EXPECT_EQ(folder().page(), 0u);
 
-	/* A name selects; the selection stays until another object is printed */
+	/* A name selects; the selection stays when another object is printed (as Modern UI) */
 	folder().pressName(4);
-	EXPECT_EQ(folder().selected(), 4);
-	folder().update(printing());
 	EXPECT_EQ(folder().selected(), 4);
 	auto s = printing();
 	s.current = 6;
 	folder().update(s);
-	EXPECT_EQ(folder().selected(), 6);
-	EXPECT_EQ(folder().page(), 1u);
+	EXPECT_EQ(folder().selected(), 4);
+	EXPECT_EQ(folder().page(), 0u);
 }
 
 TEST_F(TestObjectFolder, CancelAsksFirst)
@@ -143,6 +141,14 @@ TEST_F(TestObjectFolder, CancelAsksFirst)
 
 	folder().pressNumber(2);
 	folder().popup().pressOk(); /* M486 P2 (not connected in the tests) */
+	EXPECT_FALSE(folder().popup().isOpen());
+
+	/* Cancelled meanwhile (from DWC): the check does nothing */
+	folder().pressNumber(5);
+	auto s = printing();
+	s.objects[5].cancelled = true;
+	folder().update(s);
+	folder().popup().pressOk();
 	EXPECT_FALSE(folder().popup().isOpen());
 }
 

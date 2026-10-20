@@ -5,6 +5,7 @@
 #include "PrinterStyle.h"
 #include "ObjectModel/Axis.h"
 #include "Storage.h"
+#include "UI/Core/Model.h"
 #include "utils/StorageHelper.h"
 
 namespace UI::PrinterStyle
@@ -54,6 +55,7 @@ namespace UI::PrinterStyle
 		case Setting::Auto:
 			break;
 		}
+		MODEL_LOCK();
 		return OM::Move::GetKinematics().IsDelta() ? Style::Delta : Style::CoreXY;
 	}
 } // namespace UI::PrinterStyle

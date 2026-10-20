@@ -13,7 +13,8 @@
  *
  * Tap a name or a box on the bed: select it (the list turns to its page). Tap a number:
  * CANCEL OBJECT popup, check = M486 P<n>. Cancelled objects get a red number, a red box
- * and their name struck through. The selection follows the object being printed.
+ * and their name struck through. Opening the page selects the object being printed when
+ * nothing is selected (as Modern UI).
  */
 
 #pragma once
@@ -111,7 +112,7 @@ namespace UI
 
 		State m_state;
 		int m_selected = -1;
-		int m_lastCurrent = -1;
+		bool m_pickCurrent = true; /* on opening: select the object being printed */
 		size_t m_page = 0;
 		bool m_built = false;
 
