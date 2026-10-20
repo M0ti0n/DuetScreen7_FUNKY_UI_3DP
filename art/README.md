@@ -68,3 +68,11 @@ screen on each.
 | `bake.py` | Writes the runtime layers to `assets/workshop/` (base, beds, printers, prints, folder, coloured parts) and `layout.json` (positions for `WorkshopLayout.h`) |
 | `preview.py` | Composes the baked layers as the app does, to check a bake |
 | `source/laptop_console.png` | The console shown on the laptop on the home scene |
+
+## Filament page (`filament/`)
+
+| File | What it is |
+|---|---|
+| `source/mmu_reference.png`, `source/mmu_mask.png` | The MMU box picture and its cut-out mask |
+| `export_filament.py` | Writes `assets/workshop/filament/` (background with empty bays, per-bay spool / filament / shading / empty / glow sprites, icons, plate, wooden arrows) and `layout.json` (for `FilamentLayout.h`) |
+| `preview.py` | Composes the exported layers as the app does |

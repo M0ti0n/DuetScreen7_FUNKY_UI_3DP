@@ -96,10 +96,13 @@ namespace UI::Funky
 		}
 		lv_obj_clean(m_content);
 		m_choices.clear();
-		m_okButton = m_cancelButton = m_trashButton = nullptr;
+		m_points.clear();
+		m_okButton = m_cancelButton = m_trashButton = m_extraButton = m_pageUp = m_pageDown = nullptr;
 		m_onChoice = nullptr;
 		m_onConfirm = nullptr;
 		m_onTrash = nullptr;
+		m_onCancel = nullptr;
+		m_picking = false;
 		m_pending = 0;
 		m_title = title;
 
@@ -329,7 +332,9 @@ namespace UI::Funky
 			/* free the frame (LVGL's heap is fixed) and the content */
 			lv_obj_clean(m_content);
 			m_choices.clear();
-			m_okButton = m_cancelButton = m_trashButton = nullptr;
+			m_points.clear();
+			m_okButton = m_cancelButton = m_trashButton = m_extraButton = m_pageUp = m_pageDown = nullptr;
+			m_picking = false;
 			lv_image_set_src(m_frame, nullptr);
 			m_images.release(m_frameLoaded);
 			m_frameLoaded.clear();
@@ -339,6 +344,30 @@ namespace UI::Funky
 
 	void Popup::showSelection()
 	{
+		if (m_picking)
+		{
+			const size_t per = std::max<size_t>(m_picker.perPage, 1);
+			const bool swatches = !m_picker.swatches.empty();
+			for (size_t i = 0; i < m_choices.size(); i++)
+			{
+				const int item = static_cast<int>(m_pickPage * per + i);
+				const bool sel = item == m_pickSelected;
+				if (swatches)
+				{
+					const uint32_t c = m_picker.swatches[static_cast<size_t>(item)];
+					const int lum = static_cast<int>(((c >> 16) & 0xFF) * 3 + ((c >> 8) & 0xFF) * 6 + (c & 0xFF)) / 10;
+					lv_obj_set_style_border_color(m_choices[i], col(sel ? Colour::TEXT : Colour::POPUP_OUTLINE), 0);
+					lv_obj_set_style_border_width(m_choices[i], sel ? 5 : (lum < 40 ? 2 : 0), 0);
+				}
+				else
+				{
+					setTileLook(m_choices[i], sel ? TileLook::PopupChoiceSelected : TileLook::PopupChoice);
+				}
+				lv_obj_set_style_bg_color(m_choices[i], lv_color_black(), LV_STATE_PRESSED);
+				lv_obj_set_style_bg_opa(m_choices[i], LV_OPA_50, LV_STATE_PRESSED);
+			}
+			return;
+		}
 		for (size_t i = 0; i < m_choices.size(); i++)
 		{
 			setTileLook(m_choices[i], i == m_pending ? TileLook::PopupChoiceSelected : TileLook::PopupChoice);
@@ -359,6 +388,12 @@ namespace UI::Funky
 		{
 			return;
 		}
+		if (m_picking)
+		{
+			m_pickSelected = static_cast<int>(m_pickPage * std::max<size_t>(m_picker.perPage, 1) + index);
+			showSelection();
+			return;
+		}
 		m_pending = index;
 		showSelection();
 	}
@@ -367,6 +402,21 @@ namespace UI::Funky
 	{
 		if (!m_open || m_okButton == nullptr)
 		{
+			return;
+		}
+		if (m_picking)
+		{
+			if (m_pickSelected < 0)
+			{
+				return; /* nothing chosen yet */
+			}
+			auto onOk = m_picker.onOk;
+			const size_t item = static_cast<size_t>(m_pickSelected);
+			close();
+			if (onOk)
+			{
+				onOk(item);
+			}
 			return;
 		}
 		/* Close first: the callback may open the next popup */
@@ -404,7 +454,160 @@ namespace UI::Funky
 		{
 			return;
 		}
+		auto onCancel = std::move(m_onCancel);
 		close();
+		if (onCancel)
+		{
+			onCancel();
+		}
+	}
+
+	/* ---------------- paged picker ---------------- */
+
+	size_t Popup::pickPages() const
+	{
+		const size_t n = m_picker.swatches.empty() ? m_picker.labels.size() : m_picker.swatches.size();
+		const size_t per = std::max<size_t>(m_picker.perPage, 1);
+		return n == 0 ? 1 : (n + per - 1) / per;
+	}
+
+	void Popup::pick(const Picker& picker)
+	{
+		m_picker = picker;
+		m_pickSelected = picker.selected;
+		const size_t per = std::max<size_t>(picker.perPage, 1);
+		m_pickPage = picker.selected >= 0 ? static_cast<size_t>(picker.selected) / per : 0;
+		renderPick();
+	}
+
+	void Popup::renderPick()
+	{
+		const bool swatches = !m_picker.swatches.empty();
+		open(m_picker.title, Tone::Info, m_picker.title.size() > 11);
+		if (!m_open)
+		{
+			return;
+		}
+		m_picking = true;
+		m_onCancel = m_picker.onCancel;
+		const size_t per = std::max<size_t>(m_picker.perPage, 1);
+		const size_t cols = std::max<size_t>(m_picker.columns, 1);
+		const size_t pages = pickPages();
+		m_pickPage = std::min(m_pickPage, pages - 1);
+
+		if (!m_picker.info.empty())
+		{
+			lv_obj_t* l = label(m_content, m_fonts.get(26), dimColour(), m_picker.info.c_str());
+			lv_obj_set_width(l, mapW(520));
+			lv_label_set_long_mode(l, LV_LABEL_LONG_MODE_DOTS);
+			lv_obj_set_pos(l, mapX(70), mapY(100));
+		}
+
+		/* Modern UI: text tiles 150 wide at 45 / 205 / 365, swatches 100 wide at 45 / 170 / 295 / 420 */
+		const double w = swatches ? 100 : 150, step = swatches ? 125 : 160;
+		const size_t n = swatches ? m_picker.swatches.size() : m_picker.labels.size();
+		for (size_t i = 0; i < per; i++)
+		{
+			const size_t item = m_pickPage * per + i;
+			if (item >= n)
+			{
+				break;
+			}
+			const double x = 45 + static_cast<double>(i % cols) * step, y = 145 + static_cast<double>(i / cols) * 75;
+			lv_obj_t* t = tile(m_content, mapX(x), mapY(y), mapW(w), mapH(CHOICE_H), TileLook::PopupChoice, true);
+			if (swatches)
+			{
+				lv_obj_set_style_bg_color(t, col(m_picker.swatches[item]), 0);
+			}
+			else
+			{
+				lv_obj_t* l = centredLabel(t, m_fonts.get(27, true), textColour(), m_picker.labels[item].c_str(), 1);
+				lv_obj_set_width(l, mapW(w) - 8);
+				lv_label_set_long_mode(l, LV_LABEL_LONG_MODE_DOTS);
+				lv_obj_set_style_text_align(l, LV_TEXT_ALIGN_CENTER, 0);
+				lv_obj_align(l, LV_ALIGN_CENTER, 0, 1);
+			}
+			lv_obj_add_event_cb(t, clicked, LV_EVENT_CLICKED, this);
+			m_choices.push_back(t);
+		}
+
+		/* Page tiles on the right */
+		if (pages > 1)
+		{
+			auto pageTile = [&](double y, bool up, bool enabled)
+			{
+				lv_obj_t* t = tile(m_content, mapX(545), mapY(y), mapW(70), mapH(60), TileLook::PopupChoice, true);
+				lv_obj_add_event_cb(t, clicked, LV_EVENT_CLICKED, this);
+				chevron(t, mapW(70) / 2, mapH(60) / 2, up, textColour(), m_points);
+				setEnabled(t, enabled);
+				if (!enabled)
+				{
+					lv_obj_set_style_opa(t, LV_OPA_30, 0);
+				}
+				return t;
+			};
+			m_pageUp = pageTile(145, true, m_pickPage > 0);
+			m_pageDown = pageTile(220, false, m_pickPage + 1 < pages);
+			lv_obj_t* p = label(
+				m_content, m_fonts.get(24), dimColour(), fmt::format("{:d} / {:d}", m_pickPage + 1, pages).c_str());
+			lv_obj_set_width(p, mapW(70));
+			lv_obj_set_style_text_align(p, LV_TEXT_ALIGN_CENTER, 0);
+			lv_obj_set_pos(p, mapX(545), mapY(292));
+		}
+
+		/* Buttons: [extra] X check */
+		if (!m_picker.extra.empty())
+		{
+			m_extraButton = tile(
+				m_content, mapX(BUTTON_TRASH_X), mapY(BUTTON_Y), mapW(BUTTON_W), mapH(78), TileLook::PopupChoice, true);
+			lv_obj_set_style_bg_color(m_extraButton, col(0x5FC3DC), 0);
+			lv_obj_set_style_border_width(m_extraButton, 0, 0);
+			centredLabel(m_extraButton, m_fonts.get(24, true), 0x10161E, m_picker.extra.c_str(), 1);
+			lv_obj_add_event_cb(m_extraButton, clicked, LV_EVENT_CLICKED, this);
+			m_cancelButton = addButton(button("x").c_str(), static_cast<int32_t>(BUTTON_MID_X));
+			m_okButton = addButton(button("check").c_str(), static_cast<int32_t>(BUTTON_RIGHT_X));
+		}
+		else
+		{
+			addButtons(true);
+		}
+		showSelection();
+	}
+
+	void Popup::pressPickPage(int dir)
+	{
+		if (!m_open || !m_picking)
+		{
+			return;
+		}
+		const size_t pages = pickPages();
+		if (dir < 0 && m_pickPage > 0)
+		{
+			--m_pickPage;
+		}
+		else if (dir > 0 && m_pickPage + 1 < pages)
+		{
+			++m_pickPage;
+		}
+		else
+		{
+			return;
+		}
+		renderPick();
+	}
+
+	void Popup::pressExtra()
+	{
+		if (!m_open || m_extraButton == nullptr)
+		{
+			return;
+		}
+		auto onExtra = m_picker.onExtra;
+		close();
+		if (onExtra)
+		{
+			onExtra();
+		}
 	}
 
 	void Popup::clicked(lv_event_t* e)
@@ -424,6 +627,16 @@ namespace UI::Funky
 		if (target == self->m_cancelButton)
 		{
 			self->pressCancel();
+			return;
+		}
+		if (target == self->m_extraButton && target != nullptr)
+		{
+			self->pressExtra();
+			return;
+		}
+		if (target == self->m_pageUp || target == self->m_pageDown)
+		{
+			self->pressPickPage(target == self->m_pageUp ? -1 : 1);
 			return;
 		}
 		for (size_t i = 0; i < self->m_choices.size(); i++)

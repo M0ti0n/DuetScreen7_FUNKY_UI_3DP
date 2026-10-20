@@ -1,0 +1,223 @@
+{
+ "BAY0_SPOOL": {
+  "file": "filament/bay0_spool.png",
+  "x": 191,
+  "y": 77,
+  "w": 150,
+  "h": 174
+ },
+ "BAY0_FIL": {
+  "file": "filament/bay0_fil.png",
+  "x": 210,
+  "y": 103,
+  "w": 114,
+  "h": 148
+ },
+ "BAY0_SHADE": {
+  "file": "filament/bay0_shade.png",
+  "x": 210,
+  "y": 105,
+  "w": 114,
+  "h": 146
+ },
+ "BAY0_EMPTY": {
+  "file": "filament/bay0_empty.png",
+  "x": 210,
+  "y": 103,
+  "w": 114,
+  "h": 148
+ },
+ "BAY0_GLOW": {
+  "file": "filament/bay0_glow.png",
+  "x": 165,
+  "y": 241,
+  "w": 186,
+  "h": 211
+ },
+ "SCREEN0": {
+  "x": 184,
+  "y": 260,
+  "w": 148,
+  "h": 173
+ },
+ "BAY1_SPOOL": {
+  "file": "filament/bay1_spool.png",
+  "x": 359,
+  "y": 77,
+  "w": 144,
+  "h": 174
+ },
+ "BAY1_FIL": {
+  "file": "filament/bay1_fil.png",
+  "x": 379,
+  "y": 103,
+  "w": 106,
+  "h": 148
+ },
+ "BAY1_SHADE": {
+  "file": "filament/bay1_shade.png",
+  "x": 380,
+  "y": 105,
+  "w": 105,
+  "h": 146
+ },
+ "BAY1_EMPTY": {
+  "file": "filament/bay1_empty.png",
+  "x": 379,
+  "y": 103,
+  "w": 106,
+  "h": 148
+ },
+ "BAY1_GLOW": {
+  "file": "filament/bay1_glow.png",
+  "x": 336,
+  "y": 241,
+  "w": 187,
+  "h": 211
+ },
+ "SCREEN1": {
+  "x": 355,
+  "y": 260,
+  "w": 148,
+  "h": 173
+ },
+ "BAY2_SPOOL": {
+  "file": "filament/bay2_spool.png",
+  "x": 518,
+  "y": 77,
+  "w": 150,
+  "h": 174
+ },
+ "BAY2_FIL": {
+  "file": "filament/bay2_fil.png",
+  "x": 539,
+  "y": 103,
+  "w": 111,
+  "h": 148
+ },
+ "BAY2_SHADE": {
+  "file": "filament/bay2_shade.png",
+  "x": 539,
+  "y": 105,
+  "w": 111,
+  "h": 146
+ },
+ "BAY2_EMPTY": {
+  "file": "filament/bay2_empty.png",
+  "x": 539,
+  "y": 103,
+  "w": 111,
+  "h": 148
+ },
+ "BAY2_GLOW": {
+  "file": "filament/bay2_glow.png",
+  "x": 507,
+  "y": 241,
+  "w": 186,
+  "h": 211
+ },
+ "SCREEN2": {
+  "x": 525,
+  "y": 260,
+  "w": 148,
+  "h": 173
+ },
+ "BAY3_SPOOL": {
+  "file": "filament/bay3_spool.png",
+  "x": 683,
+  "y": 77,
+  "w": 150,
+  "h": 174
+ },
+ "BAY3_FIL": {
+  "file": "filament/bay3_fil.png",
+  "x": 704,
+  "y": 103,
+  "w": 107,
+  "h": 148
+ },
+ "BAY3_SHADE": {
+  "file": "filament/bay3_shade.png",
+  "x": 704,
+  "y": 105,
+  "w": 106,
+  "h": 146
+ },
+ "BAY3_EMPTY": {
+  "file": "filament/bay3_empty.png",
+  "x": 704,
+  "y": 103,
+  "w": 107,
+  "h": 148
+ },
+ "BAY3_GLOW": {
+  "file": "filament/bay3_glow.png",
+  "x": 674,
+  "y": 241,
+  "w": 187,
+  "h": 211
+ },
+ "SCREEN3": {
+  "x": 693,
+  "y": 260,
+  "w": 148,
+  "h": 173
+ },
+ "ROW_TOP": {
+  "x": 0,
+  "y": 6,
+  "w": 148,
+  "h": 42
+ },
+ "ROW_MATERIAL": {
+  "x": 8,
+  "y": 56,
+  "w": 132,
+  "h": 45
+ },
+ "ROW_BUTTON": {
+  "x": 8,
+  "y": 118,
+  "w": 132,
+  "h": 48
+ },
+ "PLATE": {
+  "file": "filament/plate.png",
+  "x": 414,
+  "y": 28,
+  "w": 201,
+  "h": 41
+ },
+ "PLATE_FACE": {
+  "x": 416,
+  "y": 29,
+  "w": 192,
+  "h": 31
+ },
+ "ARROW_NEXT": {
+  "file": "filament/arrow_next.png",
+  "x": 3,
+  "y": 511,
+  "w": 108,
+  "h": 82
+ },
+ "ARROW_NEXT_TAP": {
+  "x": 4,
+  "y": 522,
+  "w": 98,
+  "h": 62
+ },
+ "ARROW_BACK": {
+  "file": "filament/arrow_back.png",
+  "x": 920,
+  "y": 511,
+  "w": 104,
+  "h": 82
+ },
+ "ARROW_BACK_TAP": {
+  "x": 922,
+  "y": 522,
+  "w": 98,
+  "h": 62
+ }
+}

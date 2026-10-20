@@ -3,6 +3,7 @@
  */
 
 #include "LaptopSettings.h"
+#include "UI/Widgets/FilamentBox/FilamentModel.h"
 #include "UI/Widgets/Workshop/PrinterStyle.h"
 #include "Configuration.h"
 #include "Debug.h"
@@ -314,6 +315,7 @@ namespace UI::LaptopSettings
 		}
 		SetDrawerIndicator(true);
 		PrinterStyle::SetSetting(PrinterStyle::Setting::Auto);
+		FilamentModel::SetMode(FilamentModel::Mode::Panel);
 	}
 
 	void SetTestHook(std::function<void(const std::string&)> hook)

@@ -19,6 +19,7 @@
 #include "lvgl/lvgl.h"
 #include <cstddef>
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -50,6 +51,23 @@ namespace UI::Funky
 			int32_t gap = 20;
 		};
 
+		/* A paged picker (Modern UI filament popups): text tiles or colour swatches, ▲ / ▼ tiles
+		 * on the right when there is more than one page, an optional text button left of X. */
+		struct Picker
+		{
+			std::string title;
+			std::string info;				 /* dim line under the title */
+			std::vector<std::string> labels; /* text tiles... */
+			std::vector<uint32_t> swatches;	 /* ...or colour tiles (RGB) */
+			size_t perPage = 6;
+			size_t columns = 3;
+			int selected = -1;				  /* item index, -1 = none */
+			std::string extra;				  /* "UNLOAD", "CLEAR", "" = none */
+			std::function<void(size_t)> onOk; /* the item chosen (check) */
+			std::function<void()> onCancel;	  /* X */
+			std::function<void()> onExtra;
+		};
+
 		Popup(Images& images, Fonts& fonts);
 		~Popup() = default;
 		Popup(const Popup&) = delete;
@@ -79,6 +97,7 @@ namespace UI::Funky
 					 const std::string& badge,
 					 const std::string& meta,
 					 const std::string& text);
+		void pick(const Picker& picker);
 		void close();
 		bool isOpen() const { return m_open; }
 
@@ -87,7 +106,13 @@ namespace UI::Funky
 		void pressOk();
 		void pressCancel();
 		void pressTrash();
+		void pressExtra();
+		void pressPickPage(int dir);
 		bool hasTrash() const { return m_trashButton != nullptr; }
+		bool hasExtra() const { return m_extraButton != nullptr; }
+		int pickSelected() const { return m_pickSelected; }
+		size_t pickPage() const { return m_pickPage; }
+		size_t pickPages() const;
 		size_t pending() const { return m_pending; }
 		size_t choiceCount() const { return m_choices.size(); }
 		const std::string& title() const { return m_title; }
@@ -108,6 +133,7 @@ namespace UI::Funky
 		uint32_t dimColour() const;
 		lv_obj_t* card(int32_t x, int32_t y, int32_t w, int32_t h);
 		void showSelection();
+		void renderPick();
 		static void clicked(lv_event_t* e);
 
 		Images& m_images;
@@ -118,7 +144,15 @@ namespace UI::Funky
 		lv_obj_t* m_okButton = nullptr;
 		lv_obj_t* m_cancelButton = nullptr;
 		lv_obj_t* m_trashButton = nullptr;
+		lv_obj_t* m_extraButton = nullptr;
+		lv_obj_t* m_pageUp = nullptr;
+		lv_obj_t* m_pageDown = nullptr;
 		std::vector<lv_obj_t*> m_choices;
+		std::vector<std::unique_ptr<lv_point_precise_t[]>> m_points;
+		bool m_picking = false;
+		Picker m_picker;
+		size_t m_pickPage = 0;
+		int m_pickSelected = -1;
 		PopupTheme m_theme = PopupTheme::Glass;
 		std::string m_frameLoaded;
 
@@ -128,5 +162,6 @@ namespace UI::Funky
 		std::function<void(size_t)> m_onChoice;
 		std::function<void()> m_onConfirm;
 		std::function<void()> m_onTrash;
+		std::function<void()> m_onCancel;
 	};
 } // namespace UI::Funky

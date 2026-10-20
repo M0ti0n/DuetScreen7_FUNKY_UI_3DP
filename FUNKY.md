@@ -18,6 +18,7 @@ console, settings) is DuetScreen's.
 | `src/UI/Widgets/Laptop/` | The laptop page (console, alerts, settings, keyboard) and the shared popup |
 | `src/UI/Widgets/ObjectFolder/` | The object cancel folder |
 | `src/UI/Widgets/JobsFolder/` | The jobs folder (list model in `JobsList`) |
+| `src/UI/Widgets/FilamentBox/` | The filament page, the MMU box (logic in `FilamentModel`) |
 | `assets/workshop/` | Runtime images, 1024 × 600 |
 | `art/` | Source art and masters, see `art/README.md` |
 | `docs/workshop/` | Screenshots (`laptop/` for the laptop page) and the clickable browser mock-up |
@@ -46,7 +47,7 @@ One popup style for the whole UI; see [docs/workshop/POPUPS.md](docs/workshop/PO
 | EXTRUDER | Control › Temperature (extruder controls) | own drawer page |
 | TUNE | Dashboard › Status (fine tune) | own drawer page |
 | MACROS | Files › Macros | own drawer page |
-| Spool pile | Control › Temperature (filament) | filament management |
+| Spool pile | Filament page (MMU box) | filament management |
 | Wall bed with the "LEVEL !!!" note | Control › Height map | bed levelling |
 | Laptop | Laptop page: CONSOLE / ALERTS / SETTINGS | |
 | Printer | Dashboard › Status | print status |
@@ -181,6 +182,29 @@ Opened from the job folder rack. Laid out like the object cancel folder:
 - HOME, STOP and the drawers work as on the object cancel folder.
 
 Art: `art/jobs/` (`export_jobs.py` writes `assets/workshop/jobs/`).
+
+## Filament page
+
+![Filament](docs/workshop/filament/panel_4.png)
+
+Opened from the spool pile. An MMU box on the desk, one bay per tool, 4 a page (5 tools: a
+second box page, turned with the NEXT / BACK wooden arrows under the desk or the `< 1 / 2 >`
+plate on the top rail). Works as the Modern UI FILAMENT page:
+
+- **Screen, top:** the tool and its nozzle temperature (the same on every screen when the
+  tools share one heater: MMU / single nozzle).
+- **Screen, middle:** ▼ extruding / ▲ retracting / ■ idle (the active tool's extrusion), and
+  the material. Tap: PANEL mode → material, then colour; MACROS mode → colour only.
+- **Screen, bottom:** PANEL → EXTRUDE (opens the extruder drawer); MACROS → CHANGE / LOAD:
+  material (the `/filaments` folders) → colour → `T<n>`, `M702` (if loaded), `M701 S"<name>"`.
+  The material popup has CLEAR (PANEL) / UNLOAD (MACROS, `M702`) when something is loaded.
+  Blocked while printing; while paused only the active tool.
+- The spool takes the slot's colour (kept by the screen). No filament reported by the
+  filament sensor: empty spool, red screen and glow, ⚠ NO FILAMENT. Bays without a tool: no
+  spool, "SPACE FOR UPGRADES :)".
+- Laptop › SETTINGS › PERSONALIZATION › FILAMENT: **PANEL** (default) / **MACROS**.
+
+Art: `art/filament/` (`export_filament.py` writes `assets/workshop/filament/`).
 
 ### Paper popups
 

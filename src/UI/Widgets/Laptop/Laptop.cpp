@@ -7,6 +7,7 @@
 #include "Hardware/Duet.h"
 #include "LaptopSettings.h"
 #include "UI/Core/Navigation.h"
+#include "UI/Widgets/FilamentBox/FilamentModel.h"
 #include "UI/Widgets/Workshop/PrinterStyle.h"
 #include "version.h"
 #include <algorithm>
@@ -44,7 +45,7 @@ namespace UI
 		/* SETTINGS slots, "" = empty */
 		constexpr const char* SETTINGS_PAGES[2][Laptop::SETTING_SLOTS] = {
 			{"BRIGHTNESS", "SOUND", "SCREEN DIMMING", "ORIENTATION", "CONNECTION", "ABOUT", "", "", "FACTORY RESET"},
-			{"DRAWER INDICATOR", "PRINTER", "", "", "", "", "", "", ""},
+			{"DRAWER INDICATOR", "PRINTER", "FILAMENT", "", "", "", "", "", ""},
 		};
 		constexpr const char* SECTION_NAMES[2] = {"SYSTEM", "PERSONALIZATION"};
 
@@ -602,6 +603,10 @@ namespace UI
 			{
 				return PrinterStyle::SettingName(PrinterStyle::GetSetting());
 			}
+			if (slot == 2)
+			{
+				return FilamentModel::ModeName(FilamentModel::GetMode());
+			}
 			return slot == 0 ? (LaptopSettings::DrawerIndicator() ? "ON" : "OFF") : "";
 		}
 		switch (slot)
@@ -1027,6 +1032,19 @@ namespace UI
 						refresh();
 					},
 					2);
+			}
+			else if (slot == 2)
+			{
+				/* Filament page: PANEL (the screen keeps material + colour) or MACROS (RRF M701 / M702) */
+				m_popup.choose("FILAMENT",
+							   {"PANEL", "MACROS"},
+							   FilamentModel::GetMode() == FilamentModel::Mode::Macros ? 1 : 0,
+							   [refresh](size_t c)
+							   {
+								   FilamentModel::SetMode(c == 1 ? FilamentModel::Mode::Macros
+																 : FilamentModel::Mode::Panel);
+								   refresh();
+							   });
 			}
 			return;
 		}

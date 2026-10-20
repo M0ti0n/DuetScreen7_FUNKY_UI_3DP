@@ -535,8 +535,10 @@ namespace UI
 		{
 		case Target::Tools:
 		case Target::Extruder:
-		case Target::Filament:
 			openControl(&ControlView::showTemperatureView);
+			break;
+		case Target::Filament:
+			openScreen(&home.getFilamentBox(), true);
 			break;
 		case Target::Motion:
 			openControl(&ControlView::showMoveView);
