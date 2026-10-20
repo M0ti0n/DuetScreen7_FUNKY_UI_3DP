@@ -126,7 +126,7 @@ namespace UI
 			b.activity = icon(b.materialBox, "idle");
 			lv_obj_align(b.activity, LV_ALIGN_LEFT_MID, 10, 0);
 			b.material = label(b.materialBox, small, TEXT, "");
-			lv_obj_set_width(b.material, ROW_MATERIAL.w - 56);
+			lv_obj_set_size(b.material, ROW_MATERIAL.w - 56, lv_font_get_line_height(small));
 			lv_label_set_long_mode(b.material, LV_LABEL_LONG_MODE_DOTS);
 			lv_obj_align(b.material, LV_ALIGN_LEFT_MID, 36, 1);
 			b.chevron = icon(b.materialBox, "chevron");
@@ -323,6 +323,8 @@ namespace UI
 			lv_obj_set_style_image_recolor(b.activity, col(PINK), 0);
 			lv_label_set_text(b.material, "NO FILAMENT");
 			lv_obj_set_style_text_color(b.material, col(PINK), 0);
+			lv_obj_set_style_text_font(b.material, m_fonts.get(12, true), 0);
+			lv_obj_set_width(b.material, ROW_MATERIAL.w - 44); /* no chevron */
 		}
 		else
 		{
@@ -334,11 +336,14 @@ namespace UI
 																	  : IDLE;
 			lv_image_set_src(b.activity, m_images.get(fmt::format("filament/icon_{:s}.png", ic)));
 			lv_obj_set_style_image_recolor(b.activity, col(ac), 0);
+			lv_obj_set_style_text_font(b.material, m_fonts.get(15, true), 0);
+			lv_obj_set_width(b.material, ROW_MATERIAL.w - 56);
 			const std::string m = materialOf(*s);
 			lv_label_set_text(b.material, m.empty() ? "---" : m.c_str());
 			lv_obj_set_style_text_color(b.material, col(m.empty() ? IDLE : TEXT), 0);
 		}
-		lv_obj_align(b.activity, LV_ALIGN_LEFT_MID, 10, 0);
+		lv_obj_align(b.activity, LV_ALIGN_LEFT_MID, runout ? 6 : 10, 0);
+		lv_obj_align(b.material, LV_ALIGN_LEFT_MID, runout ? 38 : 36, 1);
 		lv_obj_set_style_image_recolor(b.chevron, col(CYAN), 0);
 
 		/* bottom row: EXTRUDE (PANEL), CHANGE / LOAD (MACROS) */
