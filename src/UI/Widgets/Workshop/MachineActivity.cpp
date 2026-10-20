@@ -125,7 +125,7 @@ namespace UI::MachineActivity
 			}
 			if (c.name == "HTTP" || c.name == "Telnet" || c.name == "SBC")
 				dwc = true;
-			else if (c.name == "USB")
+			else if (c.name.starts_with("USB")) /* USB, USB2 (RRF 3.6.2+) */
 				usb = true;
 			else if (c.name == "Daemon" || c.name == "Trigger" || c.name == "Queue" || c.name == "Queue2" ||
 					 c.name == "Autopause")
@@ -147,7 +147,9 @@ namespace UI::MachineActivity
 		}
 		if (state != nullptr)
 		{
-			s_channels[index].executing = std::strcmp(state, "idle") != 0 && state[0] != '\0';
+			/* RRF 3.6.2+ reports "unused" for channels not used since start-up */
+			s_channels[index].executing =
+				state[0] != '\0' && std::strcmp(state, "idle") != 0 && std::strcmp(state, "unused") != 0;
 		}
 	}
 

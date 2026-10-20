@@ -229,9 +229,16 @@ TEST(MachineActivity, Sources)
 
 	EXPECT_EQ(A::BusySource(), "");
 	A::SetChannel(0, "HTTP", "idle");
+	A::SetChannel(3, "USB", "unused"); /* RRF 3.6.2+: never used since start-up */
+	A::SetChannel(14, "USB2", "unused");
+	EXPECT_EQ(A::BusySource(), "");
 	A::SetChannel(9, "Daemon", "executing");
 	EXPECT_EQ(A::BusySource(), "MACRO");
 	A::SetChannel(0, nullptr, "executing");
 	EXPECT_EQ(A::BusySource(), "DWC");
+	A::SetChannel(0, nullptr, "idle");
+	A::SetChannel(9, nullptr, "idle");
+	A::SetChannel(14, nullptr, "executing");
+	EXPECT_EQ(A::BusySource(), "USB");
 	A::Reset();
 }
