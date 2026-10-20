@@ -34,6 +34,13 @@
   "w": 395,
   "h": 412
  },
+ "GLASS_COREXY": {
+  "file": "printers/corexy_glass.png",
+  "x": 583,
+  "y": 377,
+  "w": 132,
+  "h": 64
+ },
  "PRINTER_DELTA": {
   "file": "printers/delta.png",
   "x": 489,
@@ -41,12 +48,26 @@
   "w": 396,
   "h": 440
  },
+ "GLASS_DELTA": {
+  "file": "printers/delta_glass.png",
+  "x": 604,
+  "y": 367,
+  "w": 144,
+  "h": 75
+ },
  "PRINTER_BEDSLINGER": {
   "file": "printers/bedslinger.png",
   "x": 504,
   "y": 91,
   "w": 386,
   "h": 381
+ },
+ "GLASS_BEDSLINGER": {
+  "file": "printers/bedslinger_glass.png",
+  "x": 560,
+  "y": 380,
+  "w": 133,
+  "h": 65
  },
  "FOLDER_SQUARE": {
   "file": "layers/folder_square.png",

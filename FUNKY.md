@@ -58,12 +58,24 @@ side bar's **Home** button returns to the workshop.
 
 ## Printer state on the scene
 
-| State | Printer bed | Spare bed | Printer's display |
+| State | Printer's screen | Printer bed | Spare bed |
 |---|---|---|---|
-| Idle | empty | empty | READY + nozzle / bed / chamber °C |
-| Printing | print grows upward with progress | random 1–4 finished parts | %, nozzle °C, time left, bar |
-| Paused | print stays | parts stay | PAUSED |
-| Disconnected | empty | empty | OFFLINE |
+| Idle | blue: READY + nozzle / bed °C | empty | empty |
+| Busy (not a job, after 1 s) | amber: BUSY + `G29` (sent from this screen) or `DWC` / `USB` / `MACRO` (firmware input channel) | empty | empty |
+| Printing / paused | green: PRINTING (PAUSED) + % | red outline of the part, filled from the bed up in 10 steps of 10 % | folder with 1–4 coloured finished parts |
+| Error (halted, heater fault) | red: warning triangle | | |
+| Offline / starting | dark: NO LINK | empty | empty |
+
+Commands sent from this screen are noted in `Duet::SendGcode` (one line, `MachineActivity`);
+the firmware's `inputs[].state` tells which channel is busy otherwise.
+
+## Printer styles
+
+Laptop › SETTINGS › PERSONALIZATION › PRINTER: **AUTO** (delta kinematics → delta, otherwise
+CoreXY), **COREXY**, **DELTA**, **BED SLINGER**. The scene is layers on `home_base.png` (no
+printer, no beds): the wall bed, the printer sticker with its own shadow and its print, the
+spare bed. The delta brings round beds (wall, spare bed, the object cancel page). Positions
+per style are in `WorkshopLayout.h` (`PRINTERS`), made by `art/printers/bake.py`.
 
 ## Classic home screen
 

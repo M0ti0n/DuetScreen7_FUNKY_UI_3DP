@@ -51,7 +51,7 @@ Run from anywhere: `python3 art/laptop/export_laptop.py` (needs Pillow, numpy, o
 | `mockups.py` | Draws the jobs folder mock-ups (uses the drawing code of `objects/mockups.py`) |
 | `export_jobs.py` | Writes `assets/workshop/jobs/`: the background, the taped photo frame, the PRINT stamp, row boxes, sort arrows, folder icon and the "no picture" sketch |
 
-## Printer styles (`printers/`) — work in progress, not used by the app yet
+## Printer styles (`printers/`)
 
 Mock-ups of the home scene with a choice of printer: none, CoreXY (the current one), delta
 and bed slinger. All printers share the CoreXY's display, so the app can draw the same
@@ -63,4 +63,8 @@ screen on each.
 | `source/*_mask.png` | Cut-out masks for the delta (outline, vase, display glass) |
 | `bedslinger.py` | Makes `bedslinger.png`: removes the painted checkerboard, grades it to the scene, redraws the filament tube |
 | `round_beds.py` | Makes `wall_bed_round.png` and `bed_round.png` (round beds for the delta) |
-| `mockups.py` | Composes `mockups/home_*.png` and `mockups/printers_grid.png` |
+| `mockups.py` | Composes `mockups/home_*.png` and `mockups/printers_grid.png` (also holds the drawing code) |
+| `folder.py` | The folder lying on the spare bed while printing |
+| `bake.py` | Writes the runtime layers to `assets/workshop/` (base, beds, printers, prints, folder, coloured parts) and `layout.json` (positions for `WorkshopLayout.h`) |
+| `preview.py` | Composes the baked layers as the app does, to check a bake |
+| `source/laptop_console.png` | The console shown on the laptop on the home scene |

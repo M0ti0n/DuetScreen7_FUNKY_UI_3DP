@@ -95,13 +95,29 @@ namespace UI::WorkshopLayout
 		const char* id;
 		LayerDef printer;
 		Rect part;
-		Rect display;
+		Rect display;			 /* where the text goes */
 		int16_t displayRotation; /* 0.1 degree units, clockwise */
+		LayerDef glass;			 /* the screen's glass, white: the app tints it */
 	};
 	constexpr PrinterDef PRINTERS[] = {
-		{"corexy", {"printers/corexy.png", 490, 50}, {576, 223, 197, 127}, {589, 382, 118, 54}, 15},
-		{"delta", {"printers/delta.png", 489, 28}, {629, 244, 115, 74}, {615, 371, 123, 66}, 0},
-		{"bedslinger", {"printers/bedslinger.png", 504, 91}, {604, 272, 130, 84}, {567, 386, 118, 54}, 15},
+		{"corexy",
+		 {"printers/corexy.png", 490, 50},
+		 {576, 223, 197, 127},
+		 {589, 382, 118, 54},
+		 15,
+		 {"printers/corexy_glass.png", 583, 377}},
+		{"delta",
+		 {"printers/delta.png", 489, 28},
+		 {629, 244, 115, 74},
+		 {615, 371, 123, 66},
+		 0,
+		 {"printers/delta_glass.png", 604, 367}},
+		{"bedslinger",
+		 {"printers/bedslinger.png", 504, 91},
+		 {604, 272, 130, 84},
+		 {567, 386, 118, 54},
+		 15,
+		 {"printers/bedslinger_glass.png", 560, 380}},
 	};
 	constexpr int PRINT_STAGES = 10; /* the print grows in steps of 10 % */
 

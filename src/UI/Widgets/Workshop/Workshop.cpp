@@ -260,12 +260,16 @@ namespace UI
 		const std::string face = "Montserrat";
 		m_fontSmall = FontManager::createFont(face, 13, LV_FREETYPE_FONT_STYLE_BOLD);
 		m_fontLarge = FontManager::createFont(face, 22, LV_FREETYPE_FONT_STYLE_BOLD);
+		m_fontBang = FontManager::createFont(face, 26, LV_FREETYPE_FONT_STYLE_BOLD);
 		auto font = [](const FontManager::Font& f) { return f.get() ? f.get() : LV_FONT_DEFAULT; };
+
+		/* The glass, tinted per mode */
+		m_glass = lv_image_create(getRootPtr());
+		lv_obj_remove_flag(m_glass, LV_OBJ_FLAG_CLICKABLE);
+		lv_obj_set_style_image_recolor_opa(m_glass, LV_OPA_COVER, 0);
 
 		m_display = lv_obj_create(getRootPtr());
 		lv_obj_remove_style_all(m_display);
-		lv_obj_set_style_bg_opa(m_display, LV_OPA_COVER, 0);
-		lv_obj_set_style_radius(m_display, 2, 0);
 		lv_obj_remove_flag(m_display, LV_OBJ_FLAG_SCROLLABLE);
 		lv_obj_remove_flag(m_display, LV_OBJ_FLAG_CLICKABLE);
 
@@ -287,6 +291,7 @@ namespace UI
 		lv_obj_set_style_line_rounded(m_triangle, true, 0);
 		m_bang = label(m_fontLarge);
 		lv_label_set_text(m_bang, "!");
+		lv_obj_set_style_text_font(m_bang, font(m_fontBang), 0);
 		placePrinterDisplay();
 	}
 
@@ -297,6 +302,7 @@ namespace UI
 			return;
 		}
 		const PrinterDef& p = printerDef(m_style);
+		setLayer(m_glass, p.glass);
 		const Rect& r = p.display;
 		lv_obj_set_pos(m_display, r.x, r.y);
 		lv_obj_set_size(m_display, r.w, r.h);
@@ -320,7 +326,7 @@ namespace UI
 		m_trianglePoints = {pt(cx, y0), pt(cx + tw / 2, y0 + th), pt(cx - tw / 2, y0 + th), pt(cx, y0)};
 		lv_line_set_points(m_triangle, m_trianglePoints.data(), static_cast<uint32_t>(m_trianglePoints.size()));
 		lv_obj_set_width(m_bang, r.w);
-		lv_obj_set_pos(m_bang, 0, y0 + th * 36 / 100);
+		lv_obj_set_pos(m_bang, 0, y0 + th * 30 / 100);
 	}
 
 	void Workshop::setPartStage(int stage)
@@ -373,7 +379,7 @@ namespace UI
 	{
 		const Mode mode = ModeOf(s);
 		const ScreenLook& look = LOOKS[static_cast<size_t>(mode)];
-		lv_obj_set_style_bg_color(m_display, lv_color_hex(look.fill), 0);
+		lv_obj_set_style_image_recolor(m_glass, lv_color_hex(look.fill), 0);
 		lv_obj_set_style_text_color(m_title, lv_color_hex(look.title), 0);
 		lv_obj_set_style_text_color(m_value, lv_color_hex(look.value), 0);
 		lv_obj_set_style_line_color(m_triangle, lv_color_hex(look.value), 0);

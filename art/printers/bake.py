@@ -14,7 +14,7 @@ from PIL import Image, ImageDraw, ImageFilter
 HERE=os.path.dirname(os.path.abspath(__file__))+'/'
 src=open(HERE+'mockups.py').read().split("scenes=[")[0]
 g={'__file__':HERE+'mockups.py'}; exec(src,g)
-ART=g['ART']; pos=g['pos']; O=HERE
+ART=g['ART']; pos=g['pos']; O=HERE; SRC=HERE+'source/'
 R=os.path.abspath(ART+'..')+'/'
 A=R+'assets/workshop/'
 for d in ('scene','printers','layers'): os.makedirs(A+d,exist_ok=True)
@@ -102,6 +102,22 @@ save_layer(c,'scene/spare_bed_round.png','SPARE_BED_ROUND')
 
 # ---- printers ----
 DSP=g['cxy_display']()                 # the CoreXY's display, shared by all printers
+def blue_glass(rgba):
+    """The blue glass of a display picture, as a filled convex shape (alpha 0/255)"""
+    a=np.asarray(rgba).astype(int); r,g_,b=a[...,0],a[...,1],a[...,2]
+    m=((b-r>18)&(b>40)&(a[...,3]>200)).astype(np.uint8)*255
+    m=cv2.morphologyEx(m,cv2.MORPH_OPEN,np.ones((3,3),np.uint8))
+    cnts,_=cv2.findContours(m,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
+    out=np.zeros(m.shape,np.uint8)
+    if cnts: cv2.fillConvexPoly(out,cv2.convexHull(max(cnts,key=cv2.contourArea)),255)
+    return out
+GLASS=blue_glass(DSP)
+def glass_layer(mask_master,key,path):
+    """mask in master coordinates (full canvas) -> white glass sprite for the app to tint"""
+    c=canvas(); w=np.zeros((MH,MW,4),np.uint8); w[...,:3]=255; w[...,3]=mask_master; c=Image.fromarray(w,'RGBA')
+    return save_layer(c,path,key)
+def dsp_glass_at(dx,dy):
+    m=np.zeros((MH,MW),np.uint8); h,w=GLASS.shape; m[dy:dy+h,dx:dx+w]=GLASS; return m
 # its glass in the crop (master px): the app draws the screen there
 GL=(589*SC-639-112, 382*SC-66-420, 118*SC, 54*SC)
 def display_rect(dx,dy,k):
@@ -117,6 +133,7 @@ STYLES={}
 # CoreXY
 c=canvas(); c.alpha_composite(shadow_layer(sh_printer)); place(c,'printer')
 save_layer(holes(c,front),'printers/corexy.png','PRINTER_COREXY')
+glass_layer(dsp_glass_at(pos['printer']['x']+112,pos['printer']['y']+420),'GLASS_COREXY','printers/corexy_glass.png')
 STYLES['corexy']=dict(display=dict(x=589,y=382,w=118,h=54),part=dict(x=576,y=223,w=197,h=127))
 # Delta
 spr=g['delta_sprite'](); f=548/spr.height; W=round(spr.width*f)
@@ -128,6 +145,13 @@ def cs(poly,blur):
 cs([(x0+20,y0+548-95),(x0+W-10,y0+548-95),(x0+W+5,y0+548-2),(x0+5,y0+548-2)],12)
 c.alpha_composite(spr,(x0,y0))
 save_layer(holes(c,front),'printers/delta.png','PRINTER_DELTA')
+gm=cv2.imread(SRC+'glass_mask.png',0)
+cnts,_=cv2.findContours(gm,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
+hull=np.zeros_like(gm); cv2.fillConvexPoly(hull,cv2.convexHull(max(cnts,key=cv2.contourArea)),255)
+bbm=Image.open(SRC+'delta_mask.png').getbbox()
+hm=Image.fromarray(hull).crop(bbm).resize((W,548),Image.LANCZOS)
+m=np.zeros((MH,MW),np.uint8); m[y0:y0+548,x0:x0+W]=np.where(np.asarray(hm)>127,255,0)
+glass_layer(m,'GLASS_DELTA','printers/delta_glass.png')
 # its own display: the app fills the glass (inside the frame) and centres the screen in it
 gx0,gy0,gx1,gy1=x0+(410-78)*f, y0+(1003-5)*f, x0+(770-78)*f, y0+(1196-5)*f
 bedc=(x0+(620-78)*f, y0+(848-5)*f)                     # centre of the round bed (master)
@@ -144,6 +168,7 @@ c.alpha_composite(spr,(x0,y0))
 dx=x0+int(W*0.33)-DSP.width//2; dy=y0+470-DSP.height-2
 paste_display(c,dx,dy)
 save_layer(holes(c,front),'printers/bedslinger.png','PRINTER_BEDSLINGER')
+glass_layer(dsp_glass_at(dx,dy),'GLASS_BEDSLINGER','printers/bedslinger_glass.png')
 # bed of the slinger in its picture: centre (420, 646) of the 1152 x 912 drawing, cropped to the sprite
 bb=json.load(open(O+'source/bedslinger_crop.json'))
 bx,by=x0+(420-bb[0])*f, y0+(646-bb[1])*f

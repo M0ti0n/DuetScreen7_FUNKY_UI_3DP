@@ -114,6 +114,7 @@ namespace UI
 		bool m_busy = false;
 
 		/* printer display: a tinted screen with two rows, or the warning triangle */
+		lv_obj_t* m_glass = nullptr;
 		lv_obj_t* m_display = nullptr;
 		lv_obj_t* m_title = nullptr;
 		lv_obj_t* m_value = nullptr;
@@ -122,6 +123,7 @@ namespace UI
 		std::array<lv_point_precise_t, 4> m_trianglePoints{};
 		FontManager::Font m_fontSmall;
 		FontManager::Font m_fontLarge;
+		FontManager::Font m_fontBang;
 
 		size_t m_lastJobKey = 0;
 		uint8_t m_partMask = 0;
