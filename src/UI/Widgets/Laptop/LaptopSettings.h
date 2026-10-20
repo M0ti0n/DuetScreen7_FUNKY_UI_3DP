@@ -10,6 +10,7 @@
  *   ORIENTATION       NORMAL / UPSIDE DOWN             ui:display_rotation (0 / 180 degrees)
  *   CONNECTION        UART / USB / NETWORK             DuetScreen's own setting
  *   DRAWER INDICATOR  ON / OFF                         funky:drawer_indicator
+ *   PRINTER           AUTO / COREXY / DELTA / BED SLINGER  funky:printer_style (PrinterStyle.h)
  *
  * Sound, as on PanelDue: a short click on every touch, and the printer's M300 beeps. The
  * buzzer is played with `beep`, the speaker with `aplay` (a generated tone) after `amixer`

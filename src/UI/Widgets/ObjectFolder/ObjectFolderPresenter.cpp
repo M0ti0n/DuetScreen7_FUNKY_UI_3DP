@@ -8,6 +8,7 @@
 #include "ObjectModel/Axis.h"
 #include "ObjectModel/Job.h"
 #include "ObjectModel/Tool.h"
+#include "UI/Widgets/Workshop/PrinterStyle.h"
 #include <filesystem>
 
 namespace UI
@@ -37,6 +38,7 @@ namespace UI
 			s.printing = OM::IsPrintingStatus(OM::GetStatus());
 			s.job = std::filesystem::path(OM::GetJobName()).filename().string();
 			s.current = OM::GetCurrentJobObjectIndex();
+			s.roundBed = PrinterStyle::RoundBed();
 
 			auto axisX = OM::Move::GetAxisByLetter('X');
 			auto axisY = OM::Move::GetAxisByLetter('Y');

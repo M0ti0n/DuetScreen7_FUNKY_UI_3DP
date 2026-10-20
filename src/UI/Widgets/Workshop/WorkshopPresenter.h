@@ -8,6 +8,8 @@
 
 #include "ObjectModel/PrinterStatus.h"
 #include "UI/Core/Presenter.h"
+#include "lvgl/lvgl.h"
+#include <cstdint>
 #include <string>
 
 namespace UI
@@ -34,5 +36,9 @@ namespace UI
 
 		OM::PrinterStatus m_status = OM::PrinterStatus::unknown;
 		std::string m_jobFile;
+		/* BUSY shows only after a second (short moves would make the screen blink) */
+		bool m_busyPending = false;
+		uint32_t m_busySince = 0;
+		lv_timer_t* m_busyTimer = nullptr;
 	};
 } // namespace UI

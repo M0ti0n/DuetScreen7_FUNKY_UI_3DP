@@ -49,6 +49,7 @@ namespace UI
 			std::vector<Object> objects; /* by object index */
 			int current = -1;			 /* object being printed */
 			bool hasBed = false;
+			bool roundBed = false; /* delta: a round bed, drawn as a dashed circle */
 			float xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 		};
 
@@ -123,6 +124,9 @@ namespace UI
 		lv_obj_t* m_listEmpty = nullptr;
 		std::array<lv_obj_t*, 4> m_bedLines{};
 		std::array<std::array<lv_point_precise_t, 2>, 4> m_bedPoints{};
+		static constexpr size_t CIRCLE_POINTS = 73;
+		lv_obj_t* m_bedCircle = nullptr;
+		std::array<lv_point_precise_t, CIRCLE_POINTS> m_circlePoints{};
 		std::array<Row, ObjectFolderLayout::ROWS> m_rows{};
 		std::vector<Marker> m_markers;
 

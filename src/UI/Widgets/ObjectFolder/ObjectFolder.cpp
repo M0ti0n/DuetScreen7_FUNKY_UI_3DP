@@ -69,6 +69,13 @@ namespace UI
 			lv_obj_set_style_line_dash_width(m_bedLines[i], 8, 0);
 			lv_obj_set_style_line_dash_gap(m_bedLines[i], 6, 0);
 		}
+		m_bedCircle = lv_line_create(root);
+		lv_obj_remove_style_all(m_bedCircle);
+		lv_obj_set_pos(m_bedCircle, 0, 0);
+		lv_obj_set_style_line_color(m_bedCircle, col(PENCIL), 0);
+		lv_obj_set_style_line_width(m_bedCircle, 2, 0);
+		lv_obj_set_style_line_dash_width(m_bedCircle, 8, 0);
+		lv_obj_set_style_line_dash_gap(m_bedCircle, 6, 0);
 		m_bedEmpty = label(root, m_fonts.hand(20), PENCIL, "nothing printing");
 		lv_obj_align(m_bedEmpty, LV_ALIGN_TOP_LEFT, CANVAS.x + CANVAS.w / 2 - 75, CANVAS.y + CANVAS.h / 2 - 14);
 
@@ -247,12 +254,13 @@ namespace UI
 			setHidden(row.highlight, !sel);
 			lv_image_set_src(row.numBox,
 							 m_images.get(obj.cancelled ? "objects/num_red.png"
-										  : sel		   ? "objects/num_sel.png"
-													   : "objects/num_normal.png"));
+										  : sel			? "objects/num_sel.png"
+														: "objects/num_normal.png"));
 			lv_image_set_src(row.nameBox, m_images.get(sel ? "objects/name_sel.png" : "objects/name_normal.png"));
 			lv_label_set_text(row.num, fmt::format("{:d}", i + 1).c_str());
 			lv_obj_set_style_text_color(row.num, col(obj.cancelled ? 0xFFFFFF : sel ? BLUE : INK), 0);
-			lv_label_set_text(row.name, obj.name.empty() ? fmt::format("Object {:d}", i + 1).c_str() : obj.name.c_str());
+			lv_label_set_text(row.name,
+							  obj.name.empty() ? fmt::format("Object {:d}", i + 1).c_str() : obj.name.c_str());
 
 			/* Cancelled: struck through in red pen */
 			setHidden(row.strike, !obj.cancelled);
@@ -260,10 +268,16 @@ namespace UI
 			{
 				const int32_t y = ROW_Y + static_cast<int32_t>(r) * ROW_STEP + ROW_H / 2;
 				lv_point_t size{};
-				lv_text_get_size(&size, lv_label_get_text(row.name), m_fonts.get(19, false, true), 0, 0, LV_COORD_MAX,
+				lv_text_get_size(&size,
+								 lv_label_get_text(row.name),
+								 m_fonts.get(19, false, true),
+								 0,
+								 0,
+								 LV_COORD_MAX,
 								 LV_TEXT_FLAG_NONE);
 				const int32_t textW = std::min<int32_t>(size.x, NAME_W - 30);
-				row.strikePoints[0] = {static_cast<lv_value_precise_t>(NAME_X + 10), static_cast<lv_value_precise_t>(y + 1)};
+				row.strikePoints[0] = {static_cast<lv_value_precise_t>(NAME_X + 10),
+									   static_cast<lv_value_precise_t>(y + 1)};
 				row.strikePoints[1] = {static_cast<lv_value_precise_t>(NAME_X + 22 + textW),
 									   static_cast<lv_value_precise_t>(y - 2)};
 				lv_line_set_points(row.strike, row.strikePoints.get(), 2);
@@ -311,7 +325,15 @@ namespace UI
 		/* The bed, as big as the canvas allows with its own proportions */
 		int32_t bx = CANVAS.x, by = CANVAS.y, bw = CANVAS.w, bh = CANVAS.h;
 		const float xs = m_state.xMax - m_state.xMin, ys = m_state.yMax - m_state.yMin;
-		if (m_state.hasBed && xs > 0 && ys > 0)
+		const bool round = m_state.roundBed;
+		if (round)
+		{
+			/* a delta's bed: a circle as big as the canvas allows */
+			bw = bh = std::min<int32_t>(CANVAS.w, CANVAS.h);
+			bx = CANVAS.x + (CANVAS.w - bw) / 2;
+			by = CANVAS.y + (CANVAS.h - bh) / 2;
+		}
+		else if (m_state.hasBed && xs > 0 && ys > 0)
 		{
 			if (xs * static_cast<float>(CANVAS.h) >= ys * static_cast<float>(CANVAS.w))
 			{
@@ -324,9 +346,8 @@ namespace UI
 				bx = CANVAS.x + (CANVAS.w - bw) / 2;
 			}
 		}
-		auto pt = [](int32_t x, int32_t y) {
-			return lv_point_precise_t{static_cast<lv_value_precise_t>(x), static_cast<lv_value_precise_t>(y)};
-		};
+		auto pt = [](int32_t x, int32_t y)
+		{ return lv_point_precise_t{static_cast<lv_value_precise_t>(x), static_cast<lv_value_precise_t>(y)}; };
 		m_bedPoints[0] = {pt(bx, by), pt(bx + bw, by)};
 		m_bedPoints[1] = {pt(bx + bw, by), pt(bx + bw, by + bh)};
 		m_bedPoints[2] = {pt(bx, by + bh), pt(bx + bw, by + bh)};
@@ -334,6 +355,21 @@ namespace UI
 		for (size_t i = 0; i < m_bedLines.size(); i++)
 		{
 			lv_line_set_points(m_bedLines[i], m_bedPoints[i].data(), 2);
+			setHidden(m_bedLines[i], round);
+		}
+		setHidden(m_bedCircle, !round);
+		if (round)
+		{
+			const float rcx = static_cast<float>(bx) + static_cast<float>(bw) / 2.0f;
+			const float rcy = static_cast<float>(by) + static_cast<float>(bh) / 2.0f;
+			const float rr = static_cast<float>(bw) / 2.0f;
+			for (size_t i = 0; i < CIRCLE_POINTS; i++)
+			{
+				const float a = static_cast<float>(i) * 6.2831853f / static_cast<float>(CIRCLE_POINTS - 1);
+				m_circlePoints[i] = pt(static_cast<int32_t>(std::lround(rcx + rr * std::cos(a))),
+									   static_cast<int32_t>(std::lround(rcy + rr * std::sin(a))));
+			}
+			lv_line_set_points(m_bedCircle, m_circlePoints.data(), static_cast<uint32_t>(CIRCLE_POINTS));
 		}
 
 		ensureMarkers(m_state.objects.size());
@@ -353,20 +389,46 @@ namespace UI
 			yr = std::clamp(yr, 0.0f, 1.0f);
 			int32_t cx = bx + static_cast<int32_t>(std::lround(xr * static_cast<float>(bw)));
 			int32_t cy = by + bh - static_cast<int32_t>(std::lround(yr * static_cast<float>(bh)));
+			if (round)
+			{
+				/* keep the box inside the circle */
+				const float dx = static_cast<float>(cx - (bx + bw / 2)), dy = static_cast<float>(cy - (by + bh / 2));
+				const float lim = static_cast<float>(bw / 2 - MARKER / 2), d = std::sqrt(dx * dx + dy * dy);
+				if (d > lim && d > 0)
+				{
+					cx = bx + bw / 2 + static_cast<int32_t>(std::lround(dx * lim / d));
+					cy = by + bh / 2 + static_cast<int32_t>(std::lround(dy * lim / d));
+				}
+			}
 
 			/* Markers close together are moved apart (rings around the spot) */
-			static constexpr int8_t OFFSETS[][2] = {{0, 0},	 {0, -1}, {1, 0},  {0, 1},	 {-1, 0}, {1, -1}, {1, 1},
-													{-1, 1}, {-1, -1}, {0, -2}, {2, 0},	 {0, 2},  {-2, 0}, {2, -2},
-													{2, 2},	 {-2, 2},  {-2, -2}};
+			static constexpr int8_t OFFSETS[][2] = {{0, 0},
+													{0, -1},
+													{1, 0},
+													{0, 1},
+													{-1, 0},
+													{1, -1},
+													{1, 1},
+													{-1, 1},
+													{-1, -1},
+													{0, -2},
+													{2, 0},
+													{0, 2},
+													{-2, 0},
+													{2, -2},
+													{2, 2},
+													{-2, 2},
+													{-2, -2}};
 			const int32_t half = MARKER / 2;
 			for (const auto& o : OFFSETS)
 			{
 				const int32_t x = std::clamp(cx + o[0] * MARKER_GAP, CANVAS.x + half, CANVAS.x + CANVAS.w - half);
 				const int32_t y = std::clamp(cy + o[1] * MARKER_GAP, CANVAS.y + half, CANVAS.y + CANVAS.h - half);
-				const bool clash = std::any_of(placed.begin(),
-											   placed.end(),
-											   [&](const auto& p)
-											   { return std::abs(p.first - x) < MARKER_GAP && std::abs(p.second - y) < MARKER_GAP; });
+				const bool clash =
+					std::any_of(placed.begin(),
+								placed.end(),
+								[&](const auto& p)
+								{ return std::abs(p.first - x) < MARKER_GAP && std::abs(p.second - y) < MARKER_GAP; });
 				if (!clash)
 				{
 					cx = x;
@@ -379,8 +441,8 @@ namespace UI
 			const bool sel = static_cast<int>(i) == m_selected;
 			lv_image_set_src(m.box,
 							 m_images.get(obj.cancelled ? "objects/marker_red.png"
-										  : sel		   ? "objects/marker_sel.png"
-													   : "objects/marker_normal.png"));
+										  : sel			? "objects/marker_sel.png"
+														: "objects/marker_normal.png"));
 			lv_label_set_text(m.label, fmt::format("{:d}", i + 1).c_str());
 			lv_obj_set_style_text_color(m.label, col(obj.cancelled ? 0xFFFFFF : sel ? BLUE : INK), 0);
 		}

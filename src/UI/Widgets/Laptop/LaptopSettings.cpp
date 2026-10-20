@@ -3,6 +3,7 @@
  */
 
 #include "LaptopSettings.h"
+#include "UI/Widgets/Workshop/PrinterStyle.h"
 #include "Configuration.h"
 #include "Debug.h"
 #include "Hardware/Duet.h"
@@ -312,6 +313,7 @@ namespace UI::LaptopSettings
 			SetUpsideDown(false);
 		}
 		SetDrawerIndicator(true);
+		PrinterStyle::SetSetting(PrinterStyle::Setting::Auto);
 	}
 
 	void SetTestHook(std::function<void(const std::string&)> hook)

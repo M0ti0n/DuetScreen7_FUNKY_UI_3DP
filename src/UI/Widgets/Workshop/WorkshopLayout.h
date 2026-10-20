@@ -13,17 +13,17 @@ namespace UI::WorkshopLayout
 {
 	enum class Target : uint8_t
 	{
-		Tools,		   // temperature / tools
-		Motion,		   // move
-		Extruder,	   // extruder controls (temperature tab)
-		Tune,		   // fine tune (dashboard status tab)
-		Macros,		   // macro files
-		Filament,	   // spool pile
-		BedLevelling,  // wall bed with the "LEVEL !!!" note
-		Console,	   // laptop
-		PrintStatus,   // printer
-		Jobs,		   // job folder rack
-		ObjectCancel,  // spare bed on the table
+		Tools,		  // temperature / tools
+		Motion,		  // move
+		Extruder,	  // extruder controls (temperature tab)
+		Tune,		  // fine tune (dashboard status tab)
+		Macros,		  // macro files
+		Filament,	  // spool pile
+		BedLevelling, // wall bed with the "LEVEL !!!" note
+		Console,	  // laptop
+		PrintStatus,  // printer
+		Jobs,		  // job folder rack
+		ObjectCancel, // spare bed on the table
 	};
 
 	struct Rect
@@ -78,10 +78,32 @@ namespace UI::WorkshopLayout
 	/* Fire alarm = emergency stop (bell drawn 20 % bigger, tap zone grown with it) */
 	constexpr Rect ESTOP = {0, 0, 150, 130};
 
-	/* Print on the printer's bed, revealed from the bed upward with progress */
-	constexpr LayerDef PRINT_PART = {"layers/print_part.png", 576, 223};
-	constexpr int PRINT_PART_W = 197;
-	constexpr int PRINT_PART_H = 127;
+	/* Scene layers (art/printers/bake.py): the base has no printer and no beds */
+	constexpr const char* BASE = "home_base.png";
+	constexpr LayerDef WALL_BED_SQUARE = {"scene/wall_bed_square.png", 257, 21};
+	constexpr LayerDef WALL_BED_ROUND = {"scene/wall_bed_round.png", 285, 21};
+	constexpr LayerDef SPARE_BED_SQUARE = {"scene/spare_bed_square.png", 796, 381};
+	constexpr LayerDef SPARE_BED_ROUND = {"scene/spare_bed_round.png", 804, 387};
+	constexpr LayerDef FOLDER_SQUARE = {
+		"layers/folder_square.png", 832, 426}; /* under the finished parts while printing */
+	constexpr LayerDef FOLDER_ROUND = {"layers/folder_round.png", 852, 431};
+
+	/* Printer stickers (PrinterStyle::Style order). part: the print on its bed
+	 * (printers/<id>_part / _ghost / _outline.png); display: the glass the app draws on. */
+	struct PrinterDef
+	{
+		const char* id;
+		LayerDef printer;
+		Rect part;
+		Rect display;
+		int16_t displayRotation; /* 0.1 degree units, clockwise */
+	};
+	constexpr PrinterDef PRINTERS[] = {
+		{"corexy", {"printers/corexy.png", 490, 50}, {576, 223, 197, 127}, {589, 382, 118, 54}, 15},
+		{"delta", {"printers/delta.png", 489, 28}, {629, 244, 115, 74}, {615, 371, 123, 66}, 0},
+		{"bedslinger", {"printers/bedslinger.png", 504, 91}, {604, 272, 130, 84}, {567, 386, 118, 54}, 15},
+	};
+	constexpr int PRINT_STAGES = 10; /* the print grows in steps of 10 % */
 
 	/* Finished parts on the spare bed (random 1-4 per job) */
 	constexpr LayerDef SPARE_BED_PARTS[] = {
@@ -91,8 +113,4 @@ namespace UI::WorkshopLayout
 		{"layers/bed_cube.png", 965, 419},
 	};
 
-	/* The printer's own little display. Quad on the scene:
-	 * TL(593,380) TR(711,383) BR(702,439) BL(585,435) */
-	constexpr Rect PRINTER_DISPLAY = {589, 382, 118, 54};
-	constexpr int PRINTER_DISPLAY_ROTATION = 15; /* 0.1 degree units, clockwise */
 } // namespace UI::WorkshopLayout

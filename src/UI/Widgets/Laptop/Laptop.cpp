@@ -7,6 +7,7 @@
 #include "Hardware/Duet.h"
 #include "LaptopSettings.h"
 #include "UI/Core/Navigation.h"
+#include "UI/Widgets/Workshop/PrinterStyle.h"
 #include "version.h"
 #include <algorithm>
 #include <fmt/format.h>
@@ -43,7 +44,7 @@ namespace UI
 		/* SETTINGS slots, "" = empty */
 		constexpr const char* SETTINGS_PAGES[2][Laptop::SETTING_SLOTS] = {
 			{"BRIGHTNESS", "SOUND", "SCREEN DIMMING", "ORIENTATION", "CONNECTION", "ABOUT", "", "", "FACTORY RESET"},
-			{"DRAWER INDICATOR", "", "", "", "", "", "", "", ""},
+			{"DRAWER INDICATOR", "PRINTER", "", "", "", "", "", "", ""},
 		};
 		constexpr const char* SECTION_NAMES[2] = {"SYSTEM", "PERSONALIZATION"};
 
@@ -387,8 +388,7 @@ namespace UI
 	void Laptop::setArt(bool loaded)
 	{
 		/* The art is only kept while the page is shown (LVGL's heap is fixed) */
-		static constexpr const char* FILES[] = {
-			"laptop/screen_up.png", "laptop/keyboard.png", "laptop/keys_shift.png"};
+		static constexpr const char* FILES[] = {"laptop/screen_up.png", "laptop/keyboard.png", "laptop/keys_shift.png"};
 		lv_obj_t* objs[] = {m_bgUp, m_bgKeyboard, m_shiftKeys};
 		for (size_t i = 0; i < std::size(FILES); i++)
 		{
@@ -598,6 +598,10 @@ namespace UI
 	{
 		if (page == 1)
 		{
+			if (slot == 1)
+			{
+				return PrinterStyle::SettingName(PrinterStyle::GetSetting());
+			}
 			return slot == 0 ? (LaptopSettings::DrawerIndicator() ? "ON" : "OFF") : "";
 		}
 		switch (slot)
@@ -965,11 +969,8 @@ namespace UI
 	{
 		if (m_jobActive)
 		{
-			m_popup.message("CONNECTION",
-							Tone::Warning,
-							"WRN",
-							"",
-							"The connection can't be changed while a print is running.");
+			m_popup.message(
+				"CONNECTION", Tone::Warning, "WRN", "", "The connection can't be changed while a print is running.");
 			return;
 		}
 		m_popup.choose("CONNECTION",
@@ -1012,6 +1013,21 @@ namespace UI
 								   refresh();
 							   });
 			}
+			else if (slot == 1)
+			{
+				/* The printer on the workshop desk; AUTO follows the kinematics (delta or not) */
+				using PrinterStyle::Setting;
+				m_popup.choose(
+					"PRINTER",
+					{"AUTO", "COREXY", "DELTA", "BED SLINGER"},
+					static_cast<size_t>(PrinterStyle::GetSetting()),
+					[refresh](size_t c)
+					{
+						PrinterStyle::SetSetting(static_cast<Setting>(c));
+						refresh();
+					},
+					2);
+			}
 			return;
 		}
 		switch (slot)
@@ -1023,15 +1039,16 @@ namespace UI
 			{
 				labels.push_back(fmt::format("{:d}%", v));
 			}
-			m_popup.choose("BRIGHTNESS",
-						   labels,
-						   nearest(BRIGHTNESS_VALUES, LaptopSettings::Brightness()),
-						   [refresh](size_t c)
-						   {
-							   LaptopSettings::SetBrightness(BRIGHTNESS_VALUES[c]);
-							   refresh();
-						   },
-						   3);
+			m_popup.choose(
+				"BRIGHTNESS",
+				labels,
+				nearest(BRIGHTNESS_VALUES, LaptopSettings::Brightness()),
+				[refresh](size_t c)
+				{
+					LaptopSettings::SetBrightness(BRIGHTNESS_VALUES[c]);
+					refresh();
+				},
+				3);
 			break;
 		}
 		case 1:

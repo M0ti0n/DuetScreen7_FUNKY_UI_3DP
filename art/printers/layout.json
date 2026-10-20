@@ -1,0 +1,109 @@
+{
+ "WALL_BED_SQUARE": {
+  "file": "scene/wall_bed_square.png",
+  "x": 257,
+  "y": 21,
+  "w": 224,
+  "h": 206
+ },
+ "WALL_BED_ROUND": {
+  "file": "scene/wall_bed_round.png",
+  "x": 285,
+  "y": 21,
+  "w": 191,
+  "h": 200
+ },
+ "SPARE_BED_SQUARE": {
+  "file": "scene/spare_bed_square.png",
+  "x": 796,
+  "y": 381,
+  "w": 228,
+  "h": 115
+ },
+ "SPARE_BED_ROUND": {
+  "file": "scene/spare_bed_round.png",
+  "x": 804,
+  "y": 387,
+  "w": 220,
+  "h": 119
+ },
+ "PRINTER_COREXY": {
+  "file": "printers/corexy.png",
+  "x": 490,
+  "y": 50,
+  "w": 395,
+  "h": 412
+ },
+ "PRINTER_DELTA": {
+  "file": "printers/delta.png",
+  "x": 489,
+  "y": 28,
+  "w": 396,
+  "h": 440
+ },
+ "PRINTER_BEDSLINGER": {
+  "file": "printers/bedslinger.png",
+  "x": 504,
+  "y": 91,
+  "w": 386,
+  "h": 381
+ },
+ "FOLDER_SQUARE": {
+  "file": "layers/folder_square.png",
+  "x": 832,
+  "y": 426,
+  "w": 174,
+  "h": 49
+ },
+ "FOLDER_ROUND": {
+  "file": "layers/folder_round.png",
+  "x": 852,
+  "y": 431,
+  "w": 135,
+  "h": 37
+ },
+ "styles": {
+  "corexy": {
+   "display": {
+    "x": 589,
+    "y": 382,
+    "w": 118,
+    "h": 54
+   },
+   "part": {
+    "x": 576,
+    "y": 223,
+    "w": 197,
+    "h": 127
+   }
+  },
+  "delta": {
+   "display": {
+    "x": 615,
+    "y": 371,
+    "w": 123,
+    "h": 66
+   },
+   "part": {
+    "x": 629,
+    "y": 244,
+    "w": 115,
+    "h": 74
+   }
+  },
+  "bedslinger": {
+   "display": {
+    "x": 567,
+    "y": 386,
+    "w": 118,
+    "h": 54
+   },
+   "part": {
+    "x": 604,
+    "y": 272,
+    "w": 130,
+    "h": 84
+   }
+  }
+ }
+}

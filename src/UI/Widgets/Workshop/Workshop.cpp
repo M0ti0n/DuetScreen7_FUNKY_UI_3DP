@@ -8,7 +8,9 @@
 #include "UI/Core/Navigation.h"
 #include "UI/Screens/Home/HomeView.h"
 #include "UI/Styles/Styles.h"
+#include "UI/Widgets/Laptop/FunkyUi.h"
 #include "lvgl/src/draw/lv_image_decoder_private.h"
+#include <algorithm>
 #include <cstdlib>
 #include <fmt/format.h>
 
@@ -18,10 +20,25 @@ namespace UI
 
 	static constexpr const char* WORKSHOP_FOLDER = ASSETS_FOLDER "workshop/";
 
-	/* Colours of the printer's little screen */
-	static lv_color_t textColor() { return lv_color_hex(0xE8F1FB); }
-	static lv_color_t dimColor() { return lv_color_hex(0x9FB7D4); }
-	static lv_color_t accentColor() { return lv_color_hex(0x7FD0F2); }
+	/* The printer's little screen: tint and text colours per mode */
+	namespace
+	{
+		struct ScreenLook
+		{
+			uint32_t fill, title, value;
+		};
+		constexpr ScreenLook LOOKS[] = {
+			{0x0C1015, 0x55606E, 0x55606E}, /* Offline */
+			{0x1D3A5E, 0x7FD0F2, 0xE8F1FB}, /* Idle */
+			{0x70500F, 0xFFD27A, 0xFFF3DA}, /* Busy */
+			{0x1D5C36, 0x9BF0B4, 0xEFFFF3}, /* Printing */
+			{0x761F18, 0xFFD5CC, 0xFFD5CC}, /* Error */
+		};
+		const PrinterDef& printerDef(PrinterStyle::Style st)
+		{
+			return PRINTERS[static_cast<size_t>(st)];
+		}
+	} // namespace
 
 	Workshop::Workshop(const std::string& name, LvObj& parent)
 		: View(name, parent)
@@ -39,7 +56,7 @@ namespace UI
 
 	Workshop::~Workshop()
 	{
-		for (auto* buf : m_images)
+		for (auto& [path, buf] : m_images)
 		{
 			lv_draw_buf_destroy(buf);
 		}
@@ -49,6 +66,13 @@ namespace UI
 	lv_draw_buf_t* Workshop::load(const std::string& relPath)
 	{
 		ZoneScoped;
+		for (const auto& [p, buf] : m_images)
+		{
+			if (p == relPath)
+			{
+				return buf;
+			}
+		}
 		const std::string path = std::string(WORKSHOP_FOLDER) + relPath;
 		lv_image_decoder_dsc_t dsc{};
 		if (lv_image_decoder_open(&dsc, path.c_str(), nullptr) != LV_RESULT_OK || dsc.decoded == nullptr)
@@ -60,9 +84,23 @@ namespace UI
 		lv_image_decoder_close(&dsc);
 		if (copy != nullptr)
 		{
-			m_images.push_back(copy);
+			m_images.emplace_back(relPath, copy);
 		}
 		return copy;
+	}
+
+	lv_obj_t* Workshop::layer(const LayerDef& def)
+	{
+		lv_obj_t* img = lv_image_create(getRootPtr());
+		lv_obj_remove_flag(img, LV_OBJ_FLAG_CLICKABLE);
+		setLayer(img, def);
+		return img;
+	}
+
+	void Workshop::setLayer(lv_obj_t* obj, const LayerDef& def)
+	{
+		lv_image_set_src(obj, load(def.file));
+		lv_obj_set_pos(obj, def.x, def.y);
 	}
 
 	lv_obj_t* Workshop::addHotspot(const Rect& r)
@@ -87,28 +125,39 @@ namespace UI
 		lv_obj_t* root = getRootPtr();
 
 		m_background = lv_image_create(root);
-		lv_image_set_src(m_background, load("home_idle.png"));
+		lv_image_set_src(m_background, load(BASE));
 		lv_obj_set_pos(m_background, 0, 0);
 		lv_obj_remove_flag(m_background, LV_OBJ_FLAG_CLICKABLE);
 
-		/* Print on the printer's bed: a clipping box that grows upward from the bed */
-		m_partClip = lv_obj_create(root);
-		lv_obj_remove_style_all(m_partClip);
-		lv_obj_set_pos(m_partClip, PRINT_PART.x, PRINT_PART.y);
-		lv_obj_set_size(m_partClip, PRINT_PART_W, PRINT_PART_H);
-		lv_obj_remove_flag(m_partClip, LV_OBJ_FLAG_SCROLLABLE);
-		lv_obj_remove_flag(m_partClip, LV_OBJ_FLAG_CLICKABLE);
-		m_part = lv_image_create(m_partClip);
-		lv_image_set_src(m_part, load(PRINT_PART.file));
-		lv_obj_set_pos(m_part, 0, 0);
-		lv_obj_add_flag(m_partClip, LV_OBJ_FLAG_HIDDEN);
+		/* The printer and the beds (swapped by refreshStyle) */
+		m_wallBed = layer(WALL_BED_SQUARE);
+		m_printer = layer(PRINTERS[0].printer);
+
+		/* The print on the printer's bed */
+		auto clip = [&](lv_obj_t*& child)
+		{
+			lv_obj_t* c = lv_obj_create(root);
+			lv_obj_remove_style_all(c);
+			lv_obj_remove_flag(c, LV_OBJ_FLAG_SCROLLABLE);
+			lv_obj_remove_flag(c, LV_OBJ_FLAG_CLICKABLE);
+			child = lv_image_create(c);
+			lv_obj_add_flag(c, LV_OBJ_FLAG_HIDDEN);
+			return c;
+		};
+		m_ghostClip = clip(m_ghost);
+		m_partClip = clip(m_part);
+		m_outline = lv_image_create(root);
+		lv_obj_remove_flag(m_outline, LV_OBJ_FLAG_CLICKABLE);
+		lv_obj_add_flag(m_outline, LV_OBJ_FLAG_HIDDEN);
+
+		m_spareBed = layer(SPARE_BED_SQUARE);
+		m_folder = layer(FOLDER_SQUARE);
+		lv_obj_add_flag(m_folder, LV_OBJ_FLAG_HIDDEN);
 
 		/* Finished parts on the spare bed */
 		for (size_t i = 0; i < PART_COUNT; i++)
 		{
-			m_spareParts[i] = lv_image_create(root);
-			lv_image_set_src(m_spareParts[i], load(SPARE_BED_PARTS[i].file));
-			lv_obj_set_pos(m_spareParts[i], SPARE_BED_PARTS[i].x, SPARE_BED_PARTS[i].y);
+			m_spareParts[i] = layer(SPARE_BED_PARTS[i]);
 			lv_obj_add_flag(m_spareParts[i], LV_OBJ_FLAG_HIDDEN);
 		}
 
@@ -119,7 +168,8 @@ namespace UI
 		{
 			for (int f = 0; f < DRAWER_FRAMES; f++)
 			{
-				m_drawerFrames[i][static_cast<size_t>(f)] = load(fmt::format("drawers/{:s}_{:d}.png", DRAWERS[i].id, f));
+				m_drawerFrames[i][static_cast<size_t>(f)] =
+					load(fmt::format("drawers/{:s}_{:d}.png", DRAWERS[i].id, f));
 			}
 			m_drawers[i] = lv_image_create(root);
 			lv_image_set_src(m_drawers[i], m_drawerFrames[i][0]);
@@ -146,9 +196,40 @@ namespace UI
 				LOG_WARN("Workshop: fire alarm pressed, emergency stop");
 				Comm::DUET.Estop();
 			},
-			LV_EVENT_CLICKED, nullptr);
+			LV_EVENT_CLICKED,
+			nullptr);
 
+		refreshStyle();
 		update(m_state);
+	}
+
+	void Workshop::refreshStyle()
+	{
+		ZoneScoped;
+		if (m_printer == nullptr)
+		{
+			return;
+		}
+		const PrinterStyle::Style st = PrinterStyle::Current();
+		if (m_styleSet && st == m_style)
+		{
+			return;
+		}
+		m_style = st;
+		m_styleSet = true;
+		const bool round = st == PrinterStyle::Style::Delta;
+		const PrinterDef& p = printerDef(st);
+		setLayer(m_wallBed, round ? WALL_BED_ROUND : WALL_BED_SQUARE);
+		setLayer(m_printer, p.printer);
+		setLayer(m_spareBed, round ? SPARE_BED_ROUND : SPARE_BED_SQUARE);
+		setLayer(m_folder, round ? FOLDER_ROUND : FOLDER_SQUARE);
+		const std::string id(p.id);
+		lv_image_set_src(m_ghost, load("printers/" + id + "_ghost.png"));
+		lv_image_set_src(m_part, load("printers/" + id + "_part.png"));
+		lv_image_set_src(m_outline, load("printers/" + id + "_outline.png"));
+		lv_obj_set_pos(m_outline, p.part.x, p.part.y);
+		placePrinterDisplay();
+		m_stage = -1; /* re-place the print */
 	}
 
 	void Workshop::tapEvent(lv_event_t* e)
@@ -177,90 +258,154 @@ namespace UI
 	{
 		ZoneScoped;
 		const std::string face = "Montserrat";
-		m_fontSmall = FontManager::createFont(face, 11);
-		m_fontMedium = FontManager::createFont(face, 14, LV_FREETYPE_FONT_STYLE_BOLD);
-		m_fontLarge = FontManager::createFont(face, 20, LV_FREETYPE_FONT_STYLE_BOLD);
+		m_fontSmall = FontManager::createFont(face, 13, LV_FREETYPE_FONT_STYLE_BOLD);
+		m_fontLarge = FontManager::createFont(face, 22, LV_FREETYPE_FONT_STYLE_BOLD);
 		auto font = [](const FontManager::Font& f) { return f.get() ? f.get() : LV_FONT_DEFAULT; };
-
-		auto label = [&](lv_obj_t* parent, const FontManager::Font& f, lv_color_t color, const char* text)
-		{
-			lv_obj_t* l = lv_label_create(parent);
-			lv_obj_set_style_text_font(l, font(f), 0);
-			lv_obj_set_style_text_color(l, color, 0);
-			lv_label_set_text(l, text);
-			return l;
-		};
-		auto panel = [](lv_obj_t* parent)
-		{
-			lv_obj_t* p = lv_obj_create(parent);
-			lv_obj_remove_style_all(p);
-			lv_obj_set_size(p, LV_PCT(100), LV_PCT(100));
-			lv_obj_remove_flag(p, LV_OBJ_FLAG_SCROLLABLE);
-			lv_obj_remove_flag(p, LV_OBJ_FLAG_CLICKABLE);
-			return p;
-		};
 
 		m_display = lv_obj_create(getRootPtr());
 		lv_obj_remove_style_all(m_display);
-		lv_obj_set_pos(m_display, PRINTER_DISPLAY.x, PRINTER_DISPLAY.y);
-		lv_obj_set_size(m_display, PRINTER_DISPLAY.w, PRINTER_DISPLAY.h);
-		lv_obj_set_style_transform_pivot_x(m_display, PRINTER_DISPLAY.w / 2, 0);
-		lv_obj_set_style_transform_pivot_y(m_display, PRINTER_DISPLAY.h / 2, 0);
-		lv_obj_set_style_transform_rotation(m_display, PRINTER_DISPLAY_ROTATION, 0);
+		lv_obj_set_style_bg_opa(m_display, LV_OPA_COVER, 0);
+		lv_obj_set_style_radius(m_display, 2, 0);
 		lv_obj_remove_flag(m_display, LV_OBJ_FLAG_SCROLLABLE);
 		lv_obj_remove_flag(m_display, LV_OBJ_FLAG_CLICKABLE);
 
-		/* Idle: READY + nozzle / bed / chamber */
-		m_idlePanel = panel(m_display);
-		m_idleTitle = label(m_idlePanel, m_fontSmall, accentColor(), "READY");
-		lv_obj_set_pos(m_idleTitle, 5, 2);
-		lv_obj_t* unit = label(m_idlePanel, m_fontSmall, dimColor(), "°C");
-		lv_obj_align(unit, LV_ALIGN_TOP_RIGHT, -5, 2);
-		static constexpr const char* names[] = {"NOZ", "BED", "CHMB"};
-		for (size_t i = 0; i < 3; i++)
+		auto label = [&](const FontManager::Font& f)
 		{
-			m_idleValues[i] = label(m_idlePanel, m_fontLarge, textColor(), "--");
-			lv_obj_set_pos(m_idleValues[i], 5 + static_cast<int>(i) * 37, 16);
-			lv_obj_t* n = label(m_idlePanel, m_fontSmall, dimColor(), names[i]);
-			lv_obj_set_pos(n, 5 + static_cast<int>(i) * 37, 38);
-		}
+			lv_obj_t* l = lv_label_create(m_display);
+			lv_obj_set_style_text_font(l, font(f), 0);
+			lv_obj_set_style_text_align(l, LV_TEXT_ALIGN_CENTER, 0);
+			lv_label_set_text(l, "");
+			return l;
+		};
+		m_title = label(m_fontSmall);
+		m_value = label(m_fontLarge);
 
-		/* Printing: percentage, nozzle temperature, time left, progress bar */
-		m_printPanel = panel(m_display);
-		m_printTitle = label(m_printPanel, m_fontSmall, dimColor(), "PRINTING");
-		lv_obj_set_pos(m_printTitle, 5, 2);
-		m_printRight = label(m_printPanel, m_fontSmall, dimColor(), "");
-		lv_obj_align(m_printRight, LV_ALIGN_TOP_RIGHT, -5, 2);
-		m_percent = label(m_printPanel, m_fontLarge, textColor(), "0%");
-		lv_obj_set_pos(m_percent, 5, 16);
-		m_nozzle = label(m_printPanel, m_fontMedium, textColor(), "");
-		lv_obj_align(m_nozzle, LV_ALIGN_TOP_RIGHT, -5, 16);
-		m_timeLeft = label(m_printPanel, m_fontSmall, dimColor(), "");
-		lv_obj_align(m_timeLeft, LV_ALIGN_TOP_RIGHT, -5, 32);
-		m_bar = lv_bar_create(m_printPanel);
-		lv_obj_remove_style_all(m_bar);
-		lv_obj_set_size(m_bar, PRINTER_DISPLAY.w - 10, 5);
-		lv_obj_set_pos(m_bar, 5, PRINTER_DISPLAY.h - 8);
-		lv_bar_set_range(m_bar, 0, 1000);
-		lv_obj_set_style_bg_color(m_bar, lv_color_white(), LV_PART_MAIN);
-		lv_obj_set_style_bg_opa(m_bar, LV_OPA_20, LV_PART_MAIN);
-		lv_obj_set_style_bg_color(m_bar, accentColor(), LV_PART_INDICATOR);
-		lv_obj_set_style_bg_opa(m_bar, LV_OPA_COVER, LV_PART_INDICATOR);
-		lv_obj_add_flag(m_printPanel, LV_OBJ_FLAG_HIDDEN);
+		/* ERROR: a warning triangle over the whole screen */
+		m_triangle = lv_line_create(m_display);
+		lv_obj_remove_style_all(m_triangle);
+		lv_obj_set_style_line_width(m_triangle, 4, 0);
+		lv_obj_set_style_line_rounded(m_triangle, true, 0);
+		m_bang = label(m_fontLarge);
+		lv_label_set_text(m_bang, "!");
+		placePrinterDisplay();
 	}
 
-	void Workshop::setPartProgress(float progress)
+	void Workshop::placePrinterDisplay()
 	{
-		const int h = static_cast<int>(static_cast<float>(PRINT_PART_H) * progress + 0.5f);
-		if (h <= 0)
+		if (m_display == nullptr)
 		{
-			lv_obj_add_flag(m_partClip, LV_OBJ_FLAG_HIDDEN);
 			return;
 		}
-		lv_obj_remove_flag(m_partClip, LV_OBJ_FLAG_HIDDEN);
-		lv_obj_set_y(m_partClip, PRINT_PART.y + PRINT_PART_H - h);
-		lv_obj_set_height(m_partClip, h);
-		lv_obj_set_y(m_part, -(PRINT_PART_H - h)); /* keep the part standing on the bed */
+		const PrinterDef& p = printerDef(m_style);
+		const Rect& r = p.display;
+		lv_obj_set_pos(m_display, r.x, r.y);
+		lv_obj_set_size(m_display, r.w, r.h);
+		lv_obj_set_style_transform_pivot_x(m_display, r.w / 2, 0);
+		lv_obj_set_style_transform_pivot_y(m_display, r.h / 2, 0);
+		lv_obj_set_style_transform_rotation(m_display, p.displayRotation, 0);
+
+		/* two rows, centred */
+		const int32_t rowsH = 16 + 26;
+		const int32_t top = (r.h - rowsH) / 2;
+		lv_obj_set_width(m_title, r.w);
+		lv_obj_set_pos(m_title, 0, top);
+		lv_obj_set_width(m_value, r.w);
+		lv_obj_set_pos(m_value, 0, top + 15);
+
+		/* triangle: nearly the height of the screen */
+		const int32_t th = r.h - 8, tw = th * 23 / 20;
+		const int32_t cx = r.w / 2, y0 = 4;
+		auto pt = [](int32_t x, int32_t y)
+		{ return lv_point_precise_t{static_cast<lv_value_precise_t>(x), static_cast<lv_value_precise_t>(y)}; };
+		m_trianglePoints = {pt(cx, y0), pt(cx + tw / 2, y0 + th), pt(cx - tw / 2, y0 + th), pt(cx, y0)};
+		lv_line_set_points(m_triangle, m_trianglePoints.data(), static_cast<uint32_t>(m_trianglePoints.size()));
+		lv_obj_set_width(m_bang, r.w);
+		lv_obj_set_pos(m_bang, 0, y0 + th * 36 / 100);
+	}
+
+	void Workshop::setPartStage(int stage)
+	{
+		if (stage == m_stage)
+		{
+			return;
+		}
+		m_stage = stage;
+		const Rect& r = printerDef(m_style).part;
+		if (stage < 0)
+		{
+			lv_obj_add_flag(m_ghostClip, LV_OBJ_FLAG_HIDDEN);
+			lv_obj_add_flag(m_partClip, LV_OBJ_FLAG_HIDDEN);
+			lv_obj_add_flag(m_outline, LV_OBJ_FLAG_HIDDEN);
+			return;
+		}
+		const int32_t h = r.h * stage / PRINT_STAGES; /* printed, from the bed up */
+		lv_obj_remove_flag(m_outline, LV_OBJ_FLAG_HIDDEN);
+		/* still to print: faint red, above the printed part */
+		Funky::setHidden(m_ghostClip, h >= r.h);
+		lv_obj_set_pos(m_ghostClip, r.x, r.y);
+		lv_obj_set_size(m_ghostClip, r.w, r.h - h);
+		lv_obj_set_pos(m_ghost, 0, 0);
+		/* printed */
+		Funky::setHidden(m_partClip, h <= 0);
+		lv_obj_set_pos(m_partClip, r.x, r.y + r.h - h);
+		lv_obj_set_size(m_partClip, r.w, h);
+		lv_obj_set_pos(m_part, 0, -(r.h - h)); /* keep the part standing on the bed */
+	}
+
+	Workshop::Mode Workshop::ModeOf(const State& s)
+	{
+		if (s.error)
+		{
+			return Mode::Error;
+		}
+		if (!s.connected)
+		{
+			return Mode::Offline;
+		}
+		if (s.printing)
+		{
+			return Mode::Printing;
+		}
+		return s.busy ? Mode::Busy : Mode::Idle;
+	}
+
+	void Workshop::showDisplay(const State& s)
+	{
+		const Mode mode = ModeOf(s);
+		const ScreenLook& look = LOOKS[static_cast<size_t>(mode)];
+		lv_obj_set_style_bg_color(m_display, lv_color_hex(look.fill), 0);
+		lv_obj_set_style_text_color(m_title, lv_color_hex(look.title), 0);
+		lv_obj_set_style_text_color(m_value, lv_color_hex(look.value), 0);
+		lv_obj_set_style_line_color(m_triangle, lv_color_hex(look.value), 0);
+		lv_obj_set_style_text_color(m_bang, lv_color_hex(look.value), 0);
+
+		const bool error = mode == Mode::Error;
+		Funky::setHidden(m_triangle, !error);
+		Funky::setHidden(m_bang, !error);
+		Funky::setHidden(m_title, error);
+		Funky::setHidden(m_value, error);
+		auto temp = [](bool has, float v) { return has ? fmt::format("{:d}°", static_cast<int>(v + 0.5f)) : "--°"; };
+		switch (mode)
+		{
+		case Mode::Offline:
+			lv_label_set_text(m_title, "");
+			lv_label_set_text(m_value, "NO LINK");
+			break;
+		case Mode::Idle:
+			lv_label_set_text(m_title, "READY");
+			lv_label_set_text(m_value, (temp(s.hasNozzle, s.nozzle) + "  " + temp(s.hasBed, s.bed)).c_str());
+			break;
+		case Mode::Busy:
+			lv_label_set_text(m_title, "BUSY");
+			lv_label_set_text(m_value, s.busyText.c_str());
+			break;
+		case Mode::Printing:
+			lv_label_set_text(m_title, s.paused ? "PAUSED" : "PRINTING");
+			lv_label_set_text(m_value, fmt::format("{:d}%", static_cast<int>(s.progress * 100.0f)).c_str());
+			break;
+		case Mode::Error:
+			break;
+		}
 	}
 
 	void Workshop::update(const State& s)
@@ -272,6 +417,7 @@ namespace UI
 		{
 			return; /* not built yet; onInit() applies m_state */
 		}
+		refreshStyle();
 
 		if (s.jobKey != m_lastJobKey && s.printing)
 		{
@@ -285,39 +431,16 @@ namespace UI
 				m_partMask = static_cast<uint8_t>(m_partMask | (1u << bit));
 			}
 		}
+		/* While printing: the object cancel folder on the spare bed, finished parts on it */
+		Funky::setHidden(m_folder, !s.printing);
 		for (size_t i = 0; i < PART_COUNT; i++)
 		{
-			const bool show = s.printing && (m_partMask & (1u << i)) != 0;
-			if (show)
-				lv_obj_remove_flag(m_spareParts[i], LV_OBJ_FLAG_HIDDEN);
-			else
-				lv_obj_add_flag(m_spareParts[i], LV_OBJ_FLAG_HIDDEN);
+			Funky::setHidden(m_spareParts[i], !(s.printing && (m_partMask & (1u << i)) != 0));
 		}
-		setPartProgress(s.printing ? s.progress : 0.0f);
-
-		if (s.printing)
-		{
-			lv_obj_add_flag(m_idlePanel, LV_OBJ_FLAG_HIDDEN);
-			lv_obj_remove_flag(m_printPanel, LV_OBJ_FLAG_HIDDEN);
-			lv_label_set_text(m_printTitle, s.paused ? "PAUSED" : "PRINTING");
-			lv_label_set_text(m_printRight, s.toolName.c_str());
-			lv_label_set_text(m_percent, fmt::format("{:d}%", static_cast<int>(s.progress * 100.0f + 0.5f)).c_str());
-			lv_label_set_text(m_nozzle,
-							  s.hasNozzle ? fmt::format("{:d}°C", static_cast<int>(s.nozzle + 0.5f)).c_str() : "");
-			const uint32_t minutes = s.timeLeft / 60;
-			lv_label_set_text(m_timeLeft, fmt::format("{:d}h {:02d}m", minutes / 60, minutes % 60).c_str());
-			lv_bar_set_value(m_bar, static_cast<int32_t>(s.progress * 1000.0f), LV_ANIM_OFF);
-		}
-		else
-		{
-			lv_obj_remove_flag(m_idlePanel, LV_OBJ_FLAG_HIDDEN);
-			lv_obj_add_flag(m_printPanel, LV_OBJ_FLAG_HIDDEN);
-			lv_label_set_text(m_idleTitle, s.connected ? "READY" : "OFFLINE");
-			auto temp = [](bool has, float v) { return has ? fmt::format("{:d}", static_cast<int>(v + 0.5f)) : "--"; };
-			lv_label_set_text(m_idleValues[0], temp(s.hasNozzle, s.nozzle).c_str());
-			lv_label_set_text(m_idleValues[1], temp(s.hasBed, s.bed).c_str());
-			lv_label_set_text(m_idleValues[2], temp(s.hasChamber, s.chamber).c_str());
-		}
+		/* The print grows in 10 steps of 10 % */
+		const int stage = std::clamp(static_cast<int>(s.progress * static_cast<float>(PRINT_STAGES)), 0, PRINT_STAGES);
+		setPartStage(s.printing ? stage : -1);
+		showDisplay(s);
 	}
 
 	/* ---------------- drawers & navigation ---------------- */
@@ -336,7 +459,8 @@ namespace UI
 								   {
 									   auto* self = static_cast<Workshop*>(anim->var);
 									   const size_t i = reinterpret_cast<uintptr_t>(lv_anim_get_user_data(anim)) & 0xFF;
-									   lv_image_set_src(self->m_drawers[i], self->m_drawerFrames[i][static_cast<size_t>(frame)]);
+									   lv_image_set_src(self->m_drawers[i],
+														self->m_drawerFrames[i][static_cast<size_t>(frame)]);
 								   });
 		lv_anim_set_completed_cb(&a,
 								 [](lv_anim_t* anim)
@@ -368,6 +492,7 @@ namespace UI
 	void Workshop::onShow()
 	{
 		ZoneScoped;
+		refreshStyle();
 		/* Back on the home scene: slide the drawer that was used shut again */
 		if (m_openDrawer >= 0 && m_drawers[static_cast<size_t>(m_openDrawer)] != nullptr)
 		{

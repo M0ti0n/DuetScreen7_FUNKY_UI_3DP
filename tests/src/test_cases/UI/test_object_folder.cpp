@@ -58,9 +58,14 @@ class TestObjectFolder : public UiTestSuite, protected EnableWorkshopHomeForFold
 		{
 			const char* name;
 			float x, y;
-		} objs[] = {{"Front left clip", 66, 75},   {"Front right clip", 216, 81}, {"Rear bracket", 165, 204},
-					{"Cable guide", 75, 234},	   {"Sensor cover", 234, 225},	  {"Fan duct", 135, 126},
-					{"Spool hub", 258, 144},	   {"Knob", 36, 150}};
+		} objs[] = {{"Front left clip", 66, 75},
+					{"Front right clip", 216, 81},
+					{"Rear bracket", 165, 204},
+					{"Cable guide", 75, 234},
+					{"Sensor cover", 234, 225},
+					{"Fan duct", 135, 126},
+					{"Spool hub", 258, 144},
+					{"Knob", 36, 150}};
 		for (const auto& o : objs)
 		{
 			ObjectFolder::Object obj;
@@ -161,4 +166,22 @@ TEST_F(TestObjectFolder, MarkersCloseTogetherMoveApart)
 	}
 	folder().update(s);
 	EXPECT_EQUAL_SCREENSHOT("objects/crowded.png");
+}
+
+TEST_F(TestObjectFolder, RoundBedForADelta)
+{
+	open();
+	auto s = printing();
+	s.roundBed = true;
+	s.xMin = s.yMin = -150;
+	s.xMax = s.yMax = 150;
+	for (auto& o : s.objects)
+	{
+		o.x -= 150;
+		o.y -= 150;
+	}
+	s.objects[0].x = -148; /* outside the circle: kept inside */
+	s.objects[0].y = -148;
+	folder().update(s);
+	EXPECT_EQUAL_SCREENSHOT("objects/round_bed.png");
 }

@@ -15,6 +15,7 @@
 
 #include "Duet3D/General/CRC16.h"
 #include "Hardware/SerialIo.h"
+#include "UI/Widgets/Workshop/MachineActivity.h"
 #include "ObjectModel/PrinterStatus.h"
 #include "ObjectModel/Utils.h"
 #include "Storage.h"
@@ -337,6 +338,7 @@ namespace Comm
 			return;
 		}
 		LOG_DBG("Sending gcode: '{:s}'", gcode);
+		UI::MachineActivity::RecordCommand(gcode); /* Funky UI: the BUSY screen shows what was sent */
 
 		switch (m_config.communicationType)
 		{

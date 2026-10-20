@@ -65,5 +65,7 @@ s2=np.asarray(spr).copy()
 fin.alpha_composite(spr)
 t2=np.asarray(tube).copy(); t2[head&(a>0)]=0
 fin.alpha_composite(Image.fromarray(t2,'RGBA'))
-fin=fin.crop(fin.getchannel('A').getbbox())
+bbx=fin.getchannel('A').getbbox()
+import json; json.dump(list(bbx),open(O+'source/bedslinger_crop.json','w'))
+fin=fin.crop(bbx)
 fin.save(O+'bedslinger.png'); print('final',fin.size)
