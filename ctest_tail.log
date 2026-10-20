@@ -1,0 +1,360 @@
+Internal ctest changing into directory: /home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/out/build/Test
+Test project /home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/out/build/Test
+        Start   1: Utils.BoundInt
+  1/177 Test   #1: Utils.BoundInt ......................................................   Passed    0.03 sec
+        Start   2: Utils.ReplaceSubstring
+  2/177 Test   #2: Utils.ReplaceSubstring ..............................................   Passed    0.03 sec
+        Start   3: Utils.SplitString
+  3/177 Test   #3: Utils.SplitString ...................................................   Passed    0.03 sec
+        Start   4: Utils.FindInstance
+  4/177 Test   #4: Utils.FindInstance ..................................................   Passed    0.03 sec
+        Start   5: Utils.Format
+  5/177 Test   #5: Utils.Format ........................................................   Passed    0.03 sec
+        Start   6: TestWorkshop.Idle
+  6/177 Test   #6: TestWorkshop.Idle ...................................................   Passed    0.25 sec
+        Start   7: TestWorkshop.Offline
+  7/177 Test   #7: TestWorkshop.Offline ................................................   Passed    0.25 sec
+        Start   8: TestWorkshop.Printing
+  8/177 Test   #8: TestWorkshop.Printing ...............................................   Passed    0.29 sec
+        Start   9: TestWorkshop.OpensPagesAndReturnsHome
+  9/177 Test   #9: TestWorkshop.OpensPagesAndReturnsHome ...............................   Passed    0.27 sec
+        Start  10: TestWorkshop.PrintGrowsInTenSteps
+ 10/177 Test  #10: TestWorkshop.PrintGrowsInTenSteps ...................................   Passed    0.25 sec
+        Start  11: TestWorkshop.DisplayModes
+ 11/177 Test  #11: TestWorkshop.DisplayModes ...........................................   Passed    0.28 sec
+        Start  12: TestWorkshop.PrinterStyles
+ 12/177 Test  #12: TestWorkshop.PrinterStyles ..........................................   Passed    0.31 sec
+        Start  13: MachineActivity.CommandCode
+ 13/177 Test  #13: MachineActivity.CommandCode .........................................   Passed    0.03 sec
+        Start  14: MachineActivity.Sources
+ 14/177 Test  #14: MachineActivity.Sources .............................................   Passed    0.03 sec
+        Start  15: TestVerticalButtons.BasicDisplay
+ 15/177 Test  #15: TestVerticalButtons.BasicDisplay ....................................   Passed    0.04 sec
+        Start  16: TestTheme.DefaultTheme
+ 16/177 Test  #16: TestTheme.DefaultTheme ..............................................   Passed    0.11 sec
+        Start  17: TestTheme.Widgets
+ 17/177 Test  #17: TestTheme.Widgets ...................................................   Passed    0.64 sec
+        Start  18: TestTabview.Empty
+ 18/177 Test  #18: TestTabview.Empty ...................................................   Passed    0.04 sec
+        Start  19: TestTabview.AddSingleTab
+ 19/177 Test  #19: TestTabview.AddSingleTab ............................................   Passed    0.04 sec
+        Start  20: TestTabview.AddMultipleTabs
+ 20/177 Test  #20: TestTabview.AddMultipleTabs .........................................   Passed    0.04 sec
+        Start  21: TestTabview.LongTabNames
+ 21/177 Test  #21: TestTabview.LongTabNames ............................................   Passed    0.04 sec
+        Start  22: TestTabview.SetActiveTab
+ 22/177 Test  #22: TestTabview.SetActiveTab ............................................   Passed    0.04 sec
+        Start  23: TestTabview.SetActiveTabSameIndexIsNoop
+ 23/177 Test  #23: TestTabview.SetActiveTabSameIndexIsNoop .............................   Passed    0.04 sec
+        Start  24: TestTabview.SetActiveTabOutOfRange
+ 24/177 Test  #24: TestTabview.SetActiveTabOutOfRange ..................................   Passed    0.04 sec
+        Start  25: TestTabview.TabButtonCheckedState
+ 25/177 Test  #25: TestTabview.TabButtonCheckedState ...................................   Passed    0.04 sec
+        Start  26: TestTabview.GetActiveTabReturnsCorrectContainer
+ 26/177 Test  #26: TestTabview.GetActiveTabReturnsCorrectContainer .....................   Passed    0.04 sec
+        Start  27: TestTabview.GetTabByIndex
+ 27/177 Test  #27: TestTabview.GetTabByIndex ...........................................   Passed    0.03 sec
+        Start  28: TestTabview.GetTabButtonByIndex
+ 28/177 Test  #28: TestTabview.GetTabButtonByIndex .....................................   Passed    0.04 sec
+        Start  29: TestTabview.GetTabButtonOutOfRange
+ 29/177 Test  #29: TestTabview.GetTabButtonOutOfRange ..................................   Passed    0.04 sec
+        Start  30: TestTabview.RenameTab
+ 30/177 Test  #30: TestTabview.RenameTab ...............................................   Passed    0.04 sec
+        Start  31: TestTabview.RenameTabOutOfRange
+ 31/177 Test  #31: TestTabview.RenameTabOutOfRange .....................................   Passed    0.04 sec
+        Start  32: TestTabview.DisableInactiveTab
+ 32/177 Test  #32: TestTabview.DisableInactiveTab ......................................   Passed    0.04 sec
+        Start  33: TestTabview.DisableActiveTabSwitchesToNext
+ 33/177 Test  #33: TestTabview.DisableActiveTabSwitchesToNext ..........................   Passed    0.04 sec
+        Start  34: TestTabview.DisableActiveTabWrapsAround
+ 34/177 Test  #34: TestTabview.DisableActiveTabWrapsAround .............................   Passed    0.04 sec
+        Start  35: TestTabview.DisableAllTabs
+ 35/177 Test  #35: TestTabview.DisableAllTabs ..........................................   Passed    0.04 sec
+        Start  36: TestTabview.ReenableTab
+ 36/177 Test  #36: TestTabview.ReenableTab .............................................   Passed    0.03 sec
+        Start  37: TestTabview.DisableAlreadyDisabledIsIdempotent
+ 37/177 Test  #37: TestTabview.DisableAlreadyDisabledIsIdempotent ......................   Passed    0.03 sec
+        Start  38: TestTabview.EnableAlreadyEnabledIsIdempotent
+ 38/177 Test  #38: TestTabview.EnableAlreadyEnabledIsIdempotent ........................   Passed    0.03 sec
+        Start  39: TestTabview.DisableTabOutOfRange
+ 39/177 Test  #39: TestTabview.DisableTabOutOfRange ....................................   Passed    0.04 sec
+        Start  40: TestTabview.TabBarTop
+ 40/177 Test  #40: TestTabview.TabBarTop ...............................................   Passed    0.04 sec
+        Start  41: TestTabview.TabBarBottom
+ 41/177 Test  #41: TestTabview.TabBarBottom ............................................   Passed    0.04 sec
+        Start  42: TestTabview.TabBarLeft
+ 42/177 Test  #42: TestTabview.TabBarLeft ..............................................   Passed    0.04 sec
+        Start  43: TestTabview.TabBarRight
+ 43/177 Test  #43: TestTabview.TabBarRight .............................................   Passed    0.04 sec
+        Start  44: TestTabview.TabContentIsolation
+ 44/177 Test  #44: TestTabview.TabContentIsolation .....................................   Passed    0.05 sec
+        Start  45: TestTabview.CycleThroughTabs
+ 45/177 Test  #45: TestTabview.CycleThroughTabs ........................................   Passed    0.04 sec
+        Start  46: TestTabview.DisableActiveSkipsDisabledNeighbors
+ 46/177 Test  #46: TestTabview.DisableActiveSkipsDisabledNeighbors .....................   Passed    0.04 sec
+        Start  47: TestStatus.Blank
+ 47/177 Test  #47: TestStatus.Blank ....................................................   Passed    0.26 sec
+        Start  48: TestStatus.Header
+ 48/177 Test  #48: TestStatus.Header ...................................................   Passed    0.26 sec
+        Start  49: TestStatus.PowerOn
+ 49/177 Test  #49: TestStatus.PowerOn ..................................................   Passed    0.26 sec
+        Start  50: TestStatus.Layer2
+ 50/177 Test  #50: TestStatus.Layer2 ...................................................   Passed    0.27 sec
+        Start  51: TestStatus.Paused
+ 51/177 Test  #51: TestStatus.Paused ...................................................   Passed    0.27 sec
+        Start  52: TestStatus.Cancelling
+ 52/177 Test  #52: TestStatus.Cancelling ...............................................   Passed    0.26 sec
+        Start  53: TestStatus.Cancelled
+ 53/177 Test  #53: TestStatus.Cancelled ................................................   Passed    0.26 sec
+        Start  54: TestStatus.Thumbnail
+ 54/177 Test  #54: TestStatus.Thumbnail ................................................   Passed    0.27 sec
+        Start  55: TestSlider.CreateSlider
+ 55/177 Test  #55: TestSlider.CreateSlider .............................................   Passed    0.04 sec
+        Start  56: TestObjectFolder.OpensFromTheSpareBedAndGoesHome
+ 56/177 Test  #56: TestObjectFolder.OpensFromTheSpareBedAndGoesHome ....................   Passed    0.24 sec
+        Start  57: TestObjectFolder.Printing
+ 57/177 Test  #57: TestObjectFolder.Printing ...........................................   Passed    0.27 sec
+        Start  58: TestObjectFolder.CancelAsksFirst
+ 58/177 Test  #58: TestObjectFolder.CancelAsksFirst ....................................   Passed    0.29 sec
+        Start  59: TestObjectFolder.NothingPrinting
+ 59/177 Test  #59: TestObjectFolder.NothingPrinting ....................................   Passed    0.25 sec
+        Start  60: TestObjectFolder.MarkersCloseTogetherMoveApart
+ 60/177 Test  #60: TestObjectFolder.MarkersCloseTogetherMoveApart ......................   Passed    0.26 sec
+        Start  61: TestObjectFolder.RoundBedForADelta
+ 61/177 Test  #61: TestObjectFolder.RoundBedForADelta ..................................   Passed    0.26 sec
+        Start  62: TestMultiValueSelector.Basic
+ 62/177 Test  #62: TestMultiValueSelector.Basic ........................................   Passed    0.04 sec
+        Start  63: TestMessagebox.Basic
+ 63/177 Test  #63: TestMessagebox.Basic ................................................   Passed    0.05 sec
+        Start  64: TestMessagebox.WithImage
+ 64/177 Test  #64: TestMessagebox.WithImage ............................................   Passed    0.03 sec
+        Start  65: TestMessagebox.HeightSizeContent
+ 65/177 Test  #65: TestMessagebox.HeightSizeContent ....................................   Passed    0.05 sec
+        Start  66: TestMessagebox.WidthSizeContent
+ 66/177 Test  #66: TestMessagebox.WidthSizeContent .....................................   Passed    0.04 sec
+        Start  67: TestLvobj.FindChildByName
+ 67/177 Test  #67: TestLvobj.FindChildByName ...........................................   Passed    0.03 sec
+        Start  68: TestLvgl.FlexSizeContentGrow
+ 68/177 Test  #68: TestLvgl.FlexSizeContentGrow ........................................   Passed    0.06 sec
+        Start  69: TestLvgl.FlexFixedSize
+ 69/177 Test  #69: TestLvgl.FlexFixedSize ..............................................   Passed    0.04 sec
+        Start  70: TestLvgl.FlexSizeContentGrow2
+ 70/177 Test  #70: TestLvgl.FlexSizeContentGrow2 .......................................   Passed    0.05 sec
+        Start  71: TestLvgl.FlexPadding
+ 71/177 Test  #71: TestLvgl.FlexPadding ................................................   Passed    0.04 sec
+        Start  72: TestLvgl.GridSizeContent
+ 72/177 Test  #72: TestLvgl.GridSizeContent ............................................   Passed    0.04 sec
+        Start  73: TestLvgl.CircularHeight
+ 73/177 Test  #73: TestLvgl.CircularHeight .............................................   Passed    0.04 sec
+        Start  74: TestLvgl.CircularWidth
+ 74/177 Test  #74: TestLvgl.CircularWidth ..............................................   Passed    0.04 sec
+        Start  75: TestLvgl.DropdownSizeContent
+ 75/177 Test  #75: TestLvgl.DropdownSizeContent ........................................   Passed    0.07 sec
+        Start  76: TestLvgl.TextareaOneLine
+ 76/177 Test  #76: TestLvgl.TextareaOneLine ............................................   Passed    0.04 sec
+        Start  77: TestLvgl.ScaleSize
+ 77/177 Test  #77: TestLvgl.ScaleSize ..................................................   Passed    0.04 sec
+        Start  78: TestList.VerticalWrap
+ 78/177 Test  #78: TestList.VerticalWrap ...............................................   Passed    0.04 sec
+        Start  79: TestList.Empty
+ 79/177 Test  #79: TestList.Empty ......................................................   Passed    0.04 sec
+        Start  80: TestLazyList.Basic
+ 80/177 Test  #80: TestLazyList.Basic ..................................................   Passed    0.04 sec
+        Start  81: TestLazyList.RowWrap
+ 81/177 Test  #81: TestLazyList.RowWrap ................................................   Passed    0.04 sec
+        Start  82: TestLazyList.ColumnWrap
+ 82/177 Test  #82: TestLazyList.ColumnWrap .............................................   Passed    0.05 sec
+        Start  83: TestLazyList.RowWrapWithPadding
+ 83/177 Test  #83: TestLazyList.RowWrapWithPadding .....................................   Passed    0.05 sec
+        Start  84: TestLazyList.ColumnWrapWithPadding
+ 84/177 Test  #84: TestLazyList.ColumnWrapWithPadding ..................................   Passed    0.05 sec
+        Start  85: TestLaptop.OpensFromWorkshopAndGoesHome
+ 85/177 Test  #85: TestLaptop.OpensFromWorkshopAndGoesHome .............................   Passed    0.26 sec
+        Start  86: TestLaptop.Console
+ 86/177 Test  #86: TestLaptop.Console ..................................................   Passed    0.28 sec
+        Start  87: TestLaptop.KeyboardTypesAndSends
+ 87/177 Test  #87: TestLaptop.KeyboardTypesAndSends ....................................   Passed    0.29 sec
+        Start  88: TestLaptop.CursorEditsInsideTheLine
+ 88/177 Test  #88: TestLaptop.CursorEditsInsideTheLine .................................   Passed    0.27 sec
+        Start  89: TestLaptop.Alerts
+ 89/177 Test  #89: TestLaptop.Alerts ...................................................   Passed    0.32 sec
+        Start  90: TestLaptop.AlertsKeep21
+ 90/177 Test  #90: TestLaptop.AlertsKeep21 .............................................   Passed    0.29 sec
+        Start  91: TestLaptop.Settings
+ 91/177 Test  #91: TestLaptop.Settings .................................................   Passed    0.37 sec
+        Start  92: TestLaptop.ConnectionNetworkTypesTheAddress
+ 92/177 Test  #92: TestLaptop.ConnectionNetworkTypesTheAddress .........................   Passed    0.29 sec
+        Start  93: TestLaptop.ConnectionLockedDuringAPrint
+ 93/177 Test  #93: TestLaptop.ConnectionLockedDuringAPrint .............................   Passed    0.27 sec
+        Start  94: JobsList.MaterialFromTheFileName
+ 94/177 Test  #94: JobsList.MaterialFromTheFileName ....................................   Passed    0.03 sec
+        Start  95: JobsList.Sorting
+ 95/177 Test  #95: JobsList.Sorting ....................................................   Passed    0.03 sec
+        Start  96: JobsList.Date
+ 96/177 Test  #96: JobsList.Date .......................................................   Passed    0.03 sec
+        Start  97: JobsList.DetailsText
+ 97/177 Test  #97: JobsList.DetailsText ................................................   Passed    0.03 sec
+        Start  98: TestJobsFolder.OpensFromTheRackAndGoesHome
+ 98/177 Test  #98: TestJobsFolder.OpensFromTheRackAndGoesHome ..........................   Passed    0.25 sec
+        Start  99: TestJobsFolder.NewestFirst
+ 99/177 Test  #99: TestJobsFolder.NewestFirst ..........................................   Passed    0.28 sec
+        Start 100: TestJobsFolder.SortCycles
+100/177 Test #100: TestJobsFolder.SortCycles ...........................................   Passed    0.28 sec
+        Start 101: TestJobsFolder.Details
+101/177 Test #101: TestJobsFolder.Details ..............................................   Passed    0.29 sec
+        Start 102: TestJobsFolder.PrintAsksFirst
+102/177 Test #102: TestJobsFolder.PrintAsksFirst .......................................   Passed    0.31 sec
+        Start 103: TestJobsFolder.Empty
+103/177 Test #103: TestJobsFolder.Empty ................................................   Passed    0.26 sec
+        Start 104: TestJobsFolder.SubFolder
+104/177 Test #104: TestJobsFolder.SubFolder ............................................   Passed    0.25 sec
+        Start 105: TestJobsFolder.PrintInProgress
+105/177 Test #105: TestJobsFolder.PrintInProgress ......................................   Passed    0.33 sec
+        Start 106: TestImage.Bmp
+106/177 Test #106: TestImage.Bmp .......................................................   Passed    0.04 sec
+        Start 107: TestImage.Png
+107/177 Test #107: TestImage.Png .......................................................   Passed    0.04 sec
+        Start 108: TestImage.PngRecolor
+108/177 Test #108: TestImage.PngRecolor ................................................   Passed    0.04 sec
+        Start 109: TestHomeView.BlankView
+109/177 Test #109: TestHomeView.BlankView ..............................................   Passed    0.21 sec
+        Start 110: TestHomeView.BlankControlView
+110/177 Test #110: TestHomeView.BlankControlView .......................................   Passed    0.28 sec
+        Start 111: TestHomeView.ObjectCancelCanvasTitleTracksCurrentObject
+111/177 Test #111: TestHomeView.ObjectCancelCanvasTitleTracksCurrentObject .............   Passed    0.23 sec
+        Start 112: TestHomeView.ObjectCancelCurrentButtonRespectsConfirmationSetting
+112/177 Test #112: TestHomeView.ObjectCancelCurrentButtonRespectsConfirmationSetting ...   Passed    0.20 sec
+        Start 113: TestHomeView.BlankConsoleView
+113/177 Test #113: TestHomeView.BlankConsoleView .......................................   Passed    0.21 sec
+        Start 114: TestHomeView.BlankMacroView
+114/177 Test #114: TestHomeView.BlankMacroView .........................................   Passed    0.21 sec
+        Start 115: TestHomeView.BlankJobView
+115/177 Test #115: TestHomeView.BlankJobView ...........................................   Passed    0.21 sec
+        Start 116: TestHomeView.JobModalShowsDeleteButton
+116/177 Test #116: TestHomeView.JobModalShowsDeleteButton ..............................   Passed    0.22 sec
+        Start 117: TestHomeView.MacroModalHidesDeleteButton
+117/177 Test #117: TestHomeView.MacroModalHidesDeleteButton ............................   Passed    0.21 sec
+        Start 118: TestHomeView.DeleteButtonOpensDeleteConfirmationModal
+118/177 Test #118: TestHomeView.DeleteButtonOpensDeleteConfirmationModal ...............   Passed    0.21 sec
+        Start 119: TestHomeView.BlankStatusView
+119/177 Test #119: TestHomeView.BlankStatusView ........................................   Passed    0.21 sec
+        Start 120: TestHomeView.Response
+120/177 Test #120: TestHomeView.Response ...............................................   Passed    0.21 sec
+        Start 121: TestHomeView.SuccessResponse
+121/177 Test #121: TestHomeView.SuccessResponse ........................................   Passed    0.21 sec
+        Start 122: TestHomeView.WarningResponse
+122/177 Test #122: TestHomeView.WarningResponse ........................................   Passed    0.21 sec
+        Start 123: TestHomeView.ErrorResponse
+123/177 Test #123: TestHomeView.ErrorResponse ..........................................   Passed    0.21 sec
+        Start 124: TestHomeView.HandleUpdateResultSuccess
+124/177 Test #124: TestHomeView.HandleUpdateResultSuccess ..............................   Passed    0.21 sec
+        Start 125: TestHomeView.HandleUpdateResultBuildrootError
+125/177 Test #125: TestHomeView.HandleUpdateResultBuildrootError .......................   Passed    0.21 sec
+        Start 126: TestHomeView.HandleUpdateResultBuildrootWarning
+126/177 Test #126: TestHomeView.HandleUpdateResultBuildrootWarning .....................   Passed    0.21 sec
+        Start 127: TestHomeView.NewStatusDisablesAndEnablesJobsTab
+127/177 Test #127: TestHomeView.NewStatusDisablesAndEnablesJobsTab .....................   Passed    0.18 sec
+        Start 128: TestHomeView.AlertS0
+128/177 Test #128: TestHomeView.AlertS0 ................................................   Passed    0.21 sec
+        Start 129: TestHomeView.AlertS1
+129/177 Test #129: TestHomeView.AlertS1 ................................................   Passed    0.20 sec
+        Start 130: TestHomeView.AlertS2
+130/177 Test #130: TestHomeView.AlertS2 ................................................   Passed    0.21 sec
+        Start 131: TestHomeView.AlertS3
+131/177 Test #131: TestHomeView.AlertS3 ................................................   Passed    0.23 sec
+        Start 132: TestHomeView.AlertS4
+132/177 Test #132: TestHomeView.AlertS4 ................................................   Passed    0.22 sec
+        Start 133: TestHomeView.AlertS5
+133/177 Test #133: TestHomeView.AlertS5 ................................................   Passed    0.27 sec
+        Start 134: TestHomeView.AlertS6
+134/177 Test #134: TestHomeView.AlertS6 ................................................   Passed    0.28 sec
+        Start 135: TestHomeView.AlertS7
+135/177 Test #135: TestHomeView.AlertS7 ................................................   Passed    0.25 sec
+        Start 136: TestHomeViewWithData.Dashboard
+136/177 Test #136: TestHomeViewWithData.Dashboard ......................................   Passed    0.51 sec
+        Start 137: TestHomeViewWithData.SimplePrinterDashboard
+137/177 Test #137: TestHomeViewWithData.SimplePrinterDashboard .........................   Passed    0.22 sec
+        Start 138: TestHomeViewWithData.ConsoleView
+138/177 Test #138: TestHomeViewWithData.ConsoleView ....................................   Passed    0.25 sec
+        Start 139: TestHomeViewWithData.ControlView
+139/177 Test #139: TestHomeViewWithData.ControlView ....................................   Passed    0.38 sec
+        Start 140: TestHomeViewWithData.MacroView
+140/177 Test #140: TestHomeViewWithData.MacroView ......................................   Passed    0.22 sec
+        Start 141: TestHomeViewWithData.SettingsView
+141/177 Test #141: TestHomeViewWithData.SettingsView ...................................   Passed    0.38 sec
+        Start 142: TestHomeViewWithData.StatusView
+142/177 Test #142: TestHomeViewWithData.StatusView .....................................   Passed    0.26 sec
+        Start 143: TestFonts.FontManager
+143/177 Test #143: TestFonts.FontManager ...............................................   Passed    0.04 sec
+        Start 144: TestFonts.FontStyle
+144/177 Test #144: TestFonts.FontStyle .................................................   Passed    0.12 sec
+        Start 145: TestFilePresenter.MacroDisplayNameRemovesNumericPrefix
+145/177 Test #145: TestFilePresenter.MacroDisplayNameRemovesNumericPrefix ..............   Passed    0.03 sec
+        Start 146: FilamentModel.Commands
+146/177 Test #146: FilamentModel.Commands ..............................................   Passed    0.03 sec
+        Start 147: FilamentModel.MacroMaterialsAndPages
+147/177 Test #147: FilamentModel.MacroMaterialsAndPages ................................   Passed    0.03 sec
+        Start 148: FilamentModel.SlotsAreKept
+148/177 Test #148: FilamentModel.SlotsAreKept ..........................................   Passed    0.03 sec
+        Start 149: TestFilamentBox.OpensFromTheSpoolsAndGoesHome
+149/177 Test #149: TestFilamentBox.OpensFromTheSpoolsAndGoesHome .......................   Passed    0.26 sec
+        Start 150: TestFilamentBox.FourToolsPanel
+150/177 Test #150: TestFilamentBox.FourToolsPanel ......................................   Passed    0.28 sec
+        Start 151: TestFilamentBox.PagesAndUpgrades
+151/177 Test #151: TestFilamentBox.PagesAndUpgrades ....................................   Passed    0.30 sec
+        Start 152: TestFilamentBox.SingleFilament
+152/177 Test #152: TestFilamentBox.SingleFilament ......................................   Passed    0.27 sec
+        Start 153: TestFilamentBox.PanelPicksMaterialThenColour
+153/177 Test #153: TestFilamentBox.PanelPicksMaterialThenColour ........................   Passed    0.32 sec
+        Start 154: TestFilamentBox.PanelExtrudeIsBlockedWhilePrinting
+154/177 Test #154: TestFilamentBox.PanelExtrudeIsBlockedWhilePrinting ..................   Passed    0.27 sec
+        Start 155: TestFilamentBox.MacrosChangeLoadsWithM701
+155/177 Test #155: TestFilamentBox.MacrosChangeLoadsWithM701 ...........................   Passed    0.34 sec
+        Start 156: TestFilamentBox.MacrosLocks
+156/177 Test #156: TestFilamentBox.MacrosLocks .........................................   Passed    0.28 sec
+        Start 157: TestExtruderControl.Basic
+157/177 Test #157: TestExtruderControl.Basic ...........................................   Passed    0.05 sec
+        Start 158: TestDiacritic.CombinedVsCombining
+158/177 Test #158: TestDiacritic.CombinedVsCombining ...................................   Passed    0.05 sec
+        Start 159: TestColor.ClampLchValues
+159/177 Test #159: TestColor.ClampLchValues ............................................   Passed    0.02 sec
+        Start 160: TestColor.ConvertFromAndToRgb
+160/177 Test #160: TestColor.ConvertFromAndToRgb .......................................   Passed    0.02 sec
+        Start 161: TestButton.Basic
+161/177 Test #161: TestButton.Basic ....................................................   Passed    0.04 sec
+        Start 162: TestButton.WithText
+162/177 Test #162: TestButton.WithText .................................................   Passed    0.04 sec
+        Start 163: TestButton.Symbol
+163/177 Test #163: TestButton.Symbol ...................................................   Passed    0.04 sec
+        Start 164: TestButton.LabelSize
+164/177 Test #164: TestButton.LabelSize ................................................   Passed    0.04 sec
+        Start 165: TestButton.LongText
+165/177 Test #165: TestButton.LongText .................................................   Passed    0.04 sec
+        Start 166: TestButton.SetIconBmp
+166/177 Test #166: TestButton.SetIconBmp ...............................................   Passed    0.04 sec
+        Start 167: TestButton.SetIconPng
+167/177 Test #167: TestButton.SetIconPng ...............................................   Passed    0.04 sec
+        Start 168: TestButton.IconScaling
+168/177 Test #168: TestButton.IconScaling ..............................................   Passed    0.04 sec
+        Start 169: TestButton.SetIconBadPath
+169/177 Test #169: TestButton.SetIconBadPath ...........................................   Passed    0.04 sec
+        Start 170: TestBar.Basic
+170/177 Test #170: TestBar.Basic .......................................................   Passed    0.04 sec
+        Start 171: TestAppDrawer.SizeContent
+171/177 Test #171: TestAppDrawer.SizeContent ...........................................   Passed    0.20 sec
+        Start 172: TestAppDrawer.FixedSize
+172/177 Test #172: TestAppDrawer.FixedSize .............................................   Passed    0.20 sec
+        Start 173: TestCommunication.SendNext
+173/177 Test #173: TestCommunication.SendNext ..........................................   Passed    0.23 sec
+        Start 174: TestCommunication.GetInteger
+174/177 Test #174: TestCommunication.GetInteger ........................................   Passed    0.03 sec
+        Start 175: TestCommunication.GetUnsignedInteger
+175/177 Test #175: TestCommunication.GetUnsignedInteger ................................   Passed    0.03 sec
+        Start 176: TestCommunication.GetBool
+176/177 Test #176: TestCommunication.GetBool ...........................................   Passed    0.03 sec
+        Start 177: TestCommunication.GetFloat
+177/177 Test #177: TestCommunication.GetFloat ..........................................   Passed    0.03 sec
+
+100% tests passed, 0 tests failed out of 177
+
+Total Test time (real) =  26.07 sec

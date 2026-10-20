@@ -1,0 +1,400 @@
+[524/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/osal/lv_os.c.o
+[525/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/clib/lv_mem_core_clib.c.o
+[526/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/others/fragment/lv_fragment_manager.c.o
+[527/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/clib/lv_sprintf_clib.c.o
+[528/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/clib/lv_string_clib.c.o
+[529/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/builtin/lv_mem_core_builtin.c.o
+[530/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/builtin/lv_sprintf_builtin.c.o
+[531/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/rtthread/lv_mem_core_rtthread.c.o
+[532/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/rtthread/lv_sprintf_rtthread.c.o
+[533/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/micropython/lv_mem_core_micropython.c.o
+[534/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/builtin/lv_string_builtin.c.o
+[535/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/rtthread/lv_string_rtthread.c.o
+[536/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/builtin/lv_tlsf.c.o
+[537/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/uefi/lv_mem_core_uefi.c.o
+[538/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/stdlib/lv_mem.c.o
+[539/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/3dtexture/lv_3dtexture.c.o
+[540/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/themes/mono/lv_theme_mono.c.o
+[541/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/themes/lv_theme.c.o
+[542/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/tick/lv_tick.c.o
+[543/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/animimage/lv_animimage.c.o
+[544/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/themes/default/lv_theme_default.c.o
+[545/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/arc/lv_arc.c.o
+[546/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/themes/simple/lv_theme_simple.c.o
+[547/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/bar/lv_bar.c.o
+[548/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/buttonmatrix/lv_buttonmatrix.c.o
+[549/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/button/lv_button.c.o
+[550/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/arclabel/lv_arclabel.c.o
+[551/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/calendar/lv_calendar_chinese.c.o
+[552/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/calendar/lv_calendar_header_arrow.c.o
+[553/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/calendar/lv_calendar_header_dropdown.c.o
+[554/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/gif/lv_gif.c.o
+[555/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/checkbox/lv_checkbox.c.o
+[556/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/canvas/lv_canvas.c.o
+[557/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/image/lv_image.c.o
+[558/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/chart/lv_chart.c.o
+[559/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/imagebutton/lv_imagebutton.c.o
+[560/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/calendar/lv_calendar.c.o
+[561/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/ime/lv_ime_pinyin.c.o
+[562/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/line/lv_line.c.o
+[563/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/led/lv_led.c.o
+[564/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/lottie/lv_lottie.c.o
+[565/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/dropdown/lv_dropdown.c.o
+[566/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/keyboard/lv_keyboard.c.o
+[567/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/objx_templ/lv_objx_templ.c.o
+[568/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/label/lv_label.c.o
+[569/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/list/lv_list.c.o
+[570/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/msgbox/lv_msgbox.c.o
+[571/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_animimage_properties.c.o
+[572/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_arc_properties.c.o
+[573/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/menu/lv_menu.c.o
+[574/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_bar_properties.c.o
+[575/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_buttonmatrix_properties.c.o
+[576/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_checkbox_properties.c.o
+[577/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_chart_properties.c.o
+[578/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_image_properties.c.o
+[579/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_dropdown_properties.c.o
+[580/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_led_properties.c.o
+[581/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_keyboard_properties.c.o
+[582/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_label_properties.c.o
+[583/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_line_properties.c.o
+[584/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_menu_properties.c.o
+[585/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_obj_properties.c.o
+[586/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_roller_properties.c.o
+[587/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_span_properties.c.o
+[588/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_slider_properties.c.o
+[589/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_scale_properties.c.o
+[590/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_spinbox_properties.c.o
+[591/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_spinner_properties.c.o
+[592/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_style_properties.c.o
+[593/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_switch_properties.c.o
+[594/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_tabview_properties.c.o
+[595/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_textarea_properties.c.o
+[596/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/property/lv_table_properties.c.o
+[597/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/slider/lv_slider.c.o
+[598/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/spinbox/lv_spinbox.c.o
+[599/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/spinner/lv_spinner.c.o
+[600/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/roller/lv_roller.c.o
+[601/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/scale/lv_scale.c.o
+[602/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/tileview/lv_tileview.c.o
+[603/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/switch/lv_switch.c.o
+[604/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/textarea/lv_textarea.c.o
+[605/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/table/lv_table.c.o
+[606/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/span/lv_span.c.o
+[607/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/win/lv_win.c.o
+[608/852] Building C object libraries/lvgl/CMakeFiles/lvgl.dir/src/widgets/tabview/lv_tabview.c.o
+[609/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/libraries/Duet3D/General/CRC16.cpp.o
+[610/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/libraries/Duet3D/General/Strnlen.cpp.o
+[611/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/libraries/Duet3D/General/StringRef.cpp.o
+[612/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/libraries/Duet3D/General/StringFunctions.cpp.o
+[613/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/libraries/Duet3D/General/SafeVsnprintf.cpp.o
+[614/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/BuildDate.cpp.o
+[615/852] Building C object CMakeFiles/DuetScreen.lib.dir/src/mouse_cursor_icon.c.o
+[616/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/DeadlockDetector.cpp.o
+[617/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/LockWrapper.cpp.o
+[618/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Comm/Commands.cpp.o
+[619/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Debug.cpp.o
+[620/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Storage.cpp.o
+[621/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/DebugCommands.cpp.o
+[622/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Comm/Communication.cpp.o
+[623/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Hardware/Reset.cpp.o
+[624/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Comm/JsonDecoder.cpp.o
+[625/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Comm/FileInfo.cpp.o
+[626/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Hardware/UartController.cpp.o
+[627/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Comm/Thumbnail.cpp.o
+[628/852] Building C object CMakeFiles/DuetScreen.lib.dir/src/image/base64.c.o
+[629/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/image/bmp.cpp.o
+[630/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Comm/Usb.cpp.o
+[631/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Hardware/Usb.cpp.o
+[632/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Hardware/Duet.cpp.o
+[633/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Hardware/SerialIo.cpp.o
+[634/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Alert.cpp.o
+[635/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/image/png.cpp.o
+[636/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/image/qoi.cpp.o
+[637/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Fan.cpp.o
+[638/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Directories.cpp.o
+[639/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Heat.cpp.o
+[640/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/i18n/i18n.cpp.o
+[641/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Files.cpp.o
+[642/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/BedOrChamber.cpp.o
+[643/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Axis.cpp.o
+[644/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Spindle.cpp.o
+[645/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Sensor.cpp.o
+[646/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Heightmap.cpp.o
+[647/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Job.cpp.o
+[648/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/PrinterStatus.cpp.o
+[649/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/FanSubscribers.cpp.o
+[650/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/BoardSubscribers.cpp.o
+[651/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Tool.cpp.o
+[652/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/ObjectModel/Utils.cpp.o
+[653/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/FileSubscribers.cpp.o
+[654/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/DirectoriesSubscribers.cpp.o
+[655/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/HeatSubscribers.cpp.o
+[656/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/JobSubscribers.cpp.o
+[657/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/SensorSubscribers.cpp.o
+[658/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/ResponseSubscribers.cpp.o
+[659/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/MoveSubscribers.cpp.o
+[660/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/SpindleSubscribers.cpp.o
+[661/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/ThumbnailSubscribers.cpp.o
+[662/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/Subscribers.cpp.o
+[663/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/StateSubscribers.cpp.o
+[664/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/Subscribers/ToolSubscribers.cpp.o
+[665/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Bar/Bar.cpp.o
+[666/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/AppDrawer/App.cpp.o
+[667/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/AxisControl/GenericAxisControl.cpp.o
+[668/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/AxisControl/AxisJogList.cpp.o
+[669/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/AppDrawer/AppDrawer.cpp.o
+[670/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/AxisControl/XYControl.cpp.o
+[671/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Button/DraggableButton.cpp.o
+[672/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Containers/Column.cpp.o
+[673/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Containers/Card.cpp.o
+[674/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Button/VerticalButtonPanel.cpp.o
+[675/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Containers/Row.cpp.o
+[676/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Button/Button.cpp.o
+[677/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Canvas/Canvas.cpp.o
+[678/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Icon/Icon.cpp.o
+[679/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Input/DropdownMenu.cpp.o
+[680/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Heatmap/Heatmap.cpp.o
+[681/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Graph/Graph.cpp.o
+[682/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvAnim.cpp.o
+[683/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Containers/TabView.cpp.o
+[684/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Input/NumberPad.cpp.o
+[685/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvCheckbox.cpp.o
+[686/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Input/Slider.cpp.o
+[687/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Input/MultiValueSelector.cpp.o
+[688/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvContainer.cpp.o
+[689/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvImage.cpp.o
+[690/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Input/TextBox.cpp.o
+[691/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvKeyboard.cpp.o
+[692/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvDropdown.cpp.o
+[693/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvLabel.cpp.o
+[694/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/Transitions.cpp.o
+[695/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvObj.cpp.o
+[696/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvSubject.cpp.o
+[697/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvTextarea.cpp.o
+[698/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvXml.cpp.o
+[699/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvSwitch.cpp.o
+[700/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/LVGL/LvSpan.cpp.o
+[701/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Screen/Screen.cpp.o
+[702/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/MessageBox/MessageBox.cpp.o
+[703/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/MessageBox/AlertMessageBox.cpp.o
+[704/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Components/Theme/ThemePreview.cpp.o
+[705/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Core/Navigation.cpp.o
+[706/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Core/View.cpp.o
+[707/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Console/Gcodes.cpp.o
+[708/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Core/Presenter.cpp.o
+[709/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Console/ConsolePresenter.cpp.o
+[710/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Core/Model.cpp.o
+[711/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Fan/FanPresenter.cpp.o
+[712/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Console/ConsoleView.cpp.o
+[713/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Control/ControlPresenter.cpp.o
+[714/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Control/ControlView.cpp.o
+[715/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Heightmap/HeightmapView.cpp.o
+[716/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Fan/FanView.cpp.o
+[717/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Heightmap/HeightmapPresenter.cpp.o
+[718/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/File/FilePresenter.cpp.o
+[719/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/File/FileView.cpp.o
+[720/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Move/MovePresenter.cpp.o
+[721/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Move/MoveView.cpp.o
+[722/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/ObjectCancel/ObjectCancelPresenter.cpp.o
+[723/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Home/HomePresenter.cpp.o
+[724/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/ObjectCancel/ObjectCancelView.cpp.o
+[725/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Home/HomeView.cpp.o
+[726/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Settings/SettingsPresenter.cpp.o
+[727/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Status/StatusPresenter.cpp.o
+[728/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Status/FineTune.cpp.o
+[729/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Status/FineTunePresenter.cpp.o
+[730/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Styles/Color.cpp.o
+[731/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Status/StatusView.cpp.o
+[732/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Settings/SettingsView.cpp.o
+[733/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Temperature/TemperatureView.cpp.o
+[734/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Screens/Temperature/TemperaturePresenter.cpp.o
+[735/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Styles/Font.cpp.o
+[736/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Styles/Themes/DefaultTheme.cpp.o
+[737/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Styles/Themes/CustomTheme.cpp.o
+[738/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Styles/Styles.cpp.o
+[739/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/BabyStep/BabyStepPresenter.cpp.o
+[740/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/BabyStep/BabyStep.cpp.o
+[741/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Control/SpeedFactor/SpeedFactorPresenter.cpp.o
+[742/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Control/ExtrusionFactor/ExtrusionFactor.cpp.o
+[743/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Control/ExtrusionFactor/ExtrusionFactorPresenter.cpp.o
+[744/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Control/SpeedFactor/SpeedFactor.cpp.o
+[745/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Dashboard/Dashboard.cpp.o
+[746/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/ExtruderControl/ExtruderControlPresenter.cpp.o
+[747/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Dashboard/DashboardPresenter.cpp.o
+[748/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/ExtruderControl/ExtruderControl.cpp.o
+[749/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Filament/MultiTool/FilamentSelectMultiPresenter.cpp.o
+[750/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Filament/MultiTool/FilamentSelectMulti.cpp.o
+[751/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Filament/Dropdown/FilamentSelectDropdown.cpp.o
+[752/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Filament/Dropdown/FilamentSelectDropdownPresenter.cpp.o
+[753/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Temperature/HeaterSlider.cpp.o
+[754/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Temperature/HeaterSliderPresenter.cpp.o
+[755/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Temperature/TemperatureGraphPresenter.cpp.o
+[756/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/HardwareTest/HardwareTest.cpp.o
+[757/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Temperature/ToolControlPresenter.cpp.o
+[758/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Network/WifiSelectorPresenter.cpp.o
+[759/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Temperature/TemperatureGraph.cpp.o
+[760/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Temperature/ToolControl.cpp.o
+[761/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Network/WifiSelector.cpp.o
+[762/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/SideBar/EStop.cpp.o
+[763/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/SideBar/EStopPresenter.cpp.o
+[764/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/SideBar/SideBarPresenter.cpp.o
+[765/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/HardwareTest/HardwareTestPresenter.cpp.o
+[766/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/SideBar/SideBar.cpp.o
+[767/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/StatusBar/StatusBar.cpp.o
+[768/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Laptop/FunkyPopup.cpp.o
+[769/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Status/PrintInfo/PrintInfoPresenter.cpp.o
+[770/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Laptop/FunkyUi.cpp.o
+[771/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Status/PrintInfo/PrintInfo.cpp.o
+[772/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/StatusBar/StatusBarPresenter.cpp.o
+[773/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/ToolList/ToolListPresenter.cpp.o
+[774/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Laptop/LaptopLog.cpp.o
+[775/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Laptop/Laptop.cpp.o
+[776/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Laptop/LaptopPresenter.cpp.o
+[777/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/ToolList/ToolList.cpp.o
+[778/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Laptop/LaptopSettings.cpp.o
+[779/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/ObjectFolder/ObjectFolderPresenter.cpp.o
+[780/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/JobsFolder/JobsList.cpp.o
+[781/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/JobsFolder/JobsFolderPresenter.cpp.o
+[782/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/ObjectFolder/ObjectFolder.cpp.o
+[783/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/FilamentBox/FilamentModel.cpp.o
+[784/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/FilamentBox/FilamentBoxPresenter.cpp.o
+[785/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/JobsFolder/JobsFolder.cpp.o
+[786/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Workshop/PrinterStyle.cpp.o
+[787/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Workshop/MachineActivity.cpp.o
+[788/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/utils/csv.cpp.o
+[789/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Workshop/WorkshopPresenter.cpp.o
+[790/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/FilamentBox/FilamentBox.cpp.o
+[791/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/utils/GpioHelper.cpp.o
+[792/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/utils/SystemHelper.cpp.o
+[793/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/utils/NetworkHelper.cpp.o
+[794/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/UI/Widgets/Workshop/Workshop.cpp.o
+[795/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/utils/DisplayHelper.cpp.o
+[796/852] Linking CXX static library _deps/spdlog-build/libspdlog.a
+[797/852] Building CXX object libraries/tracy/CMakeFiles/TracyClient.dir/public/TracyClient.cpp.o
+[798/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/utils/utils.cpp.o
+[799/852] Linking CXX static library libraries/lvgl/lib/liblvgl.a
+[800/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/utils/UnitSystem.cpp.o
+[801/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/utils/StorageHelper.cpp.o
+[802/852] Building CXX object src/UI/Styles/Themes/CMakeFiles/DuetScreen.themes.dir/FlatTheme.cpp.o
+[803/852] Building CXX object src/UI/Styles/Themes/CMakeFiles/DuetScreen.themes.dir/DuetScreenTheme.cpp.o
+[804/852] Building CXX object src/UI/Styles/Themes/CMakeFiles/DuetScreen.themes.dir/GreyScaleTheme.cpp.o
+[805/852] Linking CXX static library lib/libhv_static.a
+[806/852] Building CXX object CMakeFiles/DuetScreen.lib.dir/src/utils/UpgradeHelper.cpp.o
+[807/852] Linking CXX static library libDuetScreen.lib.a
+[808/852] Building CXX object CMakeFiles/DuetScreen.dir/cmake_pch.hxx.gch
+[809/852] Building CXX object src/UI/Styles/Themes/CMakeFiles/DuetScreen.themes.dir/SoftTheme.cpp.o
+[810/852] Running clang-format-19-tests
+[811/852] Building CXX object src/UI/Styles/Themes/CMakeFiles/DuetScreen.themes.dir/IndustrialTheme.cpp.o
+[812/852] Building CXX object libraries/lvgl_tracy/CMakeFiles/lvgl_tracy.dir/tracing.cpp.o
+[813/852] Building CXX object src/UI/Styles/Themes/CMakeFiles/DuetScreen.themes.dir/ThreeDTheme.cpp.o
+[814/852] Building CXX object src/UI/Styles/Themes/CMakeFiles/DuetScreen.themes.dir/NeonTheme.cpp.o
+[815/852] Building CXX object src/UI/Styles/Themes/CMakeFiles/DuetScreen.themes.dir/RetroTheme.cpp.o
+[816/852] Linking CXX static library src/UI/Styles/Themes/libDuetScreen.themes.a
+[817/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_color.cpp.o
+[818/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/Comm/test_communication.cpp.o
+[819/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_bar.cpp.o
+[820/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_button.cpp.o
+[821/852] Building CXX object CMakeFiles/DuetScreen.dir/src/main.cpp.o
+[822/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_extruder_control.cpp.o
+[823/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_diacritic.cpp.o
+[824/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_app_drawer.cpp.o
+[825/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_fileview.cpp.o
+[826/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_fonts.cpp.o
+[827/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_filament_box.cpp.o
+[828/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_image.cpp.o
+[829/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_home_view.cpp.o
+[830/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_list.cpp.o
+[831/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_lazy_list.cpp.o
+[832/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_laptop.cpp.o
+[833/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_jobs_folder.cpp.o
+[834/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_lvgl.cpp.o
+[835/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_lvobj.cpp.o
+[836/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_messagebox.cpp.o
+[837/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_multi_value_selector.cpp.o
+[838/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_slider.cpp.o
+[839/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_tabview.cpp.o
+[840/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_object_folder.cpp.o
+[841/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_theme.cpp.o
+[842/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_vertical_buttons.cpp.o
+[843/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_status.cpp.o
+[844/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/utils/tests_utils.cpp.o
+[845/852] Linking CXX static library libraries/lvgl_tracy/liblvgl_tracy.a
+[846/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/i18n/test_i18n.cpp.o
+[847/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_utils/TestSuite.cpp.o
+[848/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_utils/UiTestSuite.cpp.o
+[849/852] Building CXX object tests/CMakeFiles/DuetScreen.tests.dir/src/test_cases/UI/test_workshop.cpp.o
+[850/852] Linking CXX executable DuetScreen
+In function ‘_ntoa_format’,
+    inlined from ‘_ntoa_long’ at /home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:268:12:
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:203:24: warning: writing 32 bytes into a region of size 0 [-Wstringop-overflow=]
+  203 |             buf[len++] = '0';
+      |                        ^
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c: In function ‘_ntoa_long’:
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:251:10: note: at offset 32 into destination object ‘buf’ of size 32
+  251 |     char buf[PRINTF_NTOA_BUFFER_SIZE];
+      |          ^
+In function ‘_ntoa_format’,
+    inlined from ‘_ntoa_long’ at /home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:268:12:
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:206:24: warning: writing 32 bytes into a region of size 0 [-Wstringop-overflow=]
+  206 |             buf[len++] = '0';
+      |                        ^
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c: In function ‘_ntoa_long’:
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:251:10: note: at offset 32 into destination object ‘buf’ of size 32
+  251 |     char buf[PRINTF_NTOA_BUFFER_SIZE];
+      |          ^
+[851/852] Running size on DuetScreen
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/out/build/Test/DuetScreen  :
+section                  size      addr
+.interp                    28       848
+.note.gnu.property         48       880
+.note.gnu.build-id         36       928
+.note.ABI-tag              32       964
+.gnu.hash                 452      1000
+.dynsym                 12168      1456
+.dynstr                 13866     13624
+.gnu.version             1014     27490
+.gnu.version_r            960     28504
+.rela.dyn              167760     29464
+.rela.plt               10080    197224
+.init                      27    208896
+.plt                     6736    208928
+.plt.got                   48    215664
+.plt.sec                 6720    215712
+.text                 3831746    222464
+.fini                      13   4054212
+.rodata                228288   4055040
+.eh_frame_hdr           60460   4283328
+.eh_frame              319144   4343792
+.gcc_except_table      102204   4662936
+.tbss                      72   4769040
+.init_array                40   4769040
+.fini_array                 8   4769080
+.data.rel.ro            64096   4769088
+.dynamic                  720   4833184
+.got                     3464   4833904
+.data                    7028   4837376
+.bss                 34031728   4844416
+.comment                   46         0
+Total                38869032
+
+
+[852/852] Linking CXX executable tests/DuetScreen.tests
+In function ‘_ntoa_format’,
+    inlined from ‘_ntoa_long’ at /home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:268:12:
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:203:24: warning: writing 32 bytes into a region of size 0 [-Wstringop-overflow=]
+  203 |             buf[len++] = '0';
+      |                        ^
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c: In function ‘_ntoa_long’:
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:251:10: note: at offset 32 into destination object ‘buf’ of size 32
+  251 |     char buf[PRINTF_NTOA_BUFFER_SIZE];
+      |          ^
+In function ‘_ntoa_format’,
+    inlined from ‘_ntoa_long’ at /home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:268:12:
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:206:24: warning: writing 32 bytes into a region of size 0 [-Wstringop-overflow=]
+  206 |             buf[len++] = '0';
+      |                        ^
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c: In function ‘_ntoa_long’:
+/home/runner/work/DuetScreen7_FUNKY_UI_3DP/DuetScreen7_FUNKY_UI_3DP/libraries/lvgl/src/stdlib/builtin/lv_sprintf_builtin.c:251:10: note: at offset 32 into destination object ‘buf’ of size 32
+  251 |     char buf[PRINTF_NTOA_BUFFER_SIZE];
+      |          ^
