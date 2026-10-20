@@ -140,49 +140,25 @@ namespace UI::JobsList
 		return Sort::Newest;
 	}
 
-	std::string AgeText(const std::string& date, std::time_t now)
+	std::string DateText(const std::string& date, std::time_t now)
 	{
-		std::tm t{};
-		if (std::sscanf(date.c_str(),
-						"%d-%d-%dT%d:%d:%d",
-						&t.tm_year,
-						&t.tm_mon,
-						&t.tm_mday,
-						&t.tm_hour,
-						&t.tm_min,
-						&t.tm_sec) < 3)
+		static constexpr std::array<const char*, 12> MONTHS = {
+			"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+		int y = 0, mo = 0, d = 0, h = 0, mi = 0;
+		if (std::sscanf(date.c_str(), "%d-%d-%dT%d:%d", &y, &mo, &d, &h, &mi) < 3 || mo < 1 || mo > 12)
 		{
 			return "";
 		}
-		t.tm_year -= 1900;
-		t.tm_mon -= 1;
-		t.tm_isdst = -1;
-		const std::time_t then = std::mktime(&t);
-		if (then == static_cast<std::time_t>(-1))
+		std::tm today{};
+		localtime_r(&now, &today);
+		if (y == today.tm_year + 1900 && mo == today.tm_mon + 1 && d == today.tm_mday)
 		{
-			return "";
+			return fmt::format("{:02d}:{:02d}", h, mi);
 		}
-		const long long s = std::max<long long>(0, static_cast<long long>(std::difftime(now, then)));
-		if (s < 3600)
+		if (y == today.tm_year + 1900)
 		{
-			return fmt::format("{:d}m ago", s / 60);
+			return fmt::format("{:d} {:s}", d, MONTHS[static_cast<size_t>(mo - 1)]);
 		}
-		if (s < 86400)
-		{
-			return fmt::format("{:d}h ago", s / 3600);
-		}
-		if (s < 7 * 86400)
-		{
-			return fmt::format("{:d}d ago", s / 86400);
-		}
-		if (s < 60 * 86400)
-		{
-			return fmt::format("{:d}w ago", s / (7 * 86400));
-		}
-		if (s < 365 * 86400)
-		{
-			return fmt::format("{:d}mo ago", s / (30 * 86400));
-		}
-		return fmt::format("{:d}y ago", s / (365 * 86400));
+		return fmt::format("{:d} {:s} {:02d}", d, MONTHS[static_cast<size_t>(mo - 1)], y % 100);
 	}
 } // namespace UI::JobsList

@@ -388,7 +388,7 @@ namespace UI
 			const std::string material = e.folder ? std::string() : JobsList::MaterialOf(e.name);
 			const bool tag = fila && !material.empty();
 			setHidden(row.tag, !tag);
-			setHidden(row.age, tag || e.age.empty());
+			setHidden(row.age, tag || e.when.empty());
 			int32_t right = AGE_RIGHT - 8;
 			if (tag)
 			{
@@ -400,11 +400,11 @@ namespace UI
 				lv_obj_align(row.tagText, LV_ALIGN_CENTER, 0, 0);
 				right = AGE_RIGHT - w - 8;
 			}
-			else if (!e.age.empty())
+			else if (!e.when.empty())
 			{
-				lv_label_set_text(row.age, e.age.c_str());
+				lv_label_set_text(row.age, e.when.c_str());
 				lv_point_t size{};
-				lv_text_get_size(&size, e.age.c_str(), m_fonts.hand(14), 0, 0, LV_COORD_MAX, LV_TEXT_FLAG_NONE);
+				lv_text_get_size(&size, e.when.c_str(), m_fonts.hand(14), 0, 0, LV_COORD_MAX, LV_TEXT_FLAG_NONE);
 				right = AGE_RIGHT - size.x - 10;
 			}
 

@@ -36,7 +36,7 @@ namespace UI::JobsList
 		bool folder = false;
 		bool up = false;  /* the ".." row back to the parent folder */
 		std::string date; /* "2026-10-18T14:02:00" */
-		std::string age;  /* "2h ago" */
+		std::string when; /* as listed: "14:02" today, "18 Oct" this year, "18 Oct 25" before */
 	};
 
 	std::string MaterialOf(const std::string& name); /* "" when not known */
@@ -44,6 +44,7 @@ namespace UI::JobsList
 	bool DefaultAscending(Sort sort);
 	const char* SortName(Sort sort);
 	Sort NextSort(Sort sort);
-	/* "2h ago" from a "YYYY-MM-DDTHH:MM:SS" date (local time) */
-	std::string AgeText(const std::string& date, std::time_t now);
+	/* The list date from a "YYYY-MM-DDTHH:MM:SS" date (local time): "14:02" today,
+	 * "18 Oct" this year, "18 Oct 25" in an earlier year */
+	std::string DateText(const std::string& date, std::time_t now);
 } // namespace UI::JobsList

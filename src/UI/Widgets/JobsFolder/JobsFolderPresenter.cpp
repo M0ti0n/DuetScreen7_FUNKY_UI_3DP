@@ -119,7 +119,7 @@ namespace UI
 					e.path = item->GetPath();
 					e.folder = item->GetType() == OM::FileSystem::FileSystemItemType::folder;
 					e.date = item->GetDate();
-					e.age = e.folder ? std::string() : JobsList::AgeText(e.date, now);
+					e.when = e.folder ? std::string() : JobsList::DateText(e.date, now);
 					entries.push_back(std::move(e));
 				}
 				view->setFiles(m_folder, entries);

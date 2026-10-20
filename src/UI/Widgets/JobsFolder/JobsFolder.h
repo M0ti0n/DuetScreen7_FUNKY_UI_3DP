@@ -8,7 +8,7 @@
  *                print time, filament, layer height, height, slicer and when it was saved,
  *                and a red PRINT stamp (START PRINT popup: delete / cancel / start)
  *   right page   "JOBS:" with the sort direction arrows and "page/pages", then the files of
- *                the folder, 8 a page, with their age (or their material when sorted by FILA)
+ *                the folder, 8 a page, with the date they were saved (or their material when sorted by FILA)
  *   right side   page up / SORT (NEW, A-Z, FILA) / page down cards; HOME sticky note on top
  *   corner       the red STOP sticker (emergency stop)
  *   bottom       the workbench drawers, as on the home scene

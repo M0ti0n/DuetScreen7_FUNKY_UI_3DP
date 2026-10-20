@@ -159,9 +159,10 @@ Opened from the job folder rack. Laid out like the object cancel folder:
   other files can still be deleted, and X only for the file being printed. That file is
   marked "printing" / "paused" in red pencil in the list.
 - **Right page:** `JOBS:` with the sort direction arrows ↑ ↓ and `page/pages`, then the files,
-  8 a page, with their age. Folders come first; tap one to open it, `..` goes back up.
+  8 a page, with the date they were saved ("14:02" today, "18 Oct" this year, "18 Oct 25"
+  before). Folders come first; tap one to open it, `..` goes back up.
 - **SORT card** (between ▲ and ▼) cycles **NEW** (newest on top), **A-Z** and **FILA**
-  (by material, then name; the rows show a material tag instead of the age). The material is
+  (by material, then name; the rows show a material tag instead of the date). The material is
   the last `_` part of the file name, as the slicer's output name template writes it, e.g.
   OrcaSlicer `{input_filename_base}_{filament_type[initial_tool]}.gcode`. Sort and direction
   are remembered.

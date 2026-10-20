@@ -21,13 +21,25 @@ using JobsList::Sort;
 
 namespace
 {
-	Entry file(const char* name, const char* date, const char* age)
+	/* "now" for the list dates: 18 Oct 2026, 14:00 local time */
+	std::time_t testNow()
+	{
+		std::tm t{};
+		t.tm_year = 2026 - 1900;
+		t.tm_mon = 9;
+		t.tm_mday = 18;
+		t.tm_hour = 14;
+		t.tm_isdst = -1;
+		return std::mktime(&t);
+	}
+
+	Entry file(const char* name, const char* date)
 	{
 		Entry e;
 		e.name = name;
 		e.path = std::string("0:/gcodes/") + name;
 		e.date = date;
-		e.age = age;
+		e.when = JobsList::DateText(date, testNow());
 		return e;
 	}
 
@@ -43,17 +55,17 @@ namespace
 	std::vector<Entry> files()
 	{
 		return {
-			file("calibration_cube_PLA.gcode", "2026-10-18T09:10:00", "5h ago"),
-			file("engine_block_PETG.gcode", "2026-10-18T12:02:00", "2h ago"),
+			file("calibration_cube_PLA.gcode", "2026-10-18T09:10:00"),
+			file("engine_block_PETG.gcode", "2026-10-18T12:02:00"),
 			folder("brackets"),
-			file("benchy_0p2_PLA.gcode", "2026-10-17T14:00:00", "1d ago"),
-			file("first_layer_test_PLA.gcode", "2026-10-16T14:00:00", "2d ago"),
-			file("temp_tower_PETG.gcode", "2026-10-15T14:00:00", "3d ago"),
-			file("badge_dual_ASA.gcode", "2026-10-13T14:00:00", "5d ago"),
-			file("drawer_handle_PLA.gcode", "2026-10-11T14:00:00", "1w ago"),
-			file("cable_clips_TPU.gcode", "2026-10-04T14:00:00", "2w ago"),
-			file("lamp_shade_vase_mode.gcode", "2026-09-02T14:00:00", "1mo ago"),
-			file("spool_holder_PETG.gcode", "2026-06-01T14:00:00", "4mo ago"),
+			file("benchy_0p2_PLA.gcode", "2026-10-17T14:00:00"),
+			file("first_layer_test_PLA.gcode", "2026-10-16T14:00:00"),
+			file("temp_tower_PETG.gcode", "2026-10-15T14:00:00"),
+			file("badge_dual_ASA.gcode", "2026-10-13T14:00:00"),
+			file("drawer_handle_PLA.gcode", "2026-10-11T14:00:00"),
+			file("cable_clips_TPU.gcode", "2026-10-04T14:00:00"),
+			file("lamp_shade_vase_mode.gcode", "2026-09-02T14:00:00"),
+			file("spool_holder_PETG.gcode", "2026-06-01T14:00:00"),
 		};
 	}
 
@@ -107,20 +119,14 @@ TEST(JobsList, Sorting)
 	EXPECT_STREQ(JobsList::SortName(Sort::Filament), "FILA");
 }
 
-TEST(JobsList, Age)
+TEST(JobsList, Date)
 {
-	std::tm t{};
-	t.tm_year = 2026 - 1900;
-	t.tm_mon = 9;
-	t.tm_mday = 18;
-	t.tm_hour = 14;
-	t.tm_isdst = -1;
-	const std::time_t now = std::mktime(&t);
-	EXPECT_EQ(JobsList::AgeText("2026-10-18T12:00:00", now), "2h ago");
-	EXPECT_EQ(JobsList::AgeText("2026-10-18T13:50:00", now), "10m ago");
-	EXPECT_EQ(JobsList::AgeText("2026-10-15T14:00:00", now), "3d ago");
-	EXPECT_EQ(JobsList::AgeText("2026-10-04T14:00:00", now), "2w ago");
-	EXPECT_EQ(JobsList::AgeText("rubbish", now), "");
+	const std::time_t now = testNow();
+	EXPECT_EQ(JobsList::DateText("2026-10-18T09:05:00", now), "09:05");
+	EXPECT_EQ(JobsList::DateText("2026-10-17T23:59:00", now), "17 Oct");
+	EXPECT_EQ(JobsList::DateText("2026-01-02T10:00:00", now), "2 Jan");
+	EXPECT_EQ(JobsList::DateText("2025-12-31T10:00:00", now), "31 Dec 25");
+	EXPECT_EQ(JobsList::DateText("rubbish", now), "");
 }
 
 TEST(JobsList, DetailsText)
@@ -300,8 +306,8 @@ TEST_F(TestJobsFolder, SubFolder)
 	up.up = true;
 	jobs().setFiles("brackets/",
 					{up,
-					 file("shelf_bracket_PETG.gcode", "2026-10-18T10:00:00", "4h ago"),
-					 file("wall_hook_PLA.gcode", "2026-10-12T10:00:00", "6d ago")});
+					 file("shelf_bracket_PETG.gcode", "2026-10-18T10:00:00"),
+					 file("wall_hook_PLA.gcode", "2026-10-12T10:00:00")});
 	EXPECT_EQ(jobs().entries()[0].name, "..");
 	EXPECT_EQUAL_SCREENSHOT("jobs/subfolder.png");
 }
